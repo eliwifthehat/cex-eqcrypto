@@ -135,9 +135,11 @@ export default function Markets() {
                     Trade
                   </a>
                 </Link>
-                <a href="#" className="text-muted-foreground hover:text-foreground transition-colors px-3 py-2 rounded-md text-sm font-medium">
-                  Derivatives
-                </a>
+                <Link href="/derivatives">
+                  <a className="text-muted-foreground hover:text-foreground transition-colors px-3 py-2 rounded-md text-sm font-medium">
+                    Derivatives
+                  </a>
+                </Link>
               </nav>
             </div>
             
