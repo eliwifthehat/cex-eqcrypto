@@ -45,11 +45,11 @@ export default function Home() {
             <div className="flex items-center space-x-8">
               <Link href="/">
                 <div className="text-2xl font-bold text-foreground cursor-pointer">
-                  EQCrypto
+                  EQCRYPTO
                 </div>
               </Link>
               
-              <nav className="hidden md:flex space-x-8">
+              <nav className="hidden md:flex items-center space-x-8">
                 <Link href="/">
                   <a className="text-foreground hover:text-primary transition-colors px-3 py-2 rounded-md text-sm font-medium bg-muted">
                     Home

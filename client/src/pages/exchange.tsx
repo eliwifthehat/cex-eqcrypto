@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
+import { Link } from "wouter";
 import PriceHeader from "@/components/PriceHeader";
 import TradingChart from "@/components/TradingChart";
 import OrderBook from "@/components/OrderBook";
@@ -17,20 +18,26 @@ export default function Exchange() {
           <div className="flex items-center justify-between h-16">
             {/* Logo and Navigation */}
             <div className="flex items-center space-x-8">
-              <div className="text-2xl font-bold text-foreground">
-                EQCrypto
-              </div>
+              <Link href="/">
+                <div className="text-2xl font-bold text-foreground cursor-pointer">
+                  EQCRYPTO
+                </div>
+              </Link>
               
-              <nav className="hidden md:flex space-x-8">
-                <a href="#" className="text-muted-foreground hover:text-foreground transition-colors px-3 py-2 rounded-md text-sm font-medium">
-                  Home
-                </a>
+              <nav className="hidden md:flex items-center space-x-8">
+                <Link href="/">
+                  <a className="text-muted-foreground hover:text-foreground transition-colors px-3 py-2 rounded-md text-sm font-medium">
+                    Home
+                  </a>
+                </Link>
                 <a href="#" className="text-muted-foreground hover:text-foreground transition-colors px-3 py-2 rounded-md text-sm font-medium">
                   Markets
                 </a>
-                <a href="#" className="text-foreground hover:text-primary transition-colors px-3 py-2 rounded-md text-sm font-medium bg-muted">
-                  Trade
-                </a>
+                <Link href="/exchange">
+                  <a className="text-foreground hover:text-primary transition-colors px-3 py-2 rounded-md text-sm font-medium bg-muted">
+                    Trade
+                  </a>
+                </Link>
                 <a href="#" className="text-muted-foreground hover:text-foreground transition-colors px-3 py-2 rounded-md text-sm font-medium">
                   Derivatives
                 </a>
