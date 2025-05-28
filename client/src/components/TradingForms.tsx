@@ -2,7 +2,6 @@ import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 
@@ -51,16 +50,34 @@ export default function TradingForms() {
   return (
     <Card className="bg-card border-border">
       <CardHeader>
-        <Tabs defaultValue="Market" className="w-full">
-          <TabsList className="grid w-fit grid-cols-2 bg-muted">
-            <TabsTrigger value="Market" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
+        <div className="flex items-center justify-center">
+          <div className="flex bg-muted rounded-lg p-1">
+            <Button
+              variant={orderType === "Market" ? "default" : "ghost"}
+              size="sm"
+              onClick={() => setOrderType("Market")}
+              className={`px-6 py-2 text-sm font-medium rounded-md transition-all ${
+                orderType === "Market"
+                  ? "bg-primary text-primary-foreground shadow-sm"
+                  : "text-muted-foreground hover:text-foreground hover:bg-background"
+              }`}
+            >
               Market
-            </TabsTrigger>
-            <TabsTrigger value="Limit" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
+            </Button>
+            <Button
+              variant={orderType === "Limit" ? "default" : "ghost"}
+              size="sm"
+              onClick={() => setOrderType("Limit")}
+              className={`px-6 py-2 text-sm font-medium rounded-md transition-all ${
+                orderType === "Limit"
+                  ? "bg-primary text-primary-foreground shadow-sm"
+                  : "text-muted-foreground hover:text-foreground hover:bg-background"
+              }`}
+            >
               Limit
-            </TabsTrigger>
-          </TabsList>
-        </Tabs>
+            </Button>
+          </div>
+        </div>
       </CardHeader>
       <CardContent>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">

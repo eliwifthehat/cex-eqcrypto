@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import PriceHeader from "@/components/PriceHeader";
 import TradingChart from "@/components/TradingChart";
 import OrderBook from "@/components/OrderBook";
+import OrdersManagement from "@/components/OrdersManagement";
 import TradingForms from "@/components/TradingForms";
 
 export default function Exchange() {
@@ -73,9 +74,10 @@ export default function Exchange() {
             <TradingChart selectedPair={selectedPair} />
           </div>
           
-          {/* Order Book */}
-          <div className="xl:col-span-1">
+          {/* Order Book and Orders Management */}
+          <div className="xl:col-span-1 space-y-6">
             <OrderBook />
+            <OrdersManagement />
           </div>
         </div>
 
