@@ -53,7 +53,7 @@ export default function TradingChart({ selectedPair }: TradingChartProps) {
         </div>
       </CardHeader>
       <CardContent>
-        <div className="h-96 bg-background rounded border border-border p-4 relative overflow-hidden">
+        <div className="h-[500px] bg-background rounded border border-border p-4 relative overflow-hidden">
           {/* Mock Chart Area */}
           <div className="absolute inset-0 flex items-end justify-center space-x-1 p-4">
             {mockCandles.map((candle, index) => (
