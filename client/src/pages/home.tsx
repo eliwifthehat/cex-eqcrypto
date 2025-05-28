@@ -55,9 +55,11 @@ export default function Home() {
                     Home
                   </a>
                 </Link>
-                <a href="#" className="text-muted-foreground hover:text-foreground transition-colors px-3 py-2 rounded-md text-sm font-medium">
-                  Markets
-                </a>
+                <Link href="/markets">
+                  <a className="text-muted-foreground hover:text-foreground transition-colors px-3 py-2 rounded-md text-sm font-medium">
+                    Markets
+                  </a>
+                </Link>
                 <Link href="/exchange">
                   <a className="text-muted-foreground hover:text-foreground transition-colors px-3 py-2 rounded-md text-sm font-medium">
                     Trade
