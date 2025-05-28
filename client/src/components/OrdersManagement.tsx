@@ -1,10 +1,10 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { ChevronDown, ChevronUp } from "lucide-react";
+import { Menu } from "lucide-react";
 import { useState } from "react";
 
 export default function OrdersManagement() {
-  const [isExpanded, setIsExpanded] = useState(false);
+  const [isExpanded, setIsExpanded] = useState(true);
 
   // Mock orders data
   const mockOrders = [
@@ -54,11 +54,7 @@ export default function OrdersManagement() {
             onClick={() => setIsExpanded(!isExpanded)}
             className="text-muted-foreground hover:text-foreground"
           >
-            {isExpanded ? (
-              <ChevronUp className="h-4 w-4" />
-            ) : (
-              <ChevronDown className="h-4 w-4" />
-            )}
+            <Menu className="h-4 w-4" />
           </Button>
         </div>
       </CardHeader>

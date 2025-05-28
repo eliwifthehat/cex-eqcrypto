@@ -50,7 +50,7 @@ export default function TradingForms() {
   return (
     <Card className="bg-card border-border">
       <CardHeader>
-        <div className="flex items-center justify-center">
+        <div className="flex items-center justify-start">
           <div className="flex bg-muted rounded-lg p-1">
             <Button
               variant={orderType === "Market" ? "default" : "ghost"}
