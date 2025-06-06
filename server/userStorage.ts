@@ -6,6 +6,10 @@ import {
   userPortfolios, 
   userOrders, 
   userTrades,
+  userApiKeys,
+  userNotifications,
+  userReferrals,
+  userSecurityLogs,
   tradingPairs, 
   type User, 
   type InsertUser, 
@@ -13,8 +17,17 @@ import {
   type UserPortfolio,
   type UserOrder,
   type UserTrade,
+  type UserApiKey,
+  type UserNotification,
+  type UserReferral,
+  type UserSecurityLog,
+  type InsertUserProfile,
   type InsertUserOrder,
   type InsertUserTrade,
+  type InsertUserApiKey,
+  type InsertUserNotification,
+  type InsertUserReferral,
+  type InsertUserSecurityLog,
   type TradingPair 
 } from "../shared/schema";
 import { eq, desc, and, sum } from "drizzle-orm";
@@ -28,6 +41,11 @@ export interface IUserStorage {
   createUser(user: { id: string; email: string; phone?: string }): Promise<User>;
   getUser(id: string): Promise<User | undefined>;
   getUserByEmail(email: string): Promise<User | undefined>;
+  
+  // User profile management
+  getUserProfile(userId: string): Promise<UserProfile | undefined>;
+  createUserProfile(profile: InsertUserProfile): Promise<UserProfile>;
+  updateUserProfile(userId: string, updates: Partial<InsertUserProfile>): Promise<UserProfile>;
   
   // Portfolio management
   getUserPortfolio(userId: string): Promise<UserPortfolio[]>;
@@ -44,6 +62,26 @@ export interface IUserStorage {
   createTrade(trade: Omit<InsertUserTrade, 'id' | 'createdAt'>): Promise<UserTrade>;
   getUserTrades(userId: string, limit?: number): Promise<UserTrade[]>;
   getTradesBySymbol(userId: string, symbol: string): Promise<UserTrade[]>;
+  
+  // API key management
+  getUserApiKeys(userId: string): Promise<UserApiKey[]>;
+  createApiKey(apiKey: InsertUserApiKey): Promise<UserApiKey>;
+  updateApiKey(keyId: number, updates: Partial<InsertUserApiKey>): Promise<void>;
+  deleteApiKey(keyId: number): Promise<void>;
+  
+  // Notification management
+  getUserNotifications(userId: string, limit?: number): Promise<UserNotification[]>;
+  createNotification(notification: InsertUserNotification): Promise<UserNotification>;
+  markNotificationAsRead(notificationId: number): Promise<void>;
+  
+  // Referral management
+  getUserReferrals(userId: string): Promise<UserReferral[]>;
+  createReferral(referral: InsertUserReferral): Promise<UserReferral>;
+  updateReferralStatus(referralId: number, status: string): Promise<void>;
+  
+  // Security logs
+  getSecurityLogs(userId: string, limit?: number): Promise<UserSecurityLog[]>;
+  createSecurityLog(log: InsertUserSecurityLog): Promise<UserSecurityLog>;
 }
 
 export class UserStorage implements IUserStorage {
@@ -142,6 +180,114 @@ export class UserStorage implements IUserStorage {
       .from(userTrades)
       .where(and(eq(userTrades.userId, userId), eq(userTrades.symbol, symbol)))
       .orderBy(desc(userTrades.createdAt));
+  }
+
+  // User profile management
+  async getUserProfile(userId: string): Promise<UserProfile | undefined> {
+    const [profile] = await db
+      .select()
+      .from(userProfiles)
+      .where(eq(userProfiles.id, userId));
+    return profile || undefined;
+  }
+
+  async createUserProfile(profileData: InsertUserProfile): Promise<UserProfile> {
+    const [profile] = await db.insert(userProfiles).values(profileData).returning();
+    return profile;
+  }
+
+  async updateUserProfile(userId: string, updates: Partial<InsertUserProfile>): Promise<UserProfile> {
+    const [profile] = await db
+      .update(userProfiles)
+      .set({ ...updates, updatedAt: new Date() })
+      .where(eq(userProfiles.id, userId))
+      .returning();
+    return profile;
+  }
+
+  // API key management
+  async getUserApiKeys(userId: string): Promise<UserApiKey[]> {
+    return await db
+      .select()
+      .from(userApiKeys)
+      .where(eq(userApiKeys.userId, userId))
+      .orderBy(desc(userApiKeys.createdAt));
+  }
+
+  async createApiKey(apiKeyData: InsertUserApiKey): Promise<UserApiKey> {
+    const [apiKey] = await db.insert(userApiKeys).values(apiKeyData).returning();
+    return apiKey;
+  }
+
+  async updateApiKey(keyId: number, updates: Partial<InsertUserApiKey>): Promise<void> {
+    await db
+      .update(userApiKeys)
+      .set(updates)
+      .where(eq(userApiKeys.id, keyId));
+  }
+
+  async deleteApiKey(keyId: number): Promise<void> {
+    await db
+      .delete(userApiKeys)
+      .where(eq(userApiKeys.id, keyId));
+  }
+
+  // Notification management
+  async getUserNotifications(userId: string, limit: number = 50): Promise<UserNotification[]> {
+    return await db
+      .select()
+      .from(userNotifications)
+      .where(eq(userNotifications.userId, userId))
+      .orderBy(desc(userNotifications.createdAt))
+      .limit(limit);
+  }
+
+  async createNotification(notificationData: InsertUserNotification): Promise<UserNotification> {
+    const [notification] = await db.insert(userNotifications).values(notificationData).returning();
+    return notification;
+  }
+
+  async markNotificationAsRead(notificationId: number): Promise<void> {
+    await db
+      .update(userNotifications)
+      .set({ isRead: true })
+      .where(eq(userNotifications.id, notificationId));
+  }
+
+  // Referral management
+  async getUserReferrals(userId: string): Promise<UserReferral[]> {
+    return await db
+      .select()
+      .from(userReferrals)
+      .where(eq(userReferrals.referrerId, userId))
+      .orderBy(desc(userReferrals.createdAt));
+  }
+
+  async createReferral(referralData: InsertUserReferral): Promise<UserReferral> {
+    const [referral] = await db.insert(userReferrals).values(referralData).returning();
+    return referral;
+  }
+
+  async updateReferralStatus(referralId: number, status: string): Promise<void> {
+    await db
+      .update(userReferrals)
+      .set({ status })
+      .where(eq(userReferrals.id, referralId));
+  }
+
+  // Security logs
+  async getSecurityLogs(userId: string, limit: number = 100): Promise<UserSecurityLog[]> {
+    return await db
+      .select()
+      .from(userSecurityLogs)
+      .where(eq(userSecurityLogs.userId, userId))
+      .orderBy(desc(userSecurityLogs.createdAt))
+      .limit(limit);
+  }
+
+  async createSecurityLog(logData: InsertUserSecurityLog): Promise<UserSecurityLog> {
+    const [log] = await db.insert(userSecurityLogs).values(logData).returning();
+    return log;
   }
 }
 

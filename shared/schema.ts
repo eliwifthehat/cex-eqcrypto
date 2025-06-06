@@ -144,6 +144,41 @@ export const userSecurityLogs = pgTable("user_security_logs", {
   createdAt: timestamp("created_at").defaultNow(),
 });
 
+export const userMemberships = pgTable("user_memberships", {
+  id: serial("id").primaryKey(),
+  userId: text("user_id").references(() => users.id, { onDelete: "cascade" }).notNull(),
+  level: text("level").default("basic"), // basic, silver, gold, platinum
+  perks: text("perks").array().default([]), // array of perk strings
+  expiryDate: timestamp("expiry_date"),
+  isActive: boolean("is_active").default(true),
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
+export const userDevices = pgTable("user_devices", {
+  id: serial("id").primaryKey(),
+  userId: text("user_id").references(() => users.id, { onDelete: "cascade" }).notNull(),
+  deviceId: text("device_id").notNull(),
+  deviceName: text("device_name"),
+  lastSeen: timestamp("last_seen").defaultNow(),
+  userAgent: text("user_agent"),
+  ipAddress: text("ip_address"),
+  location: text("location"),
+  isActive: boolean("is_active").default(true),
+  createdAt: timestamp("created_at").defaultNow(),
+});
+
+export const userMessages = pgTable("user_messages", {
+  id: serial("id").primaryKey(),
+  userId: text("user_id").references(() => users.id, { onDelete: "cascade" }).notNull(),
+  subject: text("subject").notNull(),
+  content: text("content").notNull(),
+  messageType: text("message_type").default("general"), // general, security, trading, system
+  isRead: boolean("is_read").default(false),
+  priority: text("priority").default("normal"), // low, normal, high, urgent
+  createdAt: timestamp("created_at").defaultNow(),
+});
+
 export const insertUserSchema = createInsertSchema(users).omit({
   createdAt: true,
   updatedAt: true,
@@ -160,6 +195,9 @@ export const insertUserApiKeySchema = createInsertSchema(userApiKeys);
 export const insertUserNotificationSchema = createInsertSchema(userNotifications);
 export const insertUserReferralSchema = createInsertSchema(userReferrals);
 export const insertUserSecurityLogSchema = createInsertSchema(userSecurityLogs);
+export const insertUserMembershipSchema = createInsertSchema(userMemberships);
+export const insertUserDeviceSchema = createInsertSchema(userDevices);
+export const insertUserMessageSchema = createInsertSchema(userMessages);
 
 export type InsertUser = z.infer<typeof insertUserSchema>;
 export type User = typeof users.$inferSelect;
@@ -174,6 +212,9 @@ export type UserApiKey = typeof userApiKeys.$inferSelect;
 export type UserNotification = typeof userNotifications.$inferSelect;
 export type UserReferral = typeof userReferrals.$inferSelect;
 export type UserSecurityLog = typeof userSecurityLogs.$inferSelect;
+export type UserMembership = typeof userMemberships.$inferSelect;
+export type UserDevice = typeof userDevices.$inferSelect;
+export type UserMessage = typeof userMessages.$inferSelect;
 
 export type InsertUserProfile = z.infer<typeof insertUserProfileSchema>;
 export type InsertUserPortfolio = z.infer<typeof insertUserPortfolioSchema>;
@@ -186,3 +227,6 @@ export type InsertUserApiKey = z.infer<typeof insertUserApiKeySchema>;
 export type InsertUserNotification = z.infer<typeof insertUserNotificationSchema>;
 export type InsertUserReferral = z.infer<typeof insertUserReferralSchema>;
 export type InsertUserSecurityLog = z.infer<typeof insertUserSecurityLogSchema>;
+export type InsertUserMembership = z.infer<typeof insertUserMembershipSchema>;
+export type InsertUserDevice = z.infer<typeof insertUserDeviceSchema>;
+export type InsertUserMessage = z.infer<typeof insertUserMessageSchema>;

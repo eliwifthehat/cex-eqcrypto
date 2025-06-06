@@ -21,9 +21,18 @@ export default function UserDropdown() {
   const [isOpen, setIsOpen] = useState(false);
   const [, setLocation] = useLocation();
 
-  const userProfile = {
-    uid: "EQ" + Math.random().toString(36).substr(2, 9).toUpperCase(),
+  // Fetch user profile data from Supabase
+  const { data: userProfile } = useQuery({
+    queryKey: ['/api/user-profile', user?.id],
+    enabled: !!user?.id,
+  });
+
+  // Use real user data or fallback for display
+  const displayProfile = {
+    uid: userProfile?.uid || "EQ" + Math.random().toString(36).substr(2, 9).toUpperCase(),
     email: user?.email || "user@example.com",
+    verified: userProfile?.verified || false,
+    securityLevel: userProfile?.securityLevel || 1,
   };
 
   const handleSignOut = async () => {
@@ -99,9 +108,11 @@ export default function UserDropdown() {
                   </AvatarFallback>
                 </Avatar>
                 <div>
-                  <div className="text-white font-medium">{userProfile.email.replace(/(.{2}).*(@.*)/, '$1****$2')}</div>
-                  <div className="text-gray-400 text-sm">UID: {userProfile.uid}</div>
-                  <div className="text-red-400 text-xs">Identity not verified</div>
+                  <div className="text-white font-medium">{displayProfile.email.replace(/(.{2}).*(@.*)/, '$1****$2')}</div>
+                  <div className="text-gray-400 text-sm">UID: {displayProfile.uid}</div>
+                  <div className={`text-xs ${displayProfile.verified ? 'text-green-400' : 'text-red-400'}`}>
+                    {displayProfile.verified ? 'Identity verified' : 'Identity not verified'}
+                  </div>
                 </div>
               </div>
 
