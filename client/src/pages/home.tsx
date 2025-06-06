@@ -5,6 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { Shield, Zap, Smartphone, DollarSign, ArrowRight, TrendingUp } from "lucide-react";
 import { Link } from "wouter";
 import { AuthButton } from "@/components/AuthButton";
+import UserDropdown from "@/components/UserDropdown";
 
 export default function Home() {
   // Mock live prices data

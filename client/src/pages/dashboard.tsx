@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { useAuth } from "@/components/AuthProvider";
+import { AuthButton } from "@/components/AuthButton";
+import UserDropdown from "@/components/UserDropdown";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -27,7 +29,10 @@ import {
   ChevronRight,
   Copy,
   Eye,
-  EyeOff
+  EyeOff,
+  Lock,
+  Globe,
+  Trash2
 } from "lucide-react";
 
 export default function Dashboard() {
@@ -112,51 +117,37 @@ export default function Dashboard() {
   return (
     <div className="min-h-screen bg-gray-900">
       {/* Header Navigation */}
-      <header className="bg-gray-800 border-b border-gray-700">
+      <header className="bg-card border-b border-border">
         <div className="max-w-7xl mx-auto px-4">
           <div className="flex items-center justify-between h-16">
+            {/* Logo and Navigation */}
             <div className="flex items-center space-x-8">
               <Link href="/">
-                <div className="text-2xl font-bold text-white cursor-pointer">
+                <div className="text-2xl font-bold text-foreground cursor-pointer">
                   EQCRYPTO
                 </div>
               </Link>
               
-              <nav className="hidden md:flex items-center space-x-6">
-                <Button variant="outline" size="sm" className="border-gray-600 text-gray-300">
-                  Buy Crypto
-                </Button>
-                <Button variant="outline" size="sm" className="border-gray-600 text-gray-300">
-                  Markets ▼
-                </Button>
-                <Button variant="outline" size="sm" className="border-gray-600 text-gray-300">
-                  Trade ▼
-                </Button>
-                <Button variant="outline" size="sm" className="border-gray-600 text-gray-300">
-                  Futures ▼
-                </Button>
-                <Button variant="outline" size="sm" className="border-gray-600 text-gray-300">
-                  Copy Trading
-                </Button>
-                <Button variant="outline" size="sm" className="border-gray-600 text-gray-300">
-                  Earn ▼
-                </Button>
-                <Button variant="outline" size="sm" className="border-gray-600 text-gray-300">
-                  Bonus Center ▼
-                </Button>
+              <nav className="hidden md:flex items-center space-x-8">
+                <Link href="/" className="text-muted-foreground hover:text-foreground transition-colors px-3 py-2 rounded-md text-sm font-medium">
+                  Home
+                </Link>
+                <Link href="/markets" className="text-muted-foreground hover:text-foreground transition-colors px-3 py-2 rounded-md text-sm font-medium">
+                  Markets
+                </Link>
+                <Link href="/exchange" className="text-muted-foreground hover:text-foreground transition-colors px-3 py-2 rounded-md text-sm font-medium">
+                  Trade
+                </Link>
+                <Link href="/derivatives" className="text-muted-foreground hover:text-foreground transition-colors px-3 py-2 rounded-md text-sm font-medium">
+                  Derivatives
+                </Link>
               </nav>
             </div>
             
-            <div className="flex items-center space-x-4">
-              <Button variant="default" size="sm" className="bg-yellow-500 hover:bg-yellow-600 text-black">
-                Connect
-              </Button>
-              <Avatar>
-                <AvatarImage src="" />
-                <AvatarFallback className="bg-yellow-500 text-black">
-                  {userProfile.email.charAt(0).toUpperCase()}
-                </AvatarFallback>
-              </Avatar>
+            {/* Auth Buttons */}
+            <div className="flex items-center space-x-3">
+              <AuthButton />
+              <UserDropdown />
             </div>
           </div>
         </div>
@@ -334,7 +325,7 @@ export default function Dashboard() {
                     <Button variant="ghost" className="w-full justify-between text-gray-300 hover:text-white hover:bg-gray-700">
                       <div className="flex items-center space-x-2">
                         <CreditCard className="w-4 h-4" />
-                        <span>LBK Membership</span>
+                        <span>EQCRYPTO Membership</span>
                       </div>
                       <ChevronRight className="w-4 h-4" />
                     </Button>
@@ -457,7 +448,7 @@ export default function Dashboard() {
           <TabsContent value="membership">
             <Card className="bg-gray-800 border-gray-700">
               <CardHeader>
-                <CardTitle className="text-white">LBK Membership</CardTitle>
+                <CardTitle className="text-white">EQCRYPTO Membership</CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="text-center py-8">
@@ -492,6 +483,101 @@ export default function Dashboard() {
             </Card>
           </TabsContent>
         </Tabs>
+
+        {/* Email Security Features Section */}
+        <div className="mt-8">
+          <Card className="bg-gray-800 border-gray-700">
+            <CardHeader>
+              <CardTitle className="text-white">Email & Security Settings</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-6">
+              {/* Email Section */}
+              <div className="flex items-center justify-between p-4 bg-gray-700 rounded-lg">
+                <div className="flex items-center space-x-3">
+                  <Mail className="w-6 h-6 text-blue-400" />
+                  <div>
+                    <h3 className="text-white font-medium">Email</h3>
+                    <p className="text-gray-400 text-sm">Receive verification code via email for login and other actions</p>
+                    <p className="text-gray-300 text-sm mt-1">{userProfile.email.replace(/(.{2}).*(@.*)/, '$1****$2')}</p>
+                  </div>
+                </div>
+                <Button variant="outline" size="sm" className="border-yellow-500 text-yellow-500 hover:bg-yellow-500 hover:text-black">
+                  Setting
+                </Button>
+              </div>
+
+              {/* Login Password */}
+              <div className="flex items-center justify-between p-4 bg-gray-700 rounded-lg">
+                <div className="flex items-center space-x-3">
+                  <Lock className="w-6 h-6 text-green-400" />
+                  <div>
+                    <h3 className="text-white font-medium">Login Password</h3>
+                    <p className="text-gray-400 text-sm">This password is used for your login check</p>
+                  </div>
+                </div>
+                <Button variant="outline" size="sm" className="border-yellow-500 text-yellow-500 hover:bg-yellow-500 hover:text-black">
+                  Setting
+                </Button>
+              </div>
+
+              {/* Fund Password */}
+              <div className="flex items-center justify-between p-4 bg-gray-700 rounded-lg">
+                <div className="flex items-center space-x-3">
+                  <Key className="w-6 h-6 text-purple-400" />
+                  <div>
+                    <h3 className="text-white font-medium">Fund Password</h3>
+                    <p className="text-gray-400 text-sm">This password is used for your transaction verification</p>
+                  </div>
+                </div>
+                <Button variant="outline" size="sm" className="border-yellow-500 text-yellow-500 hover:bg-yellow-500 hover:text-black">
+                  Setting
+                </Button>
+              </div>
+
+              {/* IP Whitelist */}
+              <div className="flex items-center justify-between p-4 bg-gray-700 rounded-lg">
+                <div className="flex items-center space-x-3">
+                  <Globe className="w-6 h-6 text-orange-400" />
+                  <div>
+                    <h3 className="text-white font-medium">IP Whitelist</h3>
+                    <p className="text-gray-400 text-sm">After opening, only the IPs in the whitelist can access your account, please open it carefully.</p>
+                  </div>
+                </div>
+                <Button variant="outline" size="sm" className="border-yellow-500 text-yellow-500 hover:bg-yellow-500 hover:text-black">
+                  Setting
+                </Button>
+              </div>
+
+              {/* Payment Method */}
+              <div className="flex items-center justify-between p-4 bg-gray-700 rounded-lg">
+                <div className="flex items-center space-x-3">
+                  <CreditCard className="w-6 h-6 text-blue-400" />
+                  <div>
+                    <h3 className="text-white font-medium">Payment Method</h3>
+                    <p className="text-gray-400 text-sm">The payment term is not bound yet</p>
+                  </div>
+                </div>
+                <Button variant="outline" size="sm" className="border-yellow-500 text-yellow-500 hover:bg-yellow-500 hover:text-black">
+                  Add
+                </Button>
+              </div>
+
+              {/* Delete Account */}
+              <div className="flex items-center justify-between p-4 bg-gray-700 rounded-lg border border-red-600">
+                <div className="flex items-center space-x-3">
+                  <Trash2 className="w-6 h-6 text-red-400" />
+                  <div>
+                    <h3 className="text-white font-medium">Delete your account</h3>
+                    <p className="text-gray-400 text-sm">Once you choose to cancel your account, it will be permanently deactivated and cannot be recovered</p>
+                  </div>
+                </div>
+                <Button variant="outline" size="sm" className="border-red-500 text-red-500 hover:bg-red-500 hover:text-white">
+                  Delete
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
       </main>
     </div>
   );

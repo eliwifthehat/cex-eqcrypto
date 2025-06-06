@@ -28,7 +28,7 @@ function Router() {
           <Derivatives />
         </ProtectedRoute>
       </Route>
-      <Route path="/dashboard">
+      <Route path="/account-dash">
         <ProtectedRoute>
           <Dashboard />
         </ProtectedRoute>
