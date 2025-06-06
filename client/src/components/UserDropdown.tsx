@@ -68,8 +68,10 @@ export default function UserDropdown() {
         onClick={handleAvatarClick}
       >
         <AvatarImage src="" />
-        <AvatarFallback className="bg-yellow-500 text-black text-xs font-medium">
-          {user ? userProfile.email.charAt(0).toUpperCase() : 'start here'}
+        <AvatarFallback className={`text-xs font-medium ${
+          user ? 'bg-yellow-500 text-black' : 'bg-gradient-to-r from-purple-500 to-pink-500 text-white'
+        }`}>
+          {user ? userProfile.email.charAt(0).toUpperCase() : 'Start'}
         </AvatarFallback>
       </Avatar>
 
