@@ -31,7 +31,7 @@ export default function UserDropdown() {
   };
 
   const handleSecurityClick = () => {
-    setLocation('/dashboard?tab=security');
+    setLocation('/account-dash?tab=security');
     setIsOpen(false);
   };
 
@@ -109,7 +109,7 @@ export default function UserDropdown() {
                   variant="ghost" 
                   className="w-full justify-between text-gray-300 hover:text-white hover:bg-gray-700"
                   onClick={() => {
-                    setLocation('/dashboard');
+                    setLocation('/account-dash');
                     setIsOpen(false);
                   }}
                 >
@@ -124,7 +124,7 @@ export default function UserDropdown() {
                   variant="ghost" 
                   className="w-full justify-between text-gray-300 hover:text-white hover:bg-gray-700"
                   onClick={() => {
-                    setLocation('/dashboard?tab=security');
+                    setLocation('/account-dash?tab=security');
                     setIsOpen(false);
                   }}
                 >
@@ -139,7 +139,7 @@ export default function UserDropdown() {
                   variant="ghost" 
                   className="w-full justify-between text-gray-300 hover:text-white hover:bg-gray-700"
                   onClick={() => {
-                    setLocation('/dashboard?tab=membership');
+                    setLocation('/account-dash?tab=membership');
                     setIsOpen(false);
                   }}
                 >
@@ -154,7 +154,7 @@ export default function UserDropdown() {
                   variant="ghost" 
                   className="w-full justify-between text-gray-300 hover:text-white hover:bg-gray-700"
                   onClick={() => {
-                    setLocation('/dashboard?tab=api');
+                    setLocation('/account-dash?tab=api');
                     setIsOpen(false);
                   }}
                 >
@@ -169,7 +169,7 @@ export default function UserDropdown() {
                   variant="ghost" 
                   className="w-full justify-between text-gray-300 hover:text-white hover:bg-gray-700"
                   onClick={() => {
-                    setLocation('/dashboard?tab=referral');
+                    setLocation('/account-dash?tab=referral');
                     setIsOpen(false);
                   }}
                 >
@@ -184,7 +184,7 @@ export default function UserDropdown() {
                   variant="ghost" 
                   className="w-full justify-between text-gray-300 hover:text-white hover:bg-gray-700"
                   onClick={() => {
-                    setLocation('/dashboard?tab=messages');
+                    setLocation('/account-dash?tab=messages');
                     setIsOpen(false);
                   }}
                 >
