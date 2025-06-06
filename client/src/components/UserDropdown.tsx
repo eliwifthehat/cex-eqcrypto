@@ -29,10 +29,10 @@ export default function UserDropdown() {
 
   // Use real user data or fallback for display
   const displayProfile = {
-    uid: userProfile?.uid || "EQ" + Math.random().toString(36).substr(2, 9).toUpperCase(),
+    uid: (userProfile as any)?.uid || "EQ" + Math.random().toString(36).substr(2, 9).toUpperCase(),
     email: user?.email || "user@example.com",
-    verified: userProfile?.verified || false,
-    securityLevel: userProfile?.securityLevel || 1,
+    verified: (userProfile as any)?.verified || false,
+    securityLevel: (userProfile as any)?.securityLevel || 1,
   };
 
   const handleSignOut = async () => {
@@ -81,7 +81,7 @@ export default function UserDropdown() {
         >
           <AvatarImage src="" />
           <AvatarFallback className="bg-yellow-500 text-black text-sm font-medium">
-            {userProfile.email.charAt(0).toUpperCase()}
+            {displayProfile.email.charAt(0).toUpperCase()}
           </AvatarFallback>
         </Avatar>
       ) : (
@@ -104,7 +104,7 @@ export default function UserDropdown() {
                 <Avatar>
                   <AvatarImage src="" />
                   <AvatarFallback className="bg-yellow-500 text-black">
-                    {userProfile.email.charAt(0).toUpperCase()}
+                    {displayProfile.email.charAt(0).toUpperCase()}
                   </AvatarFallback>
                 </Avatar>
                 <div>

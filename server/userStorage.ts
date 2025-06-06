@@ -82,6 +82,11 @@ export interface IUserStorage {
   // Security logs
   getSecurityLogs(userId: string, limit?: number): Promise<UserSecurityLog[]>;
   createSecurityLog(log: InsertUserSecurityLog): Promise<UserSecurityLog>;
+  
+  // Additional user management methods
+  getUserMessages(userId: string, limit?: number): Promise<UserMessage[]>;
+  getUserDevices(userId: string): Promise<UserDevice[]>;
+  getUserMembership(userId: string): Promise<UserMembership | undefined>;
 }
 
 export class UserStorage implements IUserStorage {
@@ -288,6 +293,32 @@ export class UserStorage implements IUserStorage {
   async createSecurityLog(logData: InsertUserSecurityLog): Promise<UserSecurityLog> {
     const [log] = await db.insert(userSecurityLogs).values(logData).returning();
     return log;
+  }
+
+  // Additional user management methods
+  async getUserMessages(userId: string, limit: number = 50): Promise<UserMessage[]> {
+    return await db
+      .select()
+      .from(userMessages)
+      .where(eq(userMessages.userId, userId))
+      .orderBy(desc(userMessages.createdAt))
+      .limit(limit);
+  }
+
+  async getUserDevices(userId: string): Promise<UserDevice[]> {
+    return await db
+      .select()
+      .from(userDevices)
+      .where(eq(userDevices.userId, userId))
+      .orderBy(desc(userDevices.lastSeen));
+  }
+
+  async getUserMembership(userId: string): Promise<UserMembership | undefined> {
+    const [membership] = await db
+      .select()
+      .from(userMemberships)
+      .where(eq(userMemberships.userId, userId));
+    return membership || undefined;
   }
 }
 
