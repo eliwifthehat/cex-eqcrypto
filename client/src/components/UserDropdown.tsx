@@ -31,12 +31,12 @@ export default function UserDropdown() {
   };
 
   return (
-    <div className="relative">
-      <Avatar 
-        className="cursor-pointer"
-        onMouseEnter={() => setIsOpen(true)}
-        onMouseLeave={() => setIsOpen(false)}
-      >
+    <div 
+      className="relative"
+      onMouseEnter={() => setIsOpen(true)}
+      onMouseLeave={() => setIsOpen(false)}
+    >
+      <Avatar className="cursor-pointer">
         <AvatarImage src="" />
         <AvatarFallback className="bg-yellow-500 text-black">
           {userProfile.email.charAt(0).toUpperCase()}
@@ -44,11 +44,7 @@ export default function UserDropdown() {
       </Avatar>
 
       {isOpen && (
-        <div 
-          className="absolute right-0 top-full mt-2 z-50"
-          onMouseEnter={() => setIsOpen(true)}
-          onMouseLeave={() => setIsOpen(false)}
-        >
+        <div className="absolute right-0 top-full mt-2 z-50">
           <Card className="bg-gray-800 border-gray-700 w-64 shadow-xl">
             <CardContent className="p-4">
               <Link href="/account-dash?tab=security">
