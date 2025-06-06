@@ -1,0 +1,40 @@
++----------------------------------------------------------+
+|                     EQCRYPTO                 |
++----------------------------------------------------------+
+| Top Navigation:                                          |
+| [Buy Crypto] [Markets▼] [Trade▼] [Futures▼] [Copy Trade] |
+| [Earn▼] [Bonus Center▼] [Connect] [User Icon▼]           |
++----------------------------------------------------------+
+|                     USER ACCOUNT INFO                    |
+| Avatar | Email: el****@gmail.com (Identity not verified) |
+|        | UID: LBA9C97782                                 |
+|        | IP Address: 51.***.**.*                        |
+|        | Security Level: Low                             |
+|        | 24h Withdrawal Limit: 300000/300000 USDT        |
++----------------------------------------------------------+
+|                      Security Section                    |
++----------------------------------------------------------+
+| ! Security settings incomplete                           |
+| Complete the recommended security settings...            |
+|                                                          |
+| [ ] Identity Verification        [Verification]          |
+| [ ] Phone                        [Setting]               |
+| [ ] Google Auth                  [Setting]               |
+| [ ] Anti-phishing Code           [Setting]               |
+| [ ] Withdrawal Whitelist         [Add]                   |
++----------------------------------------------------------+
+| Right Sidebar (Dropdown from User Icon)                  |
+| -------------------------------------------------------- |
+| el****@gmail.com                                         |
+| UID: EQ*********                                          |
+| Identity not verified                                    |
+| -------------------------------------------------------- |
+| [ ] Self-service                                         |
+| [ ] Security                                             |
+| [ ] LBK Membership                                       |
+| [ ] Referral                                             |
+| [ ] My Red Packets                                       |
+| [ ] My Coupons                                           |
+| [ ] My API                                               |
+| [ ] Log Out                                              |
++----------------------------------------------------------+
