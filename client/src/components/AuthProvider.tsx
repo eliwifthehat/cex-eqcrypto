@@ -41,6 +41,15 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           localStorage.removeItem('rememberMe')
         }
         
+        if (event === 'SIGNED_IN' && session?.user) {
+          // Handle post-login redirection
+          const redirectPath = localStorage.getItem('redirectAfterLogin')
+          if (redirectPath && redirectPath !== '/auth') {
+            localStorage.removeItem('redirectAfterLogin')
+            window.location.href = redirectPath
+          }
+        }
+        
         setSession(session)
         setUser(session?.user ?? null)
         setLoading(false)
