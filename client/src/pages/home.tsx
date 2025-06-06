@@ -78,6 +78,7 @@ export default function Home() {
             {/* Auth Buttons */}
             <div className="flex items-center space-x-3">
               <AuthButton />
+              <UserDropdown />
             </div>
           </div>
         </div>
