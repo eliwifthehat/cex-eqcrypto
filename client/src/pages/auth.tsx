@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useLocation } from 'wouter'
 import { useAuth } from '@/components/AuthProvider'
 import { Button } from '@/components/ui/button'
@@ -7,7 +7,11 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Alert, AlertDescription } from '@/components/ui/alert'
 import { Label } from '@/components/ui/label'
+import { Checkbox } from '@/components/ui/checkbox'
+import { Separator } from '@/components/ui/separator'
 import { useToast } from '@/hooks/use-toast'
+import { SimpleCaptcha } from '@/components/SimpleCaptcha'
+import { rateLimiter } from '@/lib/rateLimiter'
 
 export default function Auth() {
   const [, setLocation] = useLocation()
@@ -187,11 +191,13 @@ export default function Auth() {
               </TabsContent>
             </Tabs>
 
-            <div className="mt-6 pt-4 border-t border-gray-700">
-              <p className="text-sm text-gray-400 text-center">
-                Test Account: demo@eqcrypto.com / password123
-              </p>
-            </div>
+            {import.meta.env.DEV && (
+              <div className="mt-6 pt-4 border-t border-gray-700">
+                <p className="text-xs text-gray-500 text-center">
+                  Development Mode: Use any email/password to create test accounts
+                </p>
+              </div>
+            )}
           </CardContent>
         </Card>
       </div>

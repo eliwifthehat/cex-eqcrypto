@@ -6,8 +6,9 @@ interface AuthContextType {
   user: User | null
   session: Session | null
   loading: boolean
-  signIn: (email: string, password: string) => Promise<{ error: any }>
+  signIn: (email: string, password: string, rememberMe?: boolean) => Promise<{ error: any }>
   signUp: (email: string, password: string) => Promise<{ error: any }>
+  signInWithGoogle: () => Promise<{ error: any }>
   signOut: () => Promise<void>
 }
 
@@ -26,9 +27,20 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       setLoading(false)
     })
 
-    // Listen for auth changes
+    // Listen for auth changes and handle JWT refresh
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       async (event, session) => {
+        console.log('Auth state changed:', event)
+        
+        if (event === 'TOKEN_REFRESHED') {
+          console.log('JWT token refreshed successfully')
+        }
+        
+        if (event === 'SIGNED_OUT') {
+          // Clear any stored remember me preference
+          localStorage.removeItem('rememberMe')
+        }
+        
         setSession(session)
         setUser(session?.user ?? null)
         setLoading(false)
@@ -38,10 +50,31 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     return () => subscription.unsubscribe()
   }, [])
 
-  const signIn = async (email: string, password: string) => {
+  const signIn = async (email: string, password: string, rememberMe: boolean = false) => {
+    // Store remember me preference
+    if (rememberMe) {
+      localStorage.setItem('rememberMe', 'true')
+    } else {
+      localStorage.removeItem('rememberMe')
+    }
+
     const { error } = await supabase.auth.signInWithPassword({
       email,
       password,
+    })
+    return { error }
+  }
+
+  const signInWithGoogle = async () => {
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider: 'google',
+      options: {
+        redirectTo: `${window.location.origin}/exchange`,
+        queryParams: {
+          access_type: 'offline',
+          prompt: 'consent',
+        },
+      }
     })
     return { error }
   }
@@ -64,6 +97,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     loading,
     signIn,
     signUp,
+    signInWithGoogle,
     signOut,
   }
 
