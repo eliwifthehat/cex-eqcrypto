@@ -227,9 +227,9 @@ export default function Dashboard() {
           </Card>
 
           <TabsContent value="security">
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <div className="w-full">
               {/* Security Settings */}
-              <div className="lg:col-span-2">
+              <div className="w-full">
                 <Card className="bg-gray-800 border-gray-700">
                   <CardHeader>
                     <CardTitle className="text-white flex items-center gap-2">
