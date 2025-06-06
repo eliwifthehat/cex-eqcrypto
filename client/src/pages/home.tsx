@@ -4,6 +4,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Shield, Zap, Smartphone, DollarSign, ArrowRight, TrendingUp } from "lucide-react";
 import { Link } from "wouter";
+import { AuthButton } from "@/components/AuthButton";
 
 export default function Home() {
   // Mock live prices data
@@ -75,12 +76,7 @@ export default function Home() {
             
             {/* Auth Buttons */}
             <div className="flex items-center space-x-3">
-              <Button variant="outline" className="text-foreground border-border hover:border-muted-foreground">
-                Log In
-              </Button>
-              <Button className="bg-crypto-blue hover:bg-blue-600 text-white">
-                Register
-              </Button>
+              <AuthButton />
             </div>
           </div>
         </div>

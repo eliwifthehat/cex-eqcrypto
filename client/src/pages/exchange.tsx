@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Link } from "wouter";
+import { AuthButton } from "@/components/AuthButton";
 import PriceHeader from "@/components/PriceHeader";
 import TradingChart from "@/components/TradingChart";
 import OrderBook from "@/components/OrderBook";
@@ -50,12 +51,7 @@ export default function Exchange() {
             
             {/* Auth Buttons */}
             <div className="flex items-center space-x-3">
-              <Button variant="outline" className="text-foreground border-border hover:border-muted-foreground">
-                Log In
-              </Button>
-              <Button className="bg-crypto-blue hover:bg-blue-600 text-white">
-                Register
-              </Button>
+              <AuthButton />
             </div>
             
             {/* Mobile menu button */}
