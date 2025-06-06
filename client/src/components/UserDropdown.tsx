@@ -53,6 +53,9 @@ export default function UserDropdown() {
   // Handle click based on auth state
   const handleAvatarClick = () => {
     if (!user) {
+      // Store the current page to redirect back after login
+      const currentPath = window.location.pathname;
+      localStorage.setItem('redirectAfterLogin', currentPath);
       setLocation('/auth');
     } else {
       setIsOpen(!isOpen);
@@ -61,17 +64,24 @@ export default function UserDropdown() {
 
   return (
     <div className="relative user-dropdown">
-      <Avatar 
-        className={`cursor-pointer transition-all duration-200 ${
-          user ? 'hover:scale-110 hover:shadow-lg' : ''
-        }`}
-        onClick={handleAvatarClick}
-      >
-        <AvatarImage src="" />
-        <AvatarFallback className="bg-yellow-500 text-black text-xs font-medium">
-          {user ? userProfile.email.charAt(0).toUpperCase() : 'start here'}
-        </AvatarFallback>
-      </Avatar>
+      {user ? (
+        <Avatar 
+          className="cursor-pointer transition-all duration-200 hover:scale-110 hover:shadow-lg"
+          onClick={handleAvatarClick}
+        >
+          <AvatarImage src="" />
+          <AvatarFallback className="bg-yellow-500 text-black text-sm font-medium">
+            {userProfile.email.charAt(0).toUpperCase()}
+          </AvatarFallback>
+        </Avatar>
+      ) : (
+        <button
+          onClick={handleAvatarClick}
+          className="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg font-medium transition-all duration-200 hover:scale-105"
+        >
+          Start
+        </button>
+      )}
 
       {isOpen && user && (
         <div className="absolute right-0 top-full mt-2 z-50">

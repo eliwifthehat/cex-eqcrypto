@@ -75,9 +75,8 @@ export default function Home() {
               </nav>
             </div>
             
-            {/* Auth Buttons */}
-            <div className="flex items-center space-x-3">
-              <AuthButton />
+            {/* Auth Area */}
+            <div className="flex items-center">
               <UserDropdown />
             </div>
           </div>
