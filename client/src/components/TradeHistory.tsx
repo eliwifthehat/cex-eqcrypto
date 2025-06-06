@@ -20,8 +20,8 @@ interface UserTrade {
 export default function TradeHistory() {
   const { user } = useAuth();
 
-  const { data: trades, isLoading } = useQuery({
-    queryKey: ['/api/trades', user?.id],
+  const { data: trades, isLoading } = useQuery<UserTrade[]>({
+    queryKey: ['/api/user-trades', user?.id],
     enabled: !!user?.id,
   });
 
@@ -69,7 +69,7 @@ export default function TradeHistory() {
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-2">
-        {trades?.map((trade: UserTrade) => {
+        {trades && trades.map((trade: UserTrade) => {
           const isBuy = trade.side === 'buy';
           const totalValue = parseFloat(trade.quantity) * parseFloat(trade.price);
           
@@ -106,7 +106,7 @@ export default function TradeHistory() {
           );
         })}
         
-        {!trades || trades.length === 0 && (
+        {(!trades || trades.length === 0) && (
           <div className="text-center py-8 text-gray-400">
             <History className="w-12 h-12 mx-auto mb-3 opacity-50" />
             <p>No trade history</p>
