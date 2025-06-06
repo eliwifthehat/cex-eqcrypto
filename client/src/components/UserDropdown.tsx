@@ -80,7 +80,7 @@ export default function UserDropdown() {
                   </Button>
                 </Link>
                 
-                <Link href="/account-dash">
+                <Link href="/account-dash?tab=security">
                   <Button 
                     variant="ghost" 
                     className="w-full justify-between text-gray-300 hover:text-white hover:bg-gray-700"
@@ -94,21 +94,33 @@ export default function UserDropdown() {
                   </Button>
                 </Link>
                 
-                <Button variant="ghost" className="w-full justify-between text-gray-300 hover:text-white hover:bg-gray-700">
-                  <div className="flex items-center space-x-2">
-                    <CreditCard className="w-4 h-4" />
-                    <span>EQCRYPTO Membership</span>
-                  </div>
-                  <ChevronRight className="w-4 h-4" />
-                </Button>
+                <Link href="/account-dash?tab=membership">
+                  <Button 
+                    variant="ghost" 
+                    className="w-full justify-between text-gray-300 hover:text-white hover:bg-gray-700"
+                    onClick={() => setIsOpen(false)}
+                  >
+                    <div className="flex items-center space-x-2">
+                      <CreditCard className="w-4 h-4" />
+                      <span>EQCRYPTO Membership</span>
+                    </div>
+                    <ChevronRight className="w-4 h-4" />
+                  </Button>
+                </Link>
                 
-                <Button variant="ghost" className="w-full justify-between text-gray-300 hover:text-white hover:bg-gray-700">
-                  <div className="flex items-center space-x-2">
-                    <User className="w-4 h-4" />
-                    <span>Referral</span>
-                  </div>
-                  <ChevronRight className="w-4 h-4" />
-                </Button>
+                <Link href="/account-dash?tab=referral">
+                  <Button 
+                    variant="ghost" 
+                    className="w-full justify-between text-gray-300 hover:text-white hover:bg-gray-700"
+                    onClick={() => setIsOpen(false)}
+                  >
+                    <div className="flex items-center space-x-2">
+                      <User className="w-4 h-4" />
+                      <span>Referral</span>
+                    </div>
+                    <ChevronRight className="w-4 h-4" />
+                  </Button>
+                </Link>
                 
                 <Button variant="ghost" className="w-full justify-between text-gray-300 hover:text-white hover:bg-gray-700">
                   <div className="flex items-center space-x-2">
@@ -126,21 +138,33 @@ export default function UserDropdown() {
                   <ChevronRight className="w-4 h-4" />
                 </Button>
                 
-                <Button variant="ghost" className="w-full justify-between text-gray-300 hover:text-white hover:bg-gray-700">
-                  <div className="flex items-center space-x-2">
-                    <Key className="w-4 h-4" />
-                    <span>My API</span>
-                  </div>
-                  <ChevronRight className="w-4 h-4" />
-                </Button>
+                <Link href="/account-dash?tab=api">
+                  <Button 
+                    variant="ghost" 
+                    className="w-full justify-between text-gray-300 hover:text-white hover:bg-gray-700"
+                    onClick={() => setIsOpen(false)}
+                  >
+                    <div className="flex items-center space-x-2">
+                      <Key className="w-4 h-4" />
+                      <span>My API</span>
+                    </div>
+                    <ChevronRight className="w-4 h-4" />
+                  </Button>
+                </Link>
                 
-                <Button variant="ghost" className="w-full justify-between text-gray-300 hover:text-white hover:bg-gray-700">
-                  <div className="flex items-center space-x-2">
-                    <Bell className="w-4 h-4" />
-                    <span>Messages</span>
-                  </div>
-                  <ChevronRight className="w-4 h-4" />
-                </Button>
+                <Link href="/account-dash?tab=messages">
+                  <Button 
+                    variant="ghost" 
+                    className="w-full justify-between text-gray-300 hover:text-white hover:bg-gray-700"
+                    onClick={() => setIsOpen(false)}
+                  >
+                    <div className="flex items-center space-x-2">
+                      <Bell className="w-4 h-4" />
+                      <span>Messages</span>
+                    </div>
+                    <ChevronRight className="w-4 h-4" />
+                  </Button>
+                </Link>
 
                 <hr className="border-gray-700 my-2" />
                 

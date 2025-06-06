@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useAuth } from "@/components/AuthProvider";
 import { AuthButton } from "@/components/AuthButton";
 import UserDropdown from "@/components/UserDropdown";
@@ -38,6 +38,16 @@ import {
 export default function Dashboard() {
   const { user, signOut } = useAuth();
   const [showApiKey, setShowApiKey] = useState(false);
+  const [activeTab, setActiveTab] = useState("security");
+
+  // Handle URL parameters for tab navigation
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const tab = urlParams.get('tab');
+    if (tab) {
+      setActiveTab(tab);
+    }
+  }, []);
   
   // Mock user data - in real app this would come from API
   const userProfile = {
@@ -155,7 +165,7 @@ export default function Dashboard() {
 
       <main className="max-w-7xl mx-auto px-4 py-8">
         {/* Top Navigation Tabs */}
-        <Tabs defaultValue="security" className="w-full">
+        <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
           <TabsList className="bg-gray-800 border-gray-700 mb-8">
             <TabsTrigger value="security" className="data-[state=active]:bg-gray-700">Security</TabsTrigger>
             <TabsTrigger value="referral">Referral</TabsTrigger>
@@ -284,6 +294,97 @@ export default function Dashboard() {
                           </Button>
                         </div>
                       ))}
+                    </div>
+
+                    {/* Email & Security Settings */}
+                    <div className="mt-8">
+                      <h3 className="text-white text-lg font-medium mb-4">Email & Security Settings</h3>
+                      <div className="space-y-4">
+                        {/* Email Section */}
+                        <div className="flex items-center justify-between p-4 bg-gray-700 rounded-lg">
+                          <div className="flex items-center space-x-3">
+                            <Mail className="w-6 h-6 text-blue-400" />
+                            <div>
+                              <h4 className="text-white font-medium">Email</h4>
+                              <p className="text-gray-400 text-sm">Receive verification code via email for login and other actions</p>
+                              <p className="text-gray-300 text-sm mt-1">{userProfile.email.replace(/(.{2}).*(@.*)/, '$1****$2')}</p>
+                            </div>
+                          </div>
+                          <Button variant="outline" size="sm" className="border-yellow-500 text-yellow-500 hover:bg-yellow-500 hover:text-black">
+                            Setting
+                          </Button>
+                        </div>
+
+                        {/* Login Password */}
+                        <div className="flex items-center justify-between p-4 bg-gray-700 rounded-lg">
+                          <div className="flex items-center space-x-3">
+                            <Lock className="w-6 h-6 text-green-400" />
+                            <div>
+                              <h4 className="text-white font-medium">Login Password</h4>
+                              <p className="text-gray-400 text-sm">This password is used for your login check</p>
+                            </div>
+                          </div>
+                          <Button variant="outline" size="sm" className="border-yellow-500 text-yellow-500 hover:bg-yellow-500 hover:text-black">
+                            Setting
+                          </Button>
+                        </div>
+
+                        {/* Fund Password */}
+                        <div className="flex items-center justify-between p-4 bg-gray-700 rounded-lg">
+                          <div className="flex items-center space-x-3">
+                            <Key className="w-6 h-6 text-purple-400" />
+                            <div>
+                              <h4 className="text-white font-medium">Fund Password</h4>
+                              <p className="text-gray-400 text-sm">This password is used for your transaction verification</p>
+                            </div>
+                          </div>
+                          <Button variant="outline" size="sm" className="border-yellow-500 text-yellow-500 hover:bg-yellow-500 hover:text-black">
+                            Setting
+                          </Button>
+                        </div>
+
+                        {/* IP Whitelist */}
+                        <div className="flex items-center justify-between p-4 bg-gray-700 rounded-lg">
+                          <div className="flex items-center space-x-3">
+                            <Globe className="w-6 h-6 text-orange-400" />
+                            <div>
+                              <h4 className="text-white font-medium">IP Whitelist</h4>
+                              <p className="text-gray-400 text-sm">After opening, only the IPs in the whitelist can access your account, please open it carefully.</p>
+                            </div>
+                          </div>
+                          <Button variant="outline" size="sm" className="border-yellow-500 text-yellow-500 hover:bg-yellow-500 hover:text-black">
+                            Setting
+                          </Button>
+                        </div>
+
+                        {/* Payment Method */}
+                        <div className="flex items-center justify-between p-4 bg-gray-700 rounded-lg">
+                          <div className="flex items-center space-x-3">
+                            <CreditCard className="w-6 h-6 text-blue-400" />
+                            <div>
+                              <h4 className="text-white font-medium">Payment Method</h4>
+                              <p className="text-gray-400 text-sm">The payment term is not bound yet</p>
+                            </div>
+                          </div>
+                          <Button variant="outline" size="sm" className="border-yellow-500 text-yellow-500 hover:bg-yellow-500 hover:text-black">
+                            Add
+                          </Button>
+                        </div>
+
+                        {/* Delete Account */}
+                        <div className="flex items-center justify-between p-4 bg-gray-700 rounded-lg border border-red-600">
+                          <div className="flex items-center space-x-3">
+                            <Trash2 className="w-6 h-6 text-red-400" />
+                            <div>
+                              <h4 className="text-white font-medium">Delete your account</h4>
+                              <p className="text-gray-400 text-sm">Once you choose to cancel your account, it will be permanently deactivated and cannot be recovered</p>
+                            </div>
+                          </div>
+                          <Button variant="outline" size="sm" className="border-red-500 text-red-500 hover:bg-red-500 hover:text-white">
+                            Delete
+                          </Button>
+                        </div>
+                      </div>
                     </div>
                   </CardContent>
                 </Card>
@@ -484,100 +585,7 @@ export default function Dashboard() {
           </TabsContent>
         </Tabs>
 
-        {/* Email Security Features Section */}
-        <div className="mt-8">
-          <Card className="bg-gray-800 border-gray-700">
-            <CardHeader>
-              <CardTitle className="text-white">Email & Security Settings</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-6">
-              {/* Email Section */}
-              <div className="flex items-center justify-between p-4 bg-gray-700 rounded-lg">
-                <div className="flex items-center space-x-3">
-                  <Mail className="w-6 h-6 text-blue-400" />
-                  <div>
-                    <h3 className="text-white font-medium">Email</h3>
-                    <p className="text-gray-400 text-sm">Receive verification code via email for login and other actions</p>
-                    <p className="text-gray-300 text-sm mt-1">{userProfile.email.replace(/(.{2}).*(@.*)/, '$1****$2')}</p>
-                  </div>
-                </div>
-                <Button variant="outline" size="sm" className="border-yellow-500 text-yellow-500 hover:bg-yellow-500 hover:text-black">
-                  Setting
-                </Button>
-              </div>
 
-              {/* Login Password */}
-              <div className="flex items-center justify-between p-4 bg-gray-700 rounded-lg">
-                <div className="flex items-center space-x-3">
-                  <Lock className="w-6 h-6 text-green-400" />
-                  <div>
-                    <h3 className="text-white font-medium">Login Password</h3>
-                    <p className="text-gray-400 text-sm">This password is used for your login check</p>
-                  </div>
-                </div>
-                <Button variant="outline" size="sm" className="border-yellow-500 text-yellow-500 hover:bg-yellow-500 hover:text-black">
-                  Setting
-                </Button>
-              </div>
-
-              {/* Fund Password */}
-              <div className="flex items-center justify-between p-4 bg-gray-700 rounded-lg">
-                <div className="flex items-center space-x-3">
-                  <Key className="w-6 h-6 text-purple-400" />
-                  <div>
-                    <h3 className="text-white font-medium">Fund Password</h3>
-                    <p className="text-gray-400 text-sm">This password is used for your transaction verification</p>
-                  </div>
-                </div>
-                <Button variant="outline" size="sm" className="border-yellow-500 text-yellow-500 hover:bg-yellow-500 hover:text-black">
-                  Setting
-                </Button>
-              </div>
-
-              {/* IP Whitelist */}
-              <div className="flex items-center justify-between p-4 bg-gray-700 rounded-lg">
-                <div className="flex items-center space-x-3">
-                  <Globe className="w-6 h-6 text-orange-400" />
-                  <div>
-                    <h3 className="text-white font-medium">IP Whitelist</h3>
-                    <p className="text-gray-400 text-sm">After opening, only the IPs in the whitelist can access your account, please open it carefully.</p>
-                  </div>
-                </div>
-                <Button variant="outline" size="sm" className="border-yellow-500 text-yellow-500 hover:bg-yellow-500 hover:text-black">
-                  Setting
-                </Button>
-              </div>
-
-              {/* Payment Method */}
-              <div className="flex items-center justify-between p-4 bg-gray-700 rounded-lg">
-                <div className="flex items-center space-x-3">
-                  <CreditCard className="w-6 h-6 text-blue-400" />
-                  <div>
-                    <h3 className="text-white font-medium">Payment Method</h3>
-                    <p className="text-gray-400 text-sm">The payment term is not bound yet</p>
-                  </div>
-                </div>
-                <Button variant="outline" size="sm" className="border-yellow-500 text-yellow-500 hover:bg-yellow-500 hover:text-black">
-                  Add
-                </Button>
-              </div>
-
-              {/* Delete Account */}
-              <div className="flex items-center justify-between p-4 bg-gray-700 rounded-lg border border-red-600">
-                <div className="flex items-center space-x-3">
-                  <Trash2 className="w-6 h-6 text-red-400" />
-                  <div>
-                    <h3 className="text-white font-medium">Delete your account</h3>
-                    <p className="text-gray-400 text-sm">Once you choose to cancel your account, it will be permanently deactivated and cannot be recovered</p>
-                  </div>
-                </div>
-                <Button variant="outline" size="sm" className="border-red-500 text-red-500 hover:bg-red-500 hover:text-white">
-                  Delete
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
       </main>
     </div>
   );
