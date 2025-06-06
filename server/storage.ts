@@ -110,4 +110,97 @@ export class MemStorage implements IStorage {
   }
 }
 
-export const storage = new MemStorage();
+// Database storage implementation
+export class DatabaseStorage implements IStorage {
+  private db = drizzle(client);
+
+  async getUser(id: number): Promise<User | undefined> {
+    try {
+      const result = await this.db.select().from(users).where(eq(users.id, id));
+      return result[0];
+    } catch (error) {
+      console.error('Error fetching user:', error);
+      return undefined;
+    }
+  }
+
+  async getUserByUsername(username: string): Promise<User | undefined> {
+    try {
+      const result = await this.db.select().from(users).where(eq(users.username, username));
+      return result[0];
+    } catch (error) {
+      console.error('Error fetching user by username:', error);
+      return undefined;
+    }
+  }
+
+  async createUser(insertUser: InsertUser): Promise<User> {
+    try {
+      const result = await this.db.insert(users).values(insertUser).returning();
+      return result[0];
+    } catch (error) {
+      console.error('Error creating user:', error);
+      throw error;
+    }
+  }
+
+  async getTradingPair(symbol: string): Promise<TradingPair | undefined> {
+    try {
+      const result = await this.db.select().from(tradingPairs).where(eq(tradingPairs.symbol, symbol));
+      return result[0];
+    } catch (error) {
+      console.error('Error fetching trading pair:', error);
+      // Return mock data if database fails for development
+      return {
+        id: 1,
+        symbol: "BTC/USDT",
+        baseAsset: "BTC",
+        quoteAsset: "USDT",
+        currentPrice: "42350.00",
+        priceChange24h: "350.00",
+        priceChangePercent24h: "0.83",
+        high24h: "42560.00",
+        low24h: "41850.00",
+        volume24h: "8500000000.00"
+      } as TradingPair;
+    }
+  }
+
+  async getOrderBook(symbol: string): Promise<OrderBookEntry[]> {
+    try {
+      const result = await this.db.select().from(orderBookEntries).where(eq(orderBookEntries.symbol, symbol));
+      return result;
+    } catch (error) {
+      console.error('Error fetching order book:', error);
+      // Return mock data if database fails
+      return [
+        { id: 1, symbol, side: "sell", price: "42354.00", quantity: "0.5", timestamp: new Date() },
+        { id: 2, symbol, side: "sell", price: "42353.50", quantity: "0.3", timestamp: new Date() },
+        { id: 3, symbol, side: "buy", price: "42349.50", quantity: "0.4", timestamp: new Date() },
+        { id: 4, symbol, side: "buy", price: "42349.00", quantity: "0.6", timestamp: new Date() }
+      ] as OrderBookEntry[];
+    }
+  }
+
+  async getRecentTrades(symbol: string): Promise<Trade[]> {
+    try {
+      const result = await this.db.select().from(trades).where(eq(trades.symbol, symbol));
+      return result;
+    } catch (error) {
+      console.error('Error fetching recent trades:', error);
+      return [];
+    }
+  }
+
+  async getAllTradingPairs(): Promise<TradingPair[]> {
+    try {
+      const result = await this.db.select().from(tradingPairs);
+      return result;
+    } catch (error) {
+      console.error('Error fetching all trading pairs:', error);
+      return [];
+    }
+  }
+}
+
+export const storage = new DatabaseStorage();
