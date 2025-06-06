@@ -4,12 +4,16 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
+import { useAuth } from "@/components/AuthProvider";
+import { useLocation } from "wouter";
 
 export default function TradingForms() {
   const [buyAmount, setBuyAmount] = useState("");
   const [sellAmount, setSellAmount] = useState("");
   const [orderType, setOrderType] = useState("Market");
   const { toast } = useToast();
+  const { user } = useAuth();
+  const [, setLocation] = useLocation();
 
   const handleBuyOrder = () => {
     if (!buyAmount || parseFloat(buyAmount) <= 0) {
@@ -105,10 +109,10 @@ export default function TradingForms() {
             </div>
             
             <Button
-              onClick={handleBuyOrder}
+              onClick={user ? handleBuyOrder : () => setLocation('/auth')}
               className="w-full bg-crypto-blue hover:bg-blue-600 text-white font-semibold py-3"
             >
-              Buy BTC
+              {user ? 'Buy BTC' : 'Sign In to Buy'}
             </Button>
             
             <div className="text-xs text-muted-foreground">

@@ -10,7 +10,7 @@ import {
 } from '@/components/ui/dropdown-menu'
 
 export function AuthButton() {
-  const { user, signOut } = useAuth()
+  const { user } = useAuth()
   const [, setLocation] = useLocation()
 
   if (!user) {
@@ -24,23 +24,6 @@ export function AuthButton() {
     )
   }
 
-  return (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <Button variant="outline" className="border-gray-600 text-gray-300 hover:bg-gray-700">
-          <User className="h-4 w-4 mr-2" />
-          {user.email}
-        </Button>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent className="bg-gray-800 border-gray-700">
-        <DropdownMenuItem 
-          onClick={signOut}
-          className="text-gray-300 hover:bg-gray-700 focus:bg-gray-700"
-        >
-          <LogOut className="h-4 w-4 mr-2" />
-          Sign Out
-        </DropdownMenuItem>
-      </DropdownMenuContent>
-    </DropdownMenu>
-  )
+  // Return null when user is logged in - UserDropdown handles logged-in state
+  return null
 }

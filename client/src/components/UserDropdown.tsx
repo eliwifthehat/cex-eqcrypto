@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useAuth } from "@/components/AuthProvider";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
@@ -30,13 +30,27 @@ export default function UserDropdown() {
     setIsOpen(false);
   };
 
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      const target = event.target as Element;
+      if (!target.closest('.user-dropdown')) {
+        setIsOpen(false);
+      }
+    };
+
+    if (isOpen) {
+      document.addEventListener('click', handleClickOutside);
+      return () => document.removeEventListener('click', handleClickOutside);
+    }
+  }, [isOpen]);
+
   return (
-    <div 
-      className="relative"
-      onMouseEnter={() => setIsOpen(true)}
-      onMouseLeave={() => setIsOpen(false)}
-    >
-      <Avatar className="cursor-pointer">
+    <div className="relative user-dropdown">
+      <Avatar 
+        className="cursor-pointer"
+        onClick={() => setIsOpen(!isOpen)}
+      >
         <AvatarImage src="" />
         <AvatarFallback className="bg-yellow-500 text-black">
           {userProfile.email.charAt(0).toUpperCase()}
