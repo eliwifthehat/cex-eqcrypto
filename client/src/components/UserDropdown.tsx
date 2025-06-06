@@ -50,19 +50,30 @@ export default function UserDropdown() {
     }
   }, [isOpen]);
 
+  // Handle click based on auth state
+  const handleAvatarClick = () => {
+    if (!user) {
+      setLocation('/auth');
+    } else {
+      setIsOpen(!isOpen);
+    }
+  };
+
   return (
     <div className="relative user-dropdown">
       <Avatar 
-        className="cursor-pointer"
-        onClick={() => setIsOpen(!isOpen)}
+        className={`cursor-pointer transition-all duration-200 ${
+          user ? 'hover:scale-110 hover:shadow-lg' : ''
+        }`}
+        onClick={handleAvatarClick}
       >
         <AvatarImage src="" />
-        <AvatarFallback className="bg-yellow-500 text-black">
-          {userProfile.email.charAt(0).toUpperCase()}
+        <AvatarFallback className="bg-yellow-500 text-black text-xs font-medium">
+          {user ? userProfile.email.charAt(0).toUpperCase() : 'start here'}
         </AvatarFallback>
       </Avatar>
 
-      {isOpen && (
+      {isOpen && user && (
         <div className="absolute right-0 top-full mt-2 z-50">
           <Card className="bg-gray-800 border-gray-700 w-64 shadow-xl">
             <CardContent className="p-4">
