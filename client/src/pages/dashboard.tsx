@@ -171,7 +171,7 @@ export default function Dashboard() {
             <TabsTrigger value="referral">Referral</TabsTrigger>
             <TabsTrigger value="messages">My Message</TabsTrigger>
             <TabsTrigger value="api">My API</TabsTrigger>
-            <TabsTrigger value="membership">LBK Membership</TabsTrigger>
+            <TabsTrigger value="membership">EQCRYPTO Membership</TabsTrigger>
             <TabsTrigger value="devices">My Devices</TabsTrigger>
           </TabsList>
 

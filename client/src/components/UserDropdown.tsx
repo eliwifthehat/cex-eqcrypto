@@ -51,19 +51,21 @@ export default function UserDropdown() {
         >
           <Card className="bg-gray-800 border-gray-700 w-64 shadow-xl">
             <CardContent className="p-4">
-              <div className="flex items-center space-x-3 mb-4 pb-3 border-b border-gray-700">
-                <Avatar>
-                  <AvatarImage src="" />
-                  <AvatarFallback className="bg-yellow-500 text-black">
-                    {userProfile.email.charAt(0).toUpperCase()}
-                  </AvatarFallback>
-                </Avatar>
-                <div>
-                  <div className="text-white font-medium">{userProfile.email.replace(/(.{2}).*(@.*)/, '$1****$2')}</div>
-                  <div className="text-gray-400 text-sm">UID: {userProfile.uid}</div>
-                  <div className="text-red-400 text-xs">Identity not verified</div>
+              <Link href="/account-dash?tab=security">
+                <div className="flex items-center space-x-3 mb-4 pb-3 border-b border-gray-700 p-3 rounded-lg bg-gray-700/50 hover:bg-gray-600/50 transition-colors cursor-pointer border border-gray-600 hover:border-gray-500">
+                  <Avatar>
+                    <AvatarImage src="" />
+                    <AvatarFallback className="bg-yellow-500 text-black">
+                      {userProfile.email.charAt(0).toUpperCase()}
+                    </AvatarFallback>
+                  </Avatar>
+                  <div>
+                    <div className="text-white font-medium">{userProfile.email.replace(/(.{2}).*(@.*)/, '$1****$2')}</div>
+                    <div className="text-gray-400 text-sm">UID: {userProfile.uid}</div>
+                    <div className="text-red-400 text-xs">Identity not verified</div>
+                  </div>
                 </div>
-              </div>
+              </Link>
 
               <div className="space-y-2">
                 <Link href="/account-dash">
