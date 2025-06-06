@@ -12,11 +12,18 @@ export const users = pgTable("users", {
 
 export const userProfiles = pgTable("user_profiles", {
   id: text("id").primaryKey().references(() => users.id, { onDelete: "cascade" }),
+  uid: text("uid").unique().notNull(), // Display UID like EQ123456789
   firstName: text("first_name"),
   lastName: text("last_name"),
   avatar: text("avatar"),
   verified: boolean("verified").default(false),
   kycStatus: text("kyc_status").default("pending"), // pending, approved, rejected
+  securityLevel: integer("security_level").default(1), // 1-5 security level
+  withdrawalLimit: decimal("withdrawal_limit", { precision: 20, scale: 2 }).default("1000.00"), // Daily withdrawal limit
+  twoFactorEnabled: boolean("two_factor_enabled").default(false),
+  phoneVerified: boolean("phone_verified").default(false),
+  emailVerified: boolean("email_verified").default(false),
+  apiKeyEnabled: boolean("api_key_enabled").default(false),
   createdAt: timestamp("created_at").defaultNow(),
   updatedAt: timestamp("updated_at").defaultNow(),
 });
@@ -89,6 +96,54 @@ export const trades = pgTable("trades", {
   timestamp: timestamp("timestamp").defaultNow().notNull(),
 });
 
+export const userApiKeys = pgTable("user_api_keys", {
+  id: serial("id").primaryKey(),
+  userId: text("user_id").references(() => users.id, { onDelete: "cascade" }).notNull(),
+  name: text("name").notNull(),
+  apiKey: text("api_key").unique().notNull(),
+  secretKey: text("secret_key").notNull(),
+  permissions: text("permissions").array().default(["read"]), // read, trade, withdraw
+  ipWhitelist: text("ip_whitelist").array(),
+  isActive: boolean("is_active").default(true),
+  lastUsed: timestamp("last_used"),
+  createdAt: timestamp("created_at").defaultNow(),
+  expiresAt: timestamp("expires_at"),
+});
+
+export const userNotifications = pgTable("user_notifications", {
+  id: serial("id").primaryKey(),
+  userId: text("user_id").references(() => users.id, { onDelete: "cascade" }).notNull(),
+  type: text("type").notNull(), // security, trade, system, marketing
+  title: text("title").notNull(),
+  message: text("message").notNull(),
+  isRead: boolean("is_read").default(false),
+  priority: text("priority").default("normal"), // low, normal, high, urgent
+  metadata: text("metadata"), // JSON string for additional data
+  createdAt: timestamp("created_at").defaultNow(),
+});
+
+export const userReferrals = pgTable("user_referrals", {
+  id: serial("id").primaryKey(),
+  referrerId: text("referrer_id").references(() => users.id, { onDelete: "cascade" }).notNull(),
+  referredId: text("referred_id").references(() => users.id, { onDelete: "cascade" }).notNull(),
+  referralCode: text("referral_code").notNull(),
+  status: text("status").default("pending"), // pending, active, completed
+  rewardAmount: decimal("reward_amount", { precision: 20, scale: 8 }).default("0"),
+  rewardCurrency: text("reward_currency").default("USDT"),
+  createdAt: timestamp("created_at").defaultNow(),
+});
+
+export const userSecurityLogs = pgTable("user_security_logs", {
+  id: serial("id").primaryKey(),
+  userId: text("user_id").references(() => users.id, { onDelete: "cascade" }).notNull(),
+  action: text("action").notNull(), // login, logout, password_change, 2fa_enable, etc.
+  ipAddress: text("ip_address"),
+  userAgent: text("user_agent"),
+  success: boolean("success").default(true),
+  details: text("details"), // JSON string for additional data
+  createdAt: timestamp("created_at").defaultNow(),
+});
+
 export const insertUserSchema = createInsertSchema(users).omit({
   createdAt: true,
   updatedAt: true,
@@ -101,6 +156,10 @@ export const insertUserTradeSchema = createInsertSchema(userTrades);
 export const insertTradingPairSchema = createInsertSchema(tradingPairs);
 export const insertOrderBookEntrySchema = createInsertSchema(orderBookEntries);
 export const insertTradeSchema = createInsertSchema(trades);
+export const insertUserApiKeySchema = createInsertSchema(userApiKeys);
+export const insertUserNotificationSchema = createInsertSchema(userNotifications);
+export const insertUserReferralSchema = createInsertSchema(userReferrals);
+export const insertUserSecurityLogSchema = createInsertSchema(userSecurityLogs);
 
 export type InsertUser = z.infer<typeof insertUserSchema>;
 export type User = typeof users.$inferSelect;
@@ -111,6 +170,11 @@ export type UserTrade = typeof userTrades.$inferSelect;
 export type TradingPair = typeof tradingPairs.$inferSelect;
 export type OrderBookEntry = typeof orderBookEntries.$inferSelect;
 export type Trade = typeof trades.$inferSelect;
+export type UserApiKey = typeof userApiKeys.$inferSelect;
+export type UserNotification = typeof userNotifications.$inferSelect;
+export type UserReferral = typeof userReferrals.$inferSelect;
+export type UserSecurityLog = typeof userSecurityLogs.$inferSelect;
+
 export type InsertUserProfile = z.infer<typeof insertUserProfileSchema>;
 export type InsertUserPortfolio = z.infer<typeof insertUserPortfolioSchema>;
 export type InsertUserOrder = z.infer<typeof insertUserOrderSchema>;
@@ -118,3 +182,7 @@ export type InsertUserTrade = z.infer<typeof insertUserTradeSchema>;
 export type InsertTradingPair = z.infer<typeof insertTradingPairSchema>;
 export type InsertOrderBookEntry = z.infer<typeof insertOrderBookEntrySchema>;
 export type InsertTrade = z.infer<typeof insertTradeSchema>;
+export type InsertUserApiKey = z.infer<typeof insertUserApiKeySchema>;
+export type InsertUserNotification = z.infer<typeof insertUserNotificationSchema>;
+export type InsertUserReferral = z.infer<typeof insertUserReferralSchema>;
+export type InsertUserSecurityLog = z.infer<typeof insertUserSecurityLogSchema>;
