@@ -144,10 +144,10 @@ export default function TradingForms() {
             </div>
             
             <Button
-              onClick={handleSellOrder}
+              onClick={user ? handleSellOrder : () => setLocation('/auth')}
               className="w-full bg-crypto-red hover:bg-red-600 text-white font-semibold py-3"
             >
-              Sell BTC
+              {user ? 'Sell BTC' : 'Sign In to Sell'}
             </Button>
             
             <div className="text-xs text-muted-foreground">
