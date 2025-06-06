@@ -21,17 +21,20 @@ export default function UserDropdown() {
   const [isOpen, setIsOpen] = useState(false);
   const [, setLocation] = useLocation();
 
-  // Fetch user profile data from Supabase
-  const { data: userProfile } = useQuery({
-    queryKey: ['/api/user-profile', user?.id],
-    enabled: !!user?.id,
+  // Fetch user profile data from Supabase with proper authentication
+  const { data: userProfile, isLoading } = useQuery({
+    queryKey: ['/api/user-profile'],
+    enabled: !!user,
   });
 
-  // Use real user data or fallback for display
+  // Display real user data from Supabase with safe access
   const displayProfile = {
-    uid: (userProfile as any)?.uid || "EQ" + Math.random().toString(36).substr(2, 9).toUpperCase(),
-    email: user?.email || "user@example.com",
+    uid: (userProfile as any)?.uid || null,
+    email: user?.email || null,
     verified: (userProfile as any)?.verified || false,
+    emailVerified: (userProfile as any)?.emailVerified || false,
+    phoneVerified: (userProfile as any)?.phoneVerified || false,
+    twofaEnabled: (userProfile as any)?.twofaEnabled || false,
     securityLevel: (userProfile as any)?.securityLevel || 1,
   };
 
@@ -81,7 +84,7 @@ export default function UserDropdown() {
         >
           <AvatarImage src="" />
           <AvatarFallback className="bg-yellow-500 text-black text-sm font-medium">
-            {displayProfile.email.charAt(0).toUpperCase()}
+            {displayProfile.email ? displayProfile.email.charAt(0).toUpperCase() : 'U'}
           </AvatarFallback>
         </Avatar>
       ) : (
@@ -104,14 +107,26 @@ export default function UserDropdown() {
                 <Avatar>
                   <AvatarImage src="" />
                   <AvatarFallback className="bg-yellow-500 text-black">
-                    {displayProfile.email.charAt(0).toUpperCase()}
+                    {displayProfile.email ? displayProfile.email.charAt(0).toUpperCase() : 'U'}
                   </AvatarFallback>
                 </Avatar>
                 <div>
-                  <div className="text-white font-medium">{displayProfile.email.replace(/(.{2}).*(@.*)/, '$1****$2')}</div>
-                  <div className="text-gray-400 text-sm">UID: {displayProfile.uid}</div>
-                  <div className={`text-xs ${displayProfile.verified ? 'text-green-400' : 'text-red-400'}`}>
-                    {displayProfile.verified ? 'Identity verified' : 'Identity not verified'}
+                  <div className="text-white font-medium">
+                    {displayProfile.email ? displayProfile.email.replace(/(.{2}).*(@.*)/, '$1****$2') : 'Loading...'}
+                  </div>
+                  <div className="text-gray-400 text-sm">
+                    UID: {displayProfile.uid || 'Generating...'}
+                  </div>
+                  <div className="flex gap-1 text-xs mt-1">
+                    <span className={`${displayProfile.emailVerified ? 'text-green-400' : 'text-red-400'}`}>
+                      Email: {displayProfile.emailVerified ? '✓' : '✗'}
+                    </span>
+                    <span className={`${displayProfile.phoneVerified ? 'text-green-400' : 'text-red-400'}`}>
+                      Phone: {displayProfile.phoneVerified ? '✓' : '✗'}
+                    </span>
+                    <span className={`${displayProfile.twofaEnabled ? 'text-green-400' : 'text-red-400'}`}>
+                      2FA: {displayProfile.twofaEnabled ? '✓' : '✗'}
+                    </span>
                   </div>
                 </div>
               </div>
