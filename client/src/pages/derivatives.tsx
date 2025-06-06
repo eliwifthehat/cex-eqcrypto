@@ -6,6 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { Search, TrendingUp, TrendingDown, Zap, CheckCircle, AlertTriangle, BookOpen } from "lucide-react";
 import { Link } from "wouter";
 import { AuthButton } from "@/components/AuthButton";
+import UserDropdown from "@/components/UserDropdown";
 
 export default function Derivatives() {
   const [searchTerm, setSearchTerm] = useState("");
@@ -150,6 +151,7 @@ export default function Derivatives() {
             {/* Auth Buttons */}
             <div className="flex items-center space-x-3">
               <AuthButton />
+              <UserDropdown />
             </div>
           </div>
         </div>
