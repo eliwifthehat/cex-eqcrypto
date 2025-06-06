@@ -1,12 +1,14 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Link } from "wouter";
+import { Link, useLocation } from "wouter";
 import { AuthButton } from "@/components/AuthButton";
 import PriceHeader from "@/components/PriceHeader";
 import TradingChart from "@/components/TradingChart";
 import OrderBook from "@/components/OrderBook";
 import OrdersManagement from "@/components/OrdersManagement";
 import TradingForms from "@/components/TradingForms";
+import Portfolio from "@/components/Portfolio";
+import TradeHistory from "@/components/TradeHistory";
 
 export default function Exchange() {
   const [selectedPair, setSelectedPair] = useState("BTC/USDT");
@@ -26,25 +28,17 @@ export default function Exchange() {
               </Link>
               
               <nav className="hidden md:flex items-center space-x-8">
-                <Link href="/">
-                  <a className="text-muted-foreground hover:text-foreground transition-colors px-3 py-2 rounded-md text-sm font-medium">
-                    Home
-                  </a>
+                <Link href="/" className="text-muted-foreground hover:text-foreground transition-colors px-3 py-2 rounded-md text-sm font-medium">
+                  Home
                 </Link>
-                <Link href="/markets">
-                  <a className="text-muted-foreground hover:text-foreground transition-colors px-3 py-2 rounded-md text-sm font-medium">
-                    Markets
-                  </a>
+                <Link href="/markets" className="text-muted-foreground hover:text-foreground transition-colors px-3 py-2 rounded-md text-sm font-medium">
+                  Markets
                 </Link>
-                <Link href="/exchange">
-                  <a className="text-foreground hover:text-primary transition-colors px-3 py-2 rounded-md text-sm font-medium bg-muted">
-                    Trade
-                  </a>
+                <Link href="/exchange" className="text-foreground hover:text-primary transition-colors px-3 py-2 rounded-md text-sm font-medium bg-muted">
+                  Trade
                 </Link>
-                <Link href="/derivatives">
-                  <a className="text-muted-foreground hover:text-foreground transition-colors px-3 py-2 rounded-md text-sm font-medium">
-                    Derivatives
-                  </a>
+                <Link href="/derivatives" className="text-muted-foreground hover:text-foreground transition-colors px-3 py-2 rounded-md text-sm font-medium">
+                  Derivatives
                 </Link>
               </nav>
             </div>
@@ -74,23 +68,29 @@ export default function Exchange() {
         />
 
         {/* Trading Interface Grid */}
-        <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 xl:grid-cols-4 gap-6">
           
           {/* Chart Section */}
           <div className="xl:col-span-2">
             <TradingChart selectedPair={selectedPair} />
           </div>
           
-          {/* Order Book and Orders Management */}
-          <div className="xl:col-span-1 space-y-6">
+          {/* Order Book */}
+          <div className="xl:col-span-1">
             <OrderBook />
-            <OrdersManagement />
+          </div>
+
+          {/* Portfolio and Trade History */}
+          <div className="xl:col-span-1 space-y-6">
+            <Portfolio />
+            <TradeHistory />
           </div>
         </div>
 
-        {/* Trading Forms */}
-        <div className="mt-6">
+        {/* Trading Forms and Orders Management */}
+        <div className="mt-6 grid grid-cols-1 lg:grid-cols-2 gap-6">
           <TradingForms />
+          <OrdersManagement />
         </div>
 
       </main>

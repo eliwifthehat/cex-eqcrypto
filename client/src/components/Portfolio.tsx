@@ -16,7 +16,7 @@ interface PortfolioAsset {
 export default function Portfolio() {
   const { user } = useAuth();
 
-  const { data: portfolio, isLoading } = useQuery({
+  const { data: portfolio, isLoading } = useQuery<PortfolioAsset[]>({
     queryKey: ['/api/portfolio', user?.id],
     enabled: !!user?.id,
   });
@@ -51,7 +51,7 @@ export default function Portfolio() {
     );
   }
 
-  const totalPortfolioValue = portfolio?.reduce((sum: number, asset: PortfolioAsset) => sum + asset.totalValue, 0) || 0;
+  const totalPortfolioValue = portfolio ? portfolio.reduce((sum: number, asset: PortfolioAsset) => sum + asset.totalValue, 0) : 0;
 
   return (
     <Card className="bg-gray-800 border-gray-700">
@@ -70,7 +70,7 @@ export default function Portfolio() {
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-2">
-        {portfolio?.map((asset: PortfolioAsset) => {
+        {portfolio && portfolio.map((asset: PortfolioAsset) => {
           const availableBalance = parseFloat(asset.balance) - parseFloat(asset.lockedBalance);
           const isPositive = asset.priceChange24h >= 0;
           
@@ -111,7 +111,7 @@ export default function Portfolio() {
           );
         })}
         
-        {!portfolio || portfolio.length === 0 && (
+        {(!portfolio || portfolio.length === 0) && (
           <div className="text-center py-8 text-gray-400">
             <Wallet className="w-12 h-12 mx-auto mb-3 opacity-50" />
             <p>No assets in portfolio</p>
