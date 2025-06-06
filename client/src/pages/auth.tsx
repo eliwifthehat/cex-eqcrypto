@@ -68,12 +68,23 @@ export default function Auth() {
     
     if (error) {
       rateLimiter.recordAttempt(email.toLowerCase())
-      setError(error.message)
-      toast({
-        title: "Sign in failed",
-        description: error.message,
-        variant: "destructive"
-      })
+      
+      // Handle email not confirmed error
+      if (error.message.includes('Email not confirmed')) {
+        setError('Please check your email and click the confirmation link. For demo purposes, you can create a new account which will be auto-confirmed.')
+        toast({
+          title: "Email confirmation required",
+          description: "Check your email for the confirmation link",
+          variant: "destructive"
+        })
+      } else {
+        setError(error.message)
+        toast({
+          title: "Sign in failed",
+          description: error.message,
+          variant: "destructive"
+        })
+      }
     } else {
       toast({
         title: "Welcome back!",
@@ -355,9 +366,21 @@ export default function Auth() {
 
             {import.meta.env.DEV && (
               <div className="mt-6 pt-4 border-t border-gray-700">
-                <p className="text-xs text-gray-500 text-center">
-                  Development Mode: Use any email/password to create test accounts
-                </p>
+                <div className="space-y-2">
+                  <p className="text-xs text-gray-500 text-center">
+                    Development Mode: Create new accounts for testing
+                  </p>
+                  <details className="text-xs">
+                    <summary className="text-gray-400 cursor-pointer hover:text-gray-300">
+                      Fix Email Confirmation (Supabase Settings)
+                    </summary>
+                    <div className="mt-2 p-2 bg-gray-700 rounded text-gray-300">
+                      <p className="mb-1">1. Go to Supabase Dashboard → Authentication → Settings</p>
+                      <p className="mb-1">2. Turn OFF "Enable email confirmations"</p>
+                      <p>3. Save settings - new accounts will login immediately</p>
+                    </div>
+                  </details>
+                </div>
               </div>
             )}
           </CardContent>
