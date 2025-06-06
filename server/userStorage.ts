@@ -34,6 +34,7 @@ import {
   type InsertUserNotification,
   type InsertUserReferral,
   type InsertUserSecurityLog,
+  type InsertUserMembership,
   type TradingPair 
 } from "../shared/schema";
 import { eq, desc, and, sum } from "drizzle-orm";
@@ -93,6 +94,7 @@ export interface IUserStorage {
   getUserMessages(userId: string, limit?: number): Promise<UserMessage[]>;
   getUserDevices(userId: string): Promise<UserDevice[]>;
   getUserMembership(userId: string): Promise<UserMembership | undefined>;
+  createUserMembership(membership: Omit<any, 'id' | 'createdAt' | 'updatedAt'>): Promise<UserMembership>;
 }
 
 export class UserStorage implements IUserStorage {
@@ -325,6 +327,16 @@ export class UserStorage implements IUserStorage {
       .from(userMemberships)
       .where(eq(userMemberships.userId, userId));
     return membership || undefined;
+  }
+
+  async createUserMembership(membershipData: any): Promise<any> {
+    const [membership] = await db.insert(userMemberships).values({
+      userId: membershipData.userId,
+      level: membershipData.level || "basic",
+      perks: membershipData.perks || [],
+      isActive: membershipData.isActive || true,
+    }).returning();
+    return membership;
   }
 }
 
