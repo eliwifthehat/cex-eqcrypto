@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Shield, Zap, Smartphone, DollarSign, ArrowRight, TrendingUp, Search, FileText, Globe } from "lucide-react";
+import { Shield, Zap, Smartphone, DollarSign, ArrowRight, TrendingUp } from "lucide-react";
 import { Link } from "wouter";
 import { AuthButton } from "@/components/AuthButton";
 import UserDropdown from "@/components/UserDropdown";
@@ -43,32 +43,41 @@ export default function Home() {
       <header className="bg-card border-b border-border">
         <div className="max-w-7xl mx-auto px-4">
           <div className="flex items-center justify-between h-16">
-            {/* Logo and Search */}
-            <div className="flex items-center space-x-4">
-              <div className="flex items-center bg-muted rounded-lg px-3 py-2 space-x-2">
-                <Search className="h-4 w-4 text-muted-foreground" />
-                <span className="text-sm font-medium text-foreground">EQCRYPTO</span>
-              </div>
-            </div>
-
-            {/* Center Icons */}
-            <div className="flex items-center space-x-6">
-              <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-foreground">
-                <FileText className="h-5 w-5" />
-              </Button>
-              <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-foreground">
-                <Globe className="h-5 w-5" />
-              </Button>
+            {/* Logo and Navigation */}
+            <div className="flex items-center space-x-8">
+              <Link href="/">
+                <div className="text-2xl font-bold text-foreground cursor-pointer">
+                  EQCRYPTO
+                </div>
+              </Link>
+              
+              <nav className="hidden md:flex items-center space-x-8">
+                <Link href="/">
+                  <a className="text-foreground hover:text-primary transition-colors px-3 py-2 rounded-md text-sm font-medium bg-muted">
+                    Home
+                  </a>
+                </Link>
+                <Link href="/markets">
+                  <a className="text-muted-foreground hover:text-foreground transition-colors px-3 py-2 rounded-md text-sm font-medium">
+                    Markets
+                  </a>
+                </Link>
+                <Link href="/exchange">
+                  <a className="text-muted-foreground hover:text-foreground transition-colors px-3 py-2 rounded-md text-sm font-medium">
+                    Trade
+                  </a>
+                </Link>
+                <Link href="/derivatives">
+                  <a className="text-muted-foreground hover:text-foreground transition-colors px-3 py-2 rounded-md text-sm font-medium">
+                    Derivatives
+                  </a>
+                </Link>
+              </nav>
             </div>
             
-            {/* Right Side - Connect and Start */}
+            {/* Auth Buttons */}
             <div className="flex items-center space-x-3">
-              <Button 
-                variant="secondary" 
-                className="bg-muted text-foreground hover:bg-accent"
-              >
-                Connect
-              </Button>
+              <AuthButton />
               <UserDropdown />
             </div>
           </div>
