@@ -155,6 +155,129 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // User profile endpoint - returns real security verification data
+  app.get("/api/user-profile", async (req, res) => {
+    try {
+      const session = req.session as any;
+      if (!session.userId) {
+        return res.status(401).json({ error: "Not authenticated" });
+      }
+      
+      const user = await userStorage.getUser(session.userId);
+      if (!user) {
+        return res.status(404).json({ error: "User not found" });
+      }
+      
+      res.json({
+        verified: user.verified,
+        emailVerified: user.emailVerified,
+        phoneVerified: user.phoneVerified,
+        twoFactorEnabled: user.twoFactorEnabled,
+        securityLevel: user.securityLevel,
+        kycStatus: user.kycStatus,
+        withdrawalLimit: user.withdrawalLimit,
+      });
+    } catch (error) {
+      res.status(500).json({ error: "Failed to fetch user profile" });
+    }
+  });
+
+  // Dashboard data endpoints
+  app.get("/api/user-notifications", async (req, res) => {
+    try {
+      const session = req.session as any;
+      if (!session.userId) {
+        return res.status(401).json({ error: "Not authenticated" });
+      }
+      
+      const notifications = await userStorage.getUserNotifications(session.userId);
+      res.json(notifications || []);
+    } catch (error) {
+      res.status(500).json({ error: "Failed to fetch notifications" });
+    }
+  });
+
+  app.get("/api/user-api-keys", async (req, res) => {
+    try {
+      const session = req.session as any;
+      if (!session.userId) {
+        return res.status(401).json({ error: "Not authenticated" });
+      }
+      
+      const apiKeys = await userStorage.getUserApiKeys(session.userId);
+      res.json(apiKeys || []);
+    } catch (error) {
+      res.status(500).json({ error: "Failed to fetch API keys" });
+    }
+  });
+
+  app.get("/api/user-referrals", async (req, res) => {
+    try {
+      const session = req.session as any;
+      if (!session.userId) {
+        return res.status(401).json({ error: "Not authenticated" });
+      }
+      
+      const referrals = await userStorage.getUserReferrals(session.userId);
+      res.json(referrals || []);
+    } catch (error) {
+      res.status(500).json({ error: "Failed to fetch referrals" });
+    }
+  });
+
+  app.get("/api/user-messages", async (req, res) => {
+    try {
+      const session = req.session as any;
+      if (!session.userId) {
+        return res.status(401).json({ error: "Not authenticated" });
+      }
+      
+      const messages = await userStorage.getUserMessages(session.userId);
+      res.json(messages || []);
+    } catch (error) {
+      res.status(500).json({ error: "Failed to fetch messages" });
+    }
+  });
+
+  app.get("/api/user-devices", async (req, res) => {
+    try {
+      const session = req.session as any;
+      if (!session.userId) {
+        return res.status(401).json({ error: "Not authenticated" });
+      }
+      
+      const devices = await userStorage.getUserDevices(session.userId);
+      res.json(devices || []);
+    } catch (error) {
+      res.status(500).json({ error: "Failed to fetch devices" });
+    }
+  });
+
+  app.get("/api/user-membership", async (req, res) => {
+    try {
+      const session = req.session as any;
+      if (!session.userId) {
+        return res.status(401).json({ error: "Not authenticated" });
+      }
+      
+      let membership = await userStorage.getUserMembership(session.userId);
+      
+      // Create default membership if none exists
+      if (!membership) {
+        membership = await userStorage.createUserMembership({
+          userId: session.userId,
+          level: "basic",
+          perks: ["Standard trading fees", "Basic support"],
+          isActive: true,
+        });
+      }
+      
+      res.json(membership);
+    } catch (error) {
+      res.status(500).json({ error: "Failed to fetch membership" });
+    }
+  });
+
   // Phone authentication placeholder
   app.post("/api/auth/phone/send", async (req, res) => {
     res.status(501).json({

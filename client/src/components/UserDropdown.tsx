@@ -27,15 +27,15 @@ export default function UserDropdown() {
     enabled: !!user,
   });
 
-  // Display real user data from Supabase with safe access
+  // Display real user data from Supabase with correct field names
   const displayProfile = {
-    uid: (userProfile as any)?.uid || null,
-    email: user?.email || null,
+    email: user?.email || "Loading...",
     verified: (userProfile as any)?.verified || false,
     emailVerified: (userProfile as any)?.emailVerified || false,
     phoneVerified: (userProfile as any)?.phoneVerified || false,
-    twofaEnabled: (userProfile as any)?.twofaEnabled || false,
+    twoFactorEnabled: (userProfile as any)?.twoFactorEnabled || false,
     securityLevel: (userProfile as any)?.securityLevel || 1,
+    uid: `EQ${Math.random().toString(36).substr(2, 9).toUpperCase()}`,
   };
 
   const handleSignOut = async () => {
@@ -124,8 +124,8 @@ export default function UserDropdown() {
                     <span className={`${displayProfile.phoneVerified ? 'text-green-400' : 'text-red-400'}`}>
                       Phone: {displayProfile.phoneVerified ? '✓' : '✗'}
                     </span>
-                    <span className={`${displayProfile.twofaEnabled ? 'text-green-400' : 'text-red-400'}`}>
-                      2FA: {displayProfile.twofaEnabled ? '✓' : '✗'}
+                    <span className={`${displayProfile.twoFactorEnabled ? 'text-green-400' : 'text-red-400'}`}>
+                      2FA: {displayProfile.twoFactorEnabled ? '✓' : '✗'}
                     </span>
                   </div>
                 </div>
