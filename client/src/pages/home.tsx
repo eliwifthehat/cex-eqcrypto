@@ -6,6 +6,7 @@ import { Shield, Zap, Smartphone, DollarSign, ArrowRight, TrendingUp } from "luc
 import { Link } from "wouter";
 import { AuthButton } from "@/components/AuthButton";
 import UserDropdown from "@/components/UserDropdown";
+import Header from "@/components/Header";
 
 export default function Home() {
   // Mock live prices data
@@ -39,49 +40,7 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-background">
-      {/* Header Navigation - Same as Trade Page */}
-      <header className="bg-card border-b border-border">
-        <div className="max-w-7xl mx-auto px-4">
-          <div className="flex items-center justify-between h-16">
-            {/* Logo and Navigation */}
-            <div className="flex items-center space-x-8">
-              <Link href="/">
-                <div className="text-2xl font-bold text-foreground cursor-pointer">
-                  EQCRYPTO
-                </div>
-              </Link>
-              
-              <nav className="hidden md:flex items-center space-x-8">
-                <Link href="/">
-                  <a className="text-foreground hover:text-primary transition-colors px-3 py-2 rounded-md text-sm font-medium bg-muted">
-                    Home
-                  </a>
-                </Link>
-                <Link href="/markets">
-                  <a className="text-muted-foreground hover:text-foreground transition-colors px-3 py-2 rounded-md text-sm font-medium">
-                    Markets
-                  </a>
-                </Link>
-                <Link href="/exchange">
-                  <a className="text-muted-foreground hover:text-foreground transition-colors px-3 py-2 rounded-md text-sm font-medium">
-                    Trade
-                  </a>
-                </Link>
-                <Link href="/derivatives">
-                  <a className="text-muted-foreground hover:text-foreground transition-colors px-3 py-2 rounded-md text-sm font-medium">
-                    Derivatives
-                  </a>
-                </Link>
-              </nav>
-            </div>
-            
-            {/* Auth Area */}
-            <div className="flex items-center">
-              <UserDropdown />
-            </div>
-          </div>
-        </div>
-      </header>
+      <Header />
 
       {/* Hero Section */}
       <section className="bg-gradient-to-br from-background via-card to-background py-20">
@@ -94,56 +53,31 @@ export default function Home() {
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
             <Link href="/exchange">
-              <Button size="lg" className="bg-crypto-blue hover:bg-blue-600 text-white px-8 py-4 text-lg">
-                Get Started
+              <Button size="lg" className="px-8 py-3 text-lg">
+                Start Trading
                 <ArrowRight className="ml-2 h-5 w-5" />
               </Button>
             </Link>
-            <Button variant="outline" size="lg" className="border-border text-foreground px-8 py-4 text-lg">
-              Learn More
-            </Button>
-          </div>
-          
-          {/* Background Animation Placeholder */}
-          <div className="relative h-64 bg-muted rounded-lg border border-border overflow-hidden">
-            <div className="absolute inset-0 flex items-center justify-center">
-              <TrendingUp className="h-24 w-24 text-crypto-blue opacity-20" />
-            </div>
-            <div className="absolute inset-0 bg-gradient-to-r from-crypto-blue/10 to-crypto-green/10"></div>
+            <AuthButton />
           </div>
         </div>
       </section>
 
-      {/* Live Prices Ticker */}
-      <section className="bg-card border-y border-border py-4">
+      {/* Live Markets Section */}
+      <section className="py-16 bg-card">
         <div className="max-w-7xl mx-auto px-4">
-          <div className="flex space-x-8 overflow-x-auto scrollbar-hide">
-            {liveMarkets.map((market, index) => (
-              <div key={index} className="flex items-center space-x-3 min-w-fit">
-                <span className="font-semibold text-foreground">{market.symbol}</span>
-                <span className="font-mono text-foreground">${market.price}</span>
-                <span className={`text-sm font-medium ${market.isPositive ? 'crypto-green' : 'crypto-red'}`}>
-                  {market.change}
-                </span>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Why Choose EQCrypto */}
-      <section className="py-16">
-        <div className="max-w-7xl mx-auto px-4">
-          <h2 className="text-3xl font-bold text-center text-foreground mb-12">
-            Why Choose EQCrypto
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {features.map((feature, index) => (
-              <Card key={index} className="bg-card border-border text-center p-6">
-                <CardContent className="pt-6">
-                  <feature.icon className="h-12 w-12 text-crypto-blue mx-auto mb-4" />
-                  <h3 className="text-xl font-semibold text-foreground mb-2">{feature.title}</h3>
-                  <p className="text-muted-foreground">{feature.description}</p>
+          <h2 className="text-3xl font-bold text-center mb-12">Live Markets</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {liveMarkets.map((market) => (
+              <Card key={market.symbol} className="hover:shadow-lg transition-shadow">
+                <CardContent className="p-6">
+                  <div className="flex justify-between items-center mb-2">
+                    <h3 className="font-semibold text-lg">{market.symbol}</h3>
+                    <Badge variant={market.isPositive ? "default" : "destructive"}>
+                      {market.change}
+                    </Badge>
+                  </div>
+                  <p className="text-2xl font-bold text-foreground">${market.price}</p>
                 </CardContent>
               </Card>
             ))}
@@ -151,50 +85,34 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Get Started Steps */}
-      <section className="py-16 bg-card">
+      {/* Features Section */}
+      <section className="py-16 bg-background">
         <div className="max-w-7xl mx-auto px-4">
-          <h2 className="text-3xl font-bold text-center text-foreground mb-12">
-            Get Started in 3 Steps
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="text-center">
-              <div className="w-16 h-16 bg-crypto-blue rounded-full flex items-center justify-center text-white text-2xl font-bold mx-auto mb-4">
-                1
+          <h2 className="text-3xl font-bold text-center mb-12">Why Choose EQCrypto?</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {features.map((feature, index) => (
+              <div key={index} className="text-center">
+                <div className="bg-primary/10 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
+                  <feature.icon className="h-8 w-8 text-primary" />
+                </div>
+                <h3 className="text-xl font-semibold mb-2">{feature.title}</h3>
+                <p className="text-muted-foreground">{feature.description}</p>
               </div>
-              <h3 className="text-xl font-semibold text-foreground mb-2">Create Account</h3>
-              <p className="text-muted-foreground">Sign up in minutes with secure verification</p>
-            </div>
-            <div className="text-center">
-              <div className="w-16 h-16 bg-crypto-blue rounded-full flex items-center justify-center text-white text-2xl font-bold mx-auto mb-4">
-                2
-              </div>
-              <h3 className="text-xl font-semibold text-foreground mb-2">Deposit</h3>
-              <p className="text-muted-foreground">Fund your account with multiple payment methods</p>
-            </div>
-            <div className="text-center">
-              <div className="w-16 h-16 bg-crypto-blue rounded-full flex items-center justify-center text-white text-2xl font-bold mx-auto mb-4">
-                3
-              </div>
-              <h3 className="text-xl font-semibold text-foreground mb-2">Trade Instantly</h3>
-              <p className="text-muted-foreground">Start trading with our advanced tools</p>
-            </div>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* Trending Coins */}
-      <section className="py-16">
+      {/* Trending Section */}
+      <section className="py-16 bg-card">
         <div className="max-w-7xl mx-auto px-4">
-          <h2 className="text-3xl font-bold text-center text-foreground mb-12">
-            Trending Coins
-          </h2>
+          <h2 className="text-3xl font-bold text-center mb-12">Trending Now</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {trendingCoins.map((coin, index) => (
-              <Card key={index} className="bg-card border-border hover:border-crypto-blue transition-colors cursor-pointer">
+              <Card key={index} className="hover:shadow-lg transition-shadow">
                 <CardContent className="p-6 text-center">
-                  <div className="text-4xl mb-3">{coin.emoji}</div>
-                  <h3 className="text-xl font-bold text-foreground mb-2">{coin.symbol}</h3>
+                  <div className="text-4xl mb-4">{coin.emoji}</div>
+                  <h3 className="text-xl font-semibold mb-2">{coin.symbol}</h3>
                   <p className="text-muted-foreground">{coin.description}</p>
                 </CardContent>
               </Card>
@@ -203,18 +121,16 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Testimonials */}
-      <section className="py-16 bg-card">
+      {/* Testimonials Section */}
+      <section className="py-16 bg-background">
         <div className="max-w-7xl mx-auto px-4">
-          <h2 className="text-3xl font-bold text-center text-foreground mb-12">
-            What Our Traders Say
-          </h2>
+          <h2 className="text-3xl font-bold text-center mb-12">What Traders Say</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {testimonials.map((testimonial, index) => (
-              <Card key={index} className="bg-background border-border">
+              <Card key={index} className="bg-card">
                 <CardContent className="p-6">
-                  <p className="text-foreground text-lg mb-4">"{testimonial.quote}"</p>
-                  <p className="text-muted-foreground">– {testimonial.author}</p>
+                  <p className="text-lg mb-4 italic">"{testimonial.quote}"</p>
+                  <p className="text-muted-foreground">- {testimonial.author}</p>
                 </CardContent>
               </Card>
             ))}
@@ -222,35 +138,33 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Call to Action */}
-      <section className="py-16">
-        <div className="max-w-7xl mx-auto px-4 text-center">
-          <h2 className="text-4xl font-bold text-foreground mb-6">
-            Join 100,000+ Traders Today
-          </h2>
+      {/* CTA Section */}
+      <section className="py-20 bg-gradient-to-r from-primary/20 to-secondary/20">
+        <div className="max-w-4xl mx-auto px-4 text-center">
+          <h2 className="text-4xl font-bold mb-6">Ready to Start Trading?</h2>
           <p className="text-xl text-muted-foreground mb-8">
-            Start your crypto journey with the most trusted exchange
+            Join EQCrypto today and experience the future of cryptocurrency trading
           </p>
-          <Button size="lg" className="bg-crypto-blue hover:bg-blue-600 text-white px-8 py-4 text-lg">
-            Create Account
-            <ArrowRight className="ml-2 h-5 w-5" />
-          </Button>
+          <Link href="/auth">
+            <Button size="lg" className="px-8 py-3 text-lg">
+              Get Started Now
+              <ArrowRight className="ml-2 h-5 w-5" />
+            </Button>
+          </Link>
         </div>
       </section>
 
       {/* Footer */}
-      <footer className="bg-card border-t border-border py-8">
-        <div className="max-w-7xl mx-auto px-4">
-          <div className="flex flex-col md:flex-row justify-between items-center">
-            <div className="text-2xl font-bold text-foreground mb-4 md:mb-0">
-              EQCrypto
-            </div>
-            <div className="flex space-x-8 text-muted-foreground">
-              <a href="#" className="hover:text-foreground transition-colors">About</a>
-              <a href="#" className="hover:text-foreground transition-colors">Terms</a>
-              <a href="#" className="hover:text-foreground transition-colors">Privacy</a>
-              <a href="#" className="hover:text-foreground transition-colors">Support</a>
-            </div>
+      <footer className="bg-card border-t py-12">
+        <div className="max-w-7xl mx-auto px-4 text-center">
+          <div className="text-2xl font-bold mb-4">EQCRYPTO</div>
+          <p className="text-muted-foreground mb-6">
+            The world's most trusted cryptocurrency exchange
+          </p>
+          <div className="flex justify-center space-x-6 text-sm text-muted-foreground">
+            <a href="#" className="hover:text-foreground">Privacy Policy</a>
+            <a href="#" className="hover:text-foreground">Terms of Service</a>
+            <a href="#" className="hover:text-foreground">Support</a>
           </div>
         </div>
       </footer>

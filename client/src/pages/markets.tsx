@@ -7,6 +7,7 @@ import { Search, TrendingUp, TrendingDown } from "lucide-react";
 import { Link } from "wouter";
 import { AuthButton } from "@/components/AuthButton";
 import UserDropdown from "@/components/UserDropdown";
+import Header from "@/components/Header";
 
 export default function Markets() {
   const [searchTerm, setSearchTerm] = useState("");

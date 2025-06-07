@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Link, useLocation } from "wouter";
 import { AuthButton } from "@/components/AuthButton";
 import UserDropdown from "@/components/UserDropdown";
+import Header from "@/components/Header";
 import PriceHeader from "@/components/PriceHeader";
 import TradingChart from "@/components/TradingChart";
 import OrderBook from "@/components/OrderBook";

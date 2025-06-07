@@ -7,6 +7,7 @@ import { Search, TrendingUp, TrendingDown, Zap, CheckCircle, AlertTriangle, Book
 import { Link } from "wouter";
 import { AuthButton } from "@/components/AuthButton";
 import UserDropdown from "@/components/UserDropdown";
+import Header from "@/components/Header";
 
 export default function Derivatives() {
   const [searchTerm, setSearchTerm] = useState("");
