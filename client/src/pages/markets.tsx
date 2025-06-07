@@ -52,31 +52,13 @@ export default function Markets() {
       color: "text-green-500"
     },
     {
-      icon: "🐕",
-      pair: "DOGE/USDT",
-      price: "0.08542",
-      change: "+3.45%",
-      isPositive: true,
-      volume: "$450M",
-      color: "text-yellow-500"
-    },
-    {
-      icon: "🦴",
+      icon: "🔥",
       pair: "SHIB/USDT",
-      price: "0.00000891",
-      change: "-2.67%",
-      isPositive: false,
-      volume: "$320M",
-      color: "text-red-500"
-    },
-    {
-      icon: "🪙",
-      pair: "BNB/USDT",
-      price: "315.67",
-      change: "+1.89%",
+      price: "0.00002456",
+      change: "+5.45%",
       isPositive: true,
-      volume: "$2.1B",
-      color: "text-yellow-600"
+      volume: "$120M",
+      color: "text-red-500"
     },
     {
       icon: "💎",
@@ -110,49 +92,7 @@ export default function Markets() {
 
   return (
     <div className="min-h-screen bg-background">
-      {/* Header Navigation - Same as other pages */}
-      <header className="bg-card border-b border-border">
-        <div className="max-w-7xl mx-auto px-4">
-          <div className="flex items-center justify-between h-16">
-            {/* Logo and Navigation */}
-            <div className="flex items-center space-x-8">
-              <Link href="/">
-                <div className="text-2xl font-bold text-foreground cursor-pointer">
-                  EQCRYPTO
-                </div>
-              </Link>
-              
-              <nav className="hidden md:flex items-center space-x-8">
-                <Link href="/">
-                  <a className="text-muted-foreground hover:text-foreground transition-colors px-3 py-2 rounded-md text-sm font-medium">
-                    Home
-                  </a>
-                </Link>
-                <Link href="/markets">
-                  <a className="text-foreground hover:text-primary transition-colors px-3 py-2 rounded-md text-sm font-medium bg-muted">
-                    Markets
-                  </a>
-                </Link>
-                <Link href="/exchange">
-                  <a className="text-muted-foreground hover:text-foreground transition-colors px-3 py-2 rounded-md text-sm font-medium">
-                    Trade
-                  </a>
-                </Link>
-                <Link href="/derivatives">
-                  <a className="text-muted-foreground hover:text-foreground transition-colors px-3 py-2 rounded-md text-sm font-medium">
-                    Derivatives
-                  </a>
-                </Link>
-              </nav>
-            </div>
-            
-            {/* Auth Area */}
-            <div className="flex items-center">
-              <UserDropdown />
-            </div>
-          </div>
-        </div>
-      </header>
+      <Header />
 
       <main className="max-w-7xl mx-auto px-4 py-6">
         {/* Search and Filters */}
@@ -171,28 +111,24 @@ export default function Markets() {
             
             {/* Sort Filters */}
             <div className="flex gap-2">
-              <span className="text-muted-foreground text-sm self-center">Sort by:</span>
-              <Button
-                variant={sortBy === "gainers" ? "default" : "outline"}
-                size="sm"
-                onClick={() => setSortBy("gainers")}
-                className={sortBy === "gainers" ? "bg-primary text-primary-foreground" : ""}
-              >
-                Top Gainers
-              </Button>
               <Button
                 variant={sortBy === "volume" ? "default" : "outline"}
                 size="sm"
                 onClick={() => setSortBy("volume")}
-                className={sortBy === "volume" ? "bg-primary text-primary-foreground" : ""}
               >
                 Volume
+              </Button>
+              <Button
+                variant={sortBy === "gainers" ? "default" : "outline"}
+                size="sm"
+                onClick={() => setSortBy("gainers")}
+              >
+                Gainers
               </Button>
               <Button
                 variant={sortBy === "new" ? "default" : "outline"}
                 size="sm"
                 onClick={() => setSortBy("new")}
-                className={sortBy === "new" ? "bg-primary text-primary-foreground" : ""}
               >
                 New
               </Button>
@@ -200,93 +136,106 @@ export default function Markets() {
           </div>
         </div>
 
-        {/* Markets Table */}
-        <Card className="bg-card border-border">
-          <CardContent className="p-0">
-            {/* Table Header */}
-            <div className="grid grid-cols-6 gap-4 p-4 border-b border-border bg-muted/50">
-              <div className="text-sm font-medium text-muted-foreground">Coin</div>
-              <div className="text-sm font-medium text-muted-foreground">Pair</div>
-              <div className="text-sm font-medium text-muted-foreground">Price</div>
-              <div className="text-sm font-medium text-muted-foreground">24h Change</div>
-              <div className="text-sm font-medium text-muted-foreground">Volume</div>
-              <div className="text-sm font-medium text-muted-foreground">Action</div>
-            </div>
-            
-            {/* Table Rows */}
-            <div className="divide-y divide-border">
-              {sortedMarkets.map((market, index) => (
-                <div key={index} className="grid grid-cols-6 gap-4 p-4 hover:bg-muted/30 transition-colors">
-                  {/* Coin Icon */}
-                  <div className="flex items-center">
-                    <span className={`text-2xl ${market.color}`}>{market.icon}</span>
-                  </div>
-                  
-                  {/* Pair */}
-                  <div className="flex items-center">
-                    <span className="font-semibold text-foreground">{market.pair}</span>
-                  </div>
-                  
-                  {/* Price */}
-                  <div className="flex items-center">
-                    <span className="font-mono text-foreground">${market.price}</span>
-                  </div>
-                  
-                  {/* 24h Change */}
-                  <div className="flex items-center">
-                    <div className={`flex items-center gap-1 ${market.isPositive ? 'crypto-green' : 'crypto-red'}`}>
-                      {market.isPositive ? (
-                        <TrendingUp className="h-4 w-4" />
-                      ) : (
-                        <TrendingDown className="h-4 w-4" />
-                      )}
-                      <span className="font-medium">{market.change}</span>
-                    </div>
-                  </div>
-                  
-                  {/* Volume */}
-                  <div className="flex items-center">
-                    <span className="text-muted-foreground">{market.volume}</span>
-                  </div>
-                  
-                  {/* Action */}
-                  <div className="flex items-center">
-                    <Link href="/exchange">
-                      <Button size="sm" className="bg-crypto-blue hover:bg-blue-600 text-white">
-                        Trade
-                      </Button>
-                    </Link>
-                  </div>
-                </div>
+        {/* Trending Coins Banner */}
+        <div className="mb-6 bg-card rounded-lg border p-4">
+          <div className="flex items-center justify-between">
+            <h2 className="text-lg font-semibold text-foreground">🔥 Trending</h2>
+            <div className="flex gap-2 text-sm">
+              {trendingCoins.map((coin, index) => (
+                <Badge key={index} variant="secondary" className="cursor-pointer hover:bg-primary hover:text-primary-foreground transition-colors">
+                  {coin}
+                </Badge>
               ))}
             </div>
-          </CardContent>
-        </Card>
+          </div>
+        </div>
 
-        {/* Trending Section */}
-        <div className="mt-8">
-          <Card className="bg-card border-border">
+        {/* Markets Table */}
+        <div className="bg-card rounded-lg border overflow-hidden">
+          <div className="overflow-x-auto">
+            <table className="w-full">
+              <thead className="bg-muted">
+                <tr>
+                  <th className="text-left p-4 font-medium text-muted-foreground">Pair</th>
+                  <th className="text-right p-4 font-medium text-muted-foreground">Price</th>
+                  <th className="text-right p-4 font-medium text-muted-foreground">24h Change</th>
+                  <th className="text-right p-4 font-medium text-muted-foreground">Volume</th>
+                  <th className="text-right p-4 font-medium text-muted-foreground">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {sortedMarkets.map((market, index) => (
+                  <tr key={index} className="border-t border-border hover:bg-muted/50 transition-colors">
+                    <td className="p-4">
+                      <div className="flex items-center space-x-3">
+                        <span className={`text-2xl ${market.color}`}>{market.icon}</span>
+                        <div>
+                          <div className="font-medium text-foreground">{market.pair}</div>
+                          <div className="text-sm text-muted-foreground">Spot</div>
+                        </div>
+                      </div>
+                    </td>
+                    <td className="p-4 text-right">
+                      <div className="font-mono text-foreground">${market.price}</div>
+                    </td>
+                    <td className="p-4 text-right">
+                      <Badge variant={market.isPositive ? "default" : "destructive"}>
+                        {market.isPositive ? <TrendingUp className="w-3 h-3 mr-1" /> : <TrendingDown className="w-3 h-3 mr-1" />}
+                        {market.change}
+                      </Badge>
+                    </td>
+                    <td className="p-4 text-right">
+                      <div className="text-sm text-muted-foreground">{market.volume}</div>
+                    </td>
+                    <td className="p-4 text-right">
+                      <div className="flex justify-end space-x-2">
+                        <Link href="/exchange">
+                          <Button size="sm" variant="outline">
+                            Trade
+                          </Button>
+                        </Link>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        {/* Market Stats */}
+        <div className="mt-8 grid grid-cols-1 md:grid-cols-4 gap-6">
+          <Card>
             <CardContent className="p-6">
-              <div className="flex items-center gap-3">
-                <span className="text-2xl">🔥</span>
-                <span className="font-semibold text-foreground">Trending:</span>
-                <div className="flex gap-2 flex-wrap">
-                  {trendingCoins.map((coin, index) => (
-                    <Badge key={index} variant="secondary" className="bg-muted text-foreground hover:bg-accent cursor-pointer">
-                      {coin}
-                    </Badge>
-                  ))}
-                </div>
-              </div>
+              <div className="text-2xl font-bold text-foreground">500+</div>
+              <div className="text-sm text-muted-foreground">Trading Pairs</div>
+            </CardContent>
+          </Card>
+          <Card>
+            <CardContent className="p-6">
+              <div className="text-2xl font-bold text-foreground">$48.2B</div>
+              <div className="text-sm text-muted-foreground">24h Volume</div>
+            </CardContent>
+          </Card>
+          <Card>
+            <CardContent className="p-6">
+              <div className="text-2xl font-bold text-foreground">0.1%</div>
+              <div className="text-sm text-muted-foreground">Trading Fee</div>
+            </CardContent>
+          </Card>
+          <Card>
+            <CardContent className="p-6">
+              <div className="text-2xl font-bold text-foreground">24/7</div>
+              <div className="text-sm text-muted-foreground">Support</div>
             </CardContent>
           </Card>
         </div>
       </main>
 
       {/* Footer */}
-      <footer className="bg-card border-t border-border py-8 mt-12">
-        <div className="max-w-7xl mx-auto px-4">
-          <div className="flex flex-col md:flex-row justify-between items-center">
+      <footer className="bg-card border-t mt-16">
+        <div className="max-w-7xl mx-auto px-4 py-8">
+          <div className="flex flex-col md:flex-row items-center justify-between">
             <div className="text-2xl font-bold text-foreground mb-4 md:mb-0">
               EQCRYPTO
             </div>

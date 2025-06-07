@@ -48,152 +48,30 @@ export default function Derivatives() {
       fundingRate: "0.030%",
       leverage: "1x–20x",
       color: "text-purple-500"
-    },
-    {
-      icon: "🐕",
-      pair: "DOGE/USDT",
-      type: "Options",
-      price: "0.08542",
-      change: "+5.1%",
-      isPositive: true,
-      fundingRate: "N/A",
-      leverage: "Varies",
-      color: "text-yellow-500"
-    },
-    {
-      icon: "🪙",
-      pair: "BNB/USDT",
-      type: "Perpetual",
-      price: "315.67",
-      change: "+1.89%",
-      isPositive: true,
-      fundingRate: "0.025%",
-      leverage: "1x–30x",
-      color: "text-yellow-600"
-    },
-    {
-      icon: "💎",
-      pair: "ADA/USDT",
-      type: "Futures",
-      price: "0.4821",
-      change: "+0.67%",
-      isPositive: true,
-      fundingRate: "0.008%",
-      leverage: "1x–15x",
-      color: "text-blue-600"
     }
   ];
 
-  const features = [
-    { icon: CheckCircle, text: "Up to 50x Leverage" },
-    { icon: CheckCircle, text: "Real-Time Risk Engine" },
-    { icon: CheckCircle, text: "Low Fees, High Speed" }
-  ];
-
-  const contractTypes = ["Perpetuals", "Futures", "Options"];
-
-  const filteredContracts = contracts.filter(contract => {
-    const matchesSearch = contract.pair.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesType = contractType === "all" || contract.type.toLowerCase() === contractType.toLowerCase();
-    return matchesSearch && matchesType;
-  });
-
-  const sortedContracts = [...filteredContracts].sort((a, b) => {
-    switch (sortBy) {
-      case "volume":
-        return 0; // Keep original order for volume
-      case "funding":
-        return parseFloat(b.fundingRate) - parseFloat(a.fundingRate);
-      case "change":
-        return parseFloat(b.change) - parseFloat(a.change);
-      default:
-        return 0;
-    }
-  });
+  const filteredContracts = contracts.filter(contract => 
+    contract.pair.toLowerCase().includes(searchTerm.toLowerCase()) &&
+    (contractType === "all" || contract.type.toLowerCase() === contractType)
+  );
 
   return (
     <div className="min-h-screen bg-background">
-      {/* Header Navigation - Same as other pages */}
-      <header className="bg-card border-b border-border">
-        <div className="max-w-7xl mx-auto px-4">
-          <div className="flex items-center justify-between h-16">
-            {/* Logo and Navigation */}
-            <div className="flex items-center space-x-8">
-              <Link href="/">
-                <div className="text-2xl font-bold text-foreground cursor-pointer">
-                  EQCRYPTO
-                </div>
-              </Link>
-              
-              <nav className="hidden md:flex items-center space-x-8">
-                <Link href="/">
-                  <a className="text-muted-foreground hover:text-foreground transition-colors px-3 py-2 rounded-md text-sm font-medium">
-                    Home
-                  </a>
-                </Link>
-                <Link href="/markets">
-                  <a className="text-muted-foreground hover:text-foreground transition-colors px-3 py-2 rounded-md text-sm font-medium">
-                    Markets
-                  </a>
-                </Link>
-                <Link href="/exchange">
-                  <a className="text-muted-foreground hover:text-foreground transition-colors px-3 py-2 rounded-md text-sm font-medium">
-                    Trade
-                  </a>
-                </Link>
-                <Link href="/derivatives">
-                  <a className="text-foreground hover:text-primary transition-colors px-3 py-2 rounded-md text-sm font-medium bg-muted">
-                    Derivatives
-                  </a>
-                </Link>
-              </nav>
-            </div>
-            
-            {/* Auth Area */}
-            <div className="flex items-center">
-              <UserDropdown />
-            </div>
-          </div>
-        </div>
-      </header>
+      <Header />
 
       <main className="max-w-7xl mx-auto px-4 py-6">
-        {/* Hero Section */}
-        <section className="text-center py-12">
-          <div className="flex items-center justify-center gap-2 mb-6">
-            <Zap className="h-8 w-8 text-crypto-blue" />
-            <h1 className="text-4xl md:text-5xl font-bold text-foreground">
-              Trade Derivatives with Leverage on EQCrypto
-            </h1>
-          </div>
-          
-          {/* Contract Types */}
-          <div className="flex flex-wrap justify-center gap-4 mb-8">
-            {contractTypes.map((type, index) => (
-              <Badge key={index} variant="secondary" className="bg-muted text-foreground px-4 py-2 text-sm">
-                {type}
-              </Badge>
-            ))}
-          </div>
-          
-          {/* Features */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8 max-w-2xl mx-auto">
-            {features.map((feature, index) => (
-              <div key={index} className="flex items-center gap-2 justify-center">
-                <feature.icon className="h-5 w-5 crypto-green" />
-                <span className="text-foreground font-medium">{feature.text}</span>
-              </div>
-            ))}
-          </div>
-          
-          <Button size="lg" className="bg-crypto-blue hover:bg-blue-600 text-white px-8 py-4 text-lg">
-            Start Trading Derivatives
-          </Button>
-        </section>
+        {/* Page Header */}
+        <div className="mb-8">
+          <h1 className="text-4xl font-bold text-foreground mb-4">Derivatives Trading</h1>
+          <p className="text-xl text-muted-foreground mb-6">
+            Trade crypto futures and perpetual contracts with up to 50x leverage
+          </p>
+        </div>
 
         {/* Search and Filters */}
         <div className="mb-6">
-          <div className="flex flex-col lg:flex-row gap-4 items-start lg:items-center justify-between">
+          <div className="flex flex-col md:flex-row gap-4 items-start md:items-center justify-between">
             {/* Search Bar */}
             <div className="relative flex-1 max-w-md">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
@@ -205,14 +83,12 @@ export default function Derivatives() {
               />
             </div>
             
-            {/* Contract Type Filters */}
+            {/* Contract Type Filter */}
             <div className="flex gap-2">
-              <span className="text-muted-foreground text-sm self-center">Filters:</span>
               <Button
                 variant={contractType === "all" ? "default" : "outline"}
                 size="sm"
                 onClick={() => setContractType("all")}
-                className={contractType === "all" ? "bg-primary text-primary-foreground" : ""}
               >
                 All
               </Button>
@@ -220,190 +96,127 @@ export default function Derivatives() {
                 variant={contractType === "perpetual" ? "default" : "outline"}
                 size="sm"
                 onClick={() => setContractType("perpetual")}
-                className={contractType === "perpetual" ? "bg-primary text-primary-foreground" : ""}
               >
-                Perpetuals
+                Perpetual
               </Button>
               <Button
                 variant={contractType === "futures" ? "default" : "outline"}
                 size="sm"
                 onClick={() => setContractType("futures")}
-                className={contractType === "futures" ? "bg-primary text-primary-foreground" : ""}
               >
                 Futures
-              </Button>
-              <Button
-                variant={contractType === "options" ? "default" : "outline"}
-                size="sm"
-                onClick={() => setContractType("options")}
-                className={contractType === "options" ? "bg-primary text-primary-foreground" : ""}
-              >
-                Options
-              </Button>
-            </div>
-            
-            {/* Sort Options */}
-            <div className="flex gap-2">
-              <span className="text-muted-foreground text-sm self-center">Sort By:</span>
-              <Button
-                variant={sortBy === "volume" ? "default" : "outline"}
-                size="sm"
-                onClick={() => setSortBy("volume")}
-                className={sortBy === "volume" ? "bg-primary text-primary-foreground" : ""}
-              >
-                Volume
-              </Button>
-              <Button
-                variant={sortBy === "funding" ? "default" : "outline"}
-                size="sm"
-                onClick={() => setSortBy("funding")}
-                className={sortBy === "funding" ? "bg-primary text-primary-foreground" : ""}
-              >
-                Funding Rate
-              </Button>
-              <Button
-                variant={sortBy === "change" ? "default" : "outline"}
-                size="sm"
-                onClick={() => setSortBy("change")}
-                className={sortBy === "change" ? "bg-primary text-primary-foreground" : ""}
-              >
-                24h Change
               </Button>
             </div>
           </div>
         </div>
 
         {/* Contracts Table */}
-        <Card className="bg-card border-border mb-8">
-          <CardContent className="p-0">
-            {/* Table Header */}
-            <div className="grid grid-cols-8 gap-4 p-4 border-b border-border bg-muted/50">
-              <div className="text-sm font-medium text-muted-foreground">🔗</div>
-              <div className="text-sm font-medium text-muted-foreground">Pair</div>
-              <div className="text-sm font-medium text-muted-foreground">Type</div>
-              <div className="text-sm font-medium text-muted-foreground">Price</div>
-              <div className="text-sm font-medium text-muted-foreground">24h Change</div>
-              <div className="text-sm font-medium text-muted-foreground">Funding Rate</div>
-              <div className="text-sm font-medium text-muted-foreground">Leverage</div>
-              <div className="text-sm font-medium text-muted-foreground">Action</div>
-            </div>
-            
-            {/* Table Rows */}
-            <div className="divide-y divide-border">
-              {sortedContracts.map((contract, index) => (
-                <div key={index} className="grid grid-cols-8 gap-4 p-4 hover:bg-muted/30 transition-colors">
-                  {/* Icon */}
-                  <div className="flex items-center">
-                    <span className={`text-xl ${contract.color}`}>{contract.icon}</span>
-                  </div>
-                  
-                  {/* Pair */}
-                  <div className="flex items-center">
-                    <span className="font-semibold text-foreground">{contract.pair}</span>
-                  </div>
-                  
-                  {/* Type */}
-                  <div className="flex items-center">
-                    <Badge variant="outline" className="text-xs">
-                      {contract.type}
-                    </Badge>
-                  </div>
-                  
-                  {/* Price */}
-                  <div className="flex items-center">
-                    <span className="font-mono text-foreground">${contract.price}</span>
-                  </div>
-                  
-                  {/* 24h Change */}
-                  <div className="flex items-center">
-                    <div className={`flex items-center gap-1 ${contract.isPositive ? 'crypto-green' : 'crypto-red'}`}>
-                      {contract.isPositive ? (
-                        <TrendingUp className="h-4 w-4" />
-                      ) : (
-                        <TrendingDown className="h-4 w-4" />
-                      )}
-                      <span className="font-medium">{contract.change}</span>
-                    </div>
-                  </div>
-                  
-                  {/* Funding Rate */}
-                  <div className="flex items-center">
-                    <span className="text-muted-foreground font-mono">{contract.fundingRate}</span>
-                  </div>
-                  
-                  {/* Leverage */}
-                  <div className="flex items-center">
-                    <span className="text-muted-foreground">{contract.leverage}</span>
-                  </div>
-                  
-                  {/* Action */}
-                  <div className="flex items-center">
-                    <Link href="/exchange">
-                      <Button size="sm" className="bg-crypto-blue hover:bg-blue-600 text-white">
-                        Trade
-                      </Button>
-                    </Link>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </CardContent>
-        </Card>
+        <div className="bg-card rounded-lg border overflow-hidden">
+          <div className="overflow-x-auto">
+            <table className="w-full">
+              <thead className="bg-muted">
+                <tr>
+                  <th className="text-left p-4 font-medium text-muted-foreground">Contract</th>
+                  <th className="text-right p-4 font-medium text-muted-foreground">Price</th>
+                  <th className="text-right p-4 font-medium text-muted-foreground">24h Change</th>
+                  <th className="text-right p-4 font-medium text-muted-foreground">Funding Rate</th>
+                  <th className="text-right p-4 font-medium text-muted-foreground">Leverage</th>
+                  <th className="text-right p-4 font-medium text-muted-foreground">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {filteredContracts.map((contract, index) => (
+                  <tr key={index} className="border-t border-border hover:bg-muted/50 transition-colors">
+                    <td className="p-4">
+                      <div className="flex items-center space-x-3">
+                        <span className={`text-2xl ${contract.color}`}>{contract.icon}</span>
+                        <div>
+                          <div className="font-medium text-foreground">{contract.pair}</div>
+                          <div className="text-sm text-muted-foreground">{contract.type}</div>
+                        </div>
+                      </div>
+                    </td>
+                    <td className="p-4 text-right">
+                      <div className="font-mono text-foreground">${contract.price}</div>
+                    </td>
+                    <td className="p-4 text-right">
+                      <Badge variant={contract.isPositive ? "default" : "destructive"}>
+                        {contract.change}
+                      </Badge>
+                    </td>
+                    <td className="p-4 text-right">
+                      <div className="text-sm text-muted-foreground">{contract.fundingRate}</div>
+                    </td>
+                    <td className="p-4 text-right">
+                      <div className="text-sm text-muted-foreground">{contract.leverage}</div>
+                    </td>
+                    <td className="p-4 text-right">
+                      <div className="flex justify-end space-x-2">
+                        <Button size="sm" variant="outline">
+                          Trade
+                        </Button>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
 
-        {/* Educational Banner */}
-        <Card className="bg-card border-border mb-8">
-          <CardContent className="p-6">
-            <div className="flex items-start gap-4">
-              <BookOpen className="h-8 w-8 text-crypto-blue flex-shrink-0 mt-1" />
-              <div className="flex-1">
-                <h3 className="text-xl font-semibold text-foreground mb-2">📘 New to Derivatives?</h3>
-                <p className="text-muted-foreground mb-4">
-                  Learn how perpetual contracts, funding rates, and leverage work.
-                </p>
-                <Button variant="outline" className="border-crypto-blue text-crypto-blue hover:bg-crypto-blue hover:text-white">
-                  Learn More
-                </Button>
+        {/* Info Cards */}
+        <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6">
+          <Card>
+            <CardContent className="p-6">
+              <div className="flex items-center space-x-3 mb-4">
+                <Zap className="h-8 w-8 text-yellow-500" />
+                <h3 className="text-lg font-semibold">High Leverage</h3>
               </div>
-            </div>
-          </CardContent>
-        </Card>
+              <p className="text-muted-foreground">
+                Trade with up to 50x leverage on major cryptocurrency pairs
+              </p>
+            </CardContent>
+          </Card>
 
-        {/* Risk Disclaimer */}
-        <Card className="bg-card border-border border-yellow-500/20">
-          <CardContent className="p-6">
-            <div className="flex items-start gap-4">
-              <AlertTriangle className="h-6 w-6 text-yellow-500 flex-shrink-0 mt-1" />
-              <div>
-                <h4 className="font-semibold text-foreground mb-2">⚠️ Risk Disclaimer</h4>
-                <p className="text-muted-foreground">
-                  Derivatives trading involves significant risk. You may lose your entire position. Please trade responsibly.
-                </p>
+          <Card>
+            <CardContent className="p-6">
+              <div className="flex items-center space-x-3 mb-4">
+                <CheckCircle className="h-8 w-8 text-green-500" />
+                <h3 className="text-lg font-semibold">Advanced Orders</h3>
               </div>
-            </div>
-          </CardContent>
-        </Card>
-      </main>
+              <p className="text-muted-foreground">
+                Use stop-loss, take-profit, and conditional orders for better risk management
+              </p>
+            </CardContent>
+          </Card>
 
-      {/* Footer */}
-      <footer className="bg-card border-t border-border py-8 mt-12">
-        <div className="max-w-7xl mx-auto px-4">
-          <div className="flex flex-col md:flex-row justify-between items-center">
-            <div className="text-2xl font-bold text-foreground mb-4 md:mb-0">
-              EQCRYPTO
-            </div>
-            <div className="flex space-x-8 text-muted-foreground">
-              <a href="#" className="hover:text-foreground transition-colors">About</a>
-              <a href="#" className="hover:text-foreground transition-colors">Terms</a>
-              <a href="#" className="hover:text-foreground transition-colors">Fees</a>
-              <a href="#" className="hover:text-foreground transition-colors">API</a>
-              <a href="#" className="hover:text-foreground transition-colors">Support</a>
-            </div>
-            <div className="text-muted-foreground text-sm mt-4 md:mt-0">
-              © EQCRYPTO 2025
+          <Card>
+            <CardContent className="p-6">
+              <div className="flex items-center space-x-3 mb-4">
+                <BookOpen className="h-8 w-8 text-blue-500" />
+                <h3 className="text-lg font-semibold">Learn Trading</h3>
+              </div>
+              <p className="text-muted-foreground">
+                Access educational resources and trading guides for derivatives
+              </p>
+            </CardContent>
+          </Card>
+        </div>
+
+        {/* Risk Warning */}
+        <div className="mt-8 bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded-lg p-4">
+          <div className="flex items-start space-x-3">
+            <AlertTriangle className="h-5 w-5 text-yellow-600 dark:text-yellow-400 mt-0.5" />
+            <div className="text-sm">
+              <h4 className="font-medium text-yellow-800 dark:text-yellow-200 mb-1">Risk Warning</h4>
+              <p className="text-yellow-700 dark:text-yellow-300">
+                Derivatives trading involves substantial risk and is not suitable for all investors. 
+                You may lose more than your initial investment due to leverage.
+              </p>
             </div>
           </div>
         </div>
-      </footer>
+      </main>
     </div>
   );
 }
