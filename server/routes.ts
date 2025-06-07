@@ -1,8 +1,13 @@
-import type { Express } from "express";
+import type { Express, Request } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { userStorage } from "./userStorage";
 import { insertUserOrderSchema, insertUserTradeSchema } from "../shared/schema";
+
+// Extend Request type to include session
+interface RequestWithSession extends Request {
+  session: any;
+}
 
 export async function registerRoutes(app: Express): Promise<Server> {
   // Get trading pair data
@@ -158,35 +163,60 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // User profile endpoint - returns real security verification data
   app.get("/api/user-profile", async (req, res) => {
     try {
-      const session = req.session as any;
-      if (!session.userId) {
+      const session = (req as any).session;
+      if (!session || !session.userId) {
         return res.status(401).json({ error: "Not authenticated" });
       }
       
-      const user = await userStorage.getUser(session.userId);
+      let user = await userStorage.getUser(session.userId);
+      
+      // Create user if doesn't exist (first time login)
       if (!user) {
-        return res.status(404).json({ error: "User not found" });
+        user = await userStorage.createUser({
+          id: session.userId,
+          email: session.userEmail || "user@example.com",
+        });
+      }
+
+      // Get user profile with security fields
+      let profile = await userStorage.getUserProfile(session.userId);
+      
+      // Create profile if doesn't exist
+      if (!profile) {
+        profile = await userStorage.createUserProfile({
+          id: session.userId,
+          uid: "EQ" + Math.random().toString(36).substr(2, 9).toUpperCase(),
+          verified: false,
+          emailVerified: false,
+          phoneVerified: false,
+          twoFactorEnabled: false,
+          securityLevel: 1,
+          kycStatus: "pending",
+          withdrawalLimit: "1000.00",
+        });
       }
       
       res.json({
-        verified: user.verified,
-        emailVerified: user.emailVerified,
-        phoneVerified: user.phoneVerified,
-        twoFactorEnabled: user.twoFactorEnabled,
-        securityLevel: user.securityLevel,
-        kycStatus: user.kycStatus,
-        withdrawalLimit: user.withdrawalLimit,
+        verified: profile.verified || false,
+        emailVerified: profile.emailVerified || false,
+        phoneVerified: profile.phoneVerified || false,
+        twoFactorEnabled: profile.twoFactorEnabled || false,
+        securityLevel: profile.securityLevel || 1,
+        kycStatus: profile.kycStatus || "pending",
+        withdrawalLimit: profile.withdrawalLimit || "1000.00",
+        uid: profile.uid,
       });
     } catch (error) {
+      console.error("User profile error:", error);
       res.status(500).json({ error: "Failed to fetch user profile" });
     }
   });
 
-  // Dashboard data endpoints
-  app.get("/api/user-notifications", async (req, res) => {
+  // Dashboard data endpoints - all with proper authentication
+  app.get("/api/user-notifications", async (req: RequestWithSession, res) => {
     try {
-      const session = req.session as any;
-      if (!session.userId) {
+      const session = req.session;
+      if (!session || !session.userId) {
         return res.status(401).json({ error: "Not authenticated" });
       }
       
@@ -197,10 +227,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.get("/api/user-api-keys", async (req, res) => {
+  app.get("/api/user-api-keys", async (req: RequestWithSession, res) => {
     try {
-      const session = req.session as any;
-      if (!session.userId) {
+      const session = req.session;
+      if (!session || !session.userId) {
         return res.status(401).json({ error: "Not authenticated" });
       }
       
@@ -211,10 +241,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.get("/api/user-referrals", async (req, res) => {
+  app.get("/api/user-referrals", async (req: RequestWithSession, res) => {
     try {
-      const session = req.session as any;
-      if (!session.userId) {
+      const session = req.session;
+      if (!session || !session.userId) {
         return res.status(401).json({ error: "Not authenticated" });
       }
       
@@ -225,10 +255,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.get("/api/user-messages", async (req, res) => {
+  app.get("/api/user-messages", async (req: RequestWithSession, res) => {
     try {
-      const session = req.session as any;
-      if (!session.userId) {
+      const session = req.session;
+      if (!session || !session.userId) {
         return res.status(401).json({ error: "Not authenticated" });
       }
       
@@ -239,10 +269,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.get("/api/user-devices", async (req, res) => {
+  app.get("/api/user-devices", async (req: RequestWithSession, res) => {
     try {
-      const session = req.session as any;
-      if (!session.userId) {
+      const session = req.session;
+      if (!session || !session.userId) {
         return res.status(401).json({ error: "Not authenticated" });
       }
       
@@ -253,10 +283,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.get("/api/user-membership", async (req, res) => {
+  app.get("/api/user-membership", async (req: RequestWithSession, res) => {
     try {
-      const session = req.session as any;
-      if (!session.userId) {
+      const session = req.session;
+      if (!session || !session.userId) {
         return res.status(401).json({ error: "Not authenticated" });
       }
       
