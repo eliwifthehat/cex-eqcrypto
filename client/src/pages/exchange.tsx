@@ -24,14 +24,14 @@ export default function Exchange() {
 
       {/* Main Trading Layout */}
       <div className="max-w-[100vw] mx-auto px-2 py-1 pt-4">
-        <div className="grid grid-cols-12 gap-2">
-          {/* Chart - Reduced to 5 columns to make room */}
-          <div className="col-span-5">
+        <div className="flex gap-2">
+          {/* Chart - 45% width */}
+          <div className="w-[45%]">
             <TradingChart selectedPair={selectedPair} />
           </div>
 
-          {/* Order Book & Recent Trades - Increased to 4 columns */}
-          <div className="col-span-4">
+          {/* Order Book & Recent Trades - 25% width */}
+          <div className="w-[25%]">
             <div className="bg-gray-900 border border-gray-800 rounded">
               <div className="border-b border-gray-800">
                 <div className="flex space-x-1 p-1">
@@ -47,10 +47,13 @@ export default function Exchange() {
             </div>
           </div>
 
-          {/* Buy/Sell Trading Forms - Increased to 3 columns */}
-          <div className="col-span-3">
+          {/* Buy/Sell Trading Forms - 20% width */}
+          <div className="w-[20%]">
             <TradingForms />
           </div>
+
+          {/* Remaining space - 10% for padding */}
+          <div className="w-[10%]"></div>
         </div>
 
         {/* Bottom Section - Order Management Tabs - Extended to match order book */}
