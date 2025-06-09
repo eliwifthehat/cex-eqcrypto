@@ -1,6 +1,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
+import { createChart, ColorType } from 'lightweight-charts';
 import { 
   TrendingUp, TrendingDown, Minus, RotateCcw, Square, 
   Triangle, Circle, Type, Home, Settings, HelpCircle 
@@ -12,6 +13,10 @@ interface TradingChartProps {
 
 export default function TradingChart({ selectedPair }: TradingChartProps) {
   const [timeframe, setTimeframe] = useState("1h");
+  const chartContainerRef = useRef<HTMLDivElement>(null);
+  const chartRef = useRef<IChartApi | null>(null);
+  const candlestickSeriesRef = useRef<ISeriesApi<"Candlestick"> | null>(null);
+  const volumeSeriesRef = useRef<ISeriesApi<"Histogram"> | null>(null);
 
   const timeframes = [
     { label: "1m", value: "1m" },
@@ -22,19 +27,148 @@ export default function TradingChart({ selectedPair }: TradingChartProps) {
     { label: "6h", value: "6h" },
   ];
 
-  // Mock candlestick data
-  const mockCandles = [
-    { price: 42100, isPositive: false, height: 16 },
-    { price: 42150, isPositive: true, height: 20 },
-    { price: 42080, isPositive: false, height: 12 },
-    { price: 42200, isPositive: true, height: 24 },
-    { price: 42280, isPositive: true, height: 28 },
-    { price: 42240, isPositive: false, height: 18 },
-    { price: 42350, isPositive: true, height: 32 },
-    { price: 42320, isPositive: true, height: 26 },
-    { price: 42280, isPositive: false, height: 22 },
-    { price: 42360, isPositive: true, height: 30 },
-  ];
+  // Generate realistic Bitcoin candlestick data
+  const generateCandlestickData = () => {
+    const data = [];
+    const basePrice = 66800;
+    let currentPrice = basePrice;
+    const now = new Date();
+    
+    for (let i = 100; i >= 0; i--) {
+      const timeStr = Math.floor((now.getTime() - i * 60 * 60 * 1000) / 1000) as any;
+      
+      const volatility = Math.random() * 600 + 200;
+      const direction = Math.random() > 0.5 ? 1 : -1;
+      
+      const open = currentPrice;
+      const change = (Math.random() * volatility) * direction;
+      const close = open + change;
+      
+      const high = Math.max(open, close) + Math.random() * 150;
+      const low = Math.min(open, close) - Math.random() * 150;
+      
+      data.push({
+        time: timeStr,
+        open: parseFloat(open.toFixed(2)),
+        high: parseFloat(high.toFixed(2)),
+        low: parseFloat(low.toFixed(2)),
+        close: parseFloat(close.toFixed(2))
+      });
+      
+      currentPrice = close;
+    }
+    
+    return data.sort((a, b) => a.time - b.time);
+  };
+
+  const generateVolumeData = () => {
+    const data = [];
+    const now = new Date();
+    
+    for (let i = 100; i >= 0; i--) {
+      const timeStr = Math.floor((now.getTime() - i * 60 * 60 * 1000) / 1000) as any;
+      const volume = Math.random() * 1000000 + 100000;
+      
+      data.push({
+        time: timeStr,
+        value: volume,
+        color: Math.random() > 0.5 ? 'rgba(34, 197, 94, 0.6)' : 'rgba(239, 68, 68, 0.6)'
+      });
+    }
+    
+    return data.sort((a, b) => a.time - b.time);
+  };
+
+  useEffect(() => {
+    if (!chartContainerRef.current) return;
+
+    const chart = createChart(chartContainerRef.current, {
+      layout: {
+        background: { type: ColorType.Solid, color: '#0f172a' },
+        textColor: '#9ca3af',
+      },
+      grid: {
+        vertLines: { color: 'rgba(75, 85, 99, 0.3)' },
+        horzLines: { color: 'rgba(75, 85, 99, 0.3)' },
+      },
+      crosshair: {
+        mode: 1,
+        vertLine: {
+          color: '#9ca3af',
+          width: 1,
+          style: 3,
+        },
+        horzLine: {
+          color: '#9ca3af',
+          width: 1,
+          style: 3,
+        },
+      },
+      timeScale: {
+        timeVisible: true,
+        secondsVisible: false,
+        borderColor: 'rgba(75, 85, 99, 0.5)',
+      },
+      rightPriceScale: {
+        borderColor: 'rgba(75, 85, 99, 0.5)',
+        scaleMargins: {
+          top: 0.1,
+          bottom: 0.3,
+        },
+      },
+    });
+
+    const candlestickSeries = chart.addSeries('Candlestick', {
+      upColor: '#22c55e',
+      downColor: '#ef4444',
+      borderDownColor: '#ef4444',
+      borderUpColor: '#22c55e',
+      wickDownColor: '#ef4444',
+      wickUpColor: '#22c55e',
+    });
+
+    const volumeSeries = chart.addSeries('Histogram', {
+      color: '#9ca3af',
+      priceFormat: {
+        type: 'volume',
+      },
+      priceScaleId: '',
+      scaleMargins: {
+        top: 0.7,
+        bottom: 0,
+      },
+    });
+
+    candlestickSeries.setData(generateCandlestickData());
+    volumeSeries.setData(generateVolumeData());
+
+    chartRef.current = chart;
+    candlestickSeriesRef.current = candlestickSeries;
+    volumeSeriesRef.current = volumeSeries;
+
+    const handleResize = () => {
+      if (chartContainerRef.current) {
+        chart.applyOptions({
+          width: chartContainerRef.current.clientWidth,
+          height: chartContainerRef.current.clientHeight,
+        });
+      }
+    };
+
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+      chart.remove();
+    };
+  }, []);
+
+  useEffect(() => {
+    if (candlestickSeriesRef.current && volumeSeriesRef.current) {
+      candlestickSeriesRef.current.setData(generateCandlestickData());
+      volumeSeriesRef.current.setData(generateVolumeData());
+    }
+  }, [timeframe]);
 
   return (
     <div className="bg-gray-900 border border-gray-800 rounded">
@@ -94,111 +228,12 @@ export default function TradingChart({ selectedPair }: TradingChartProps) {
         </div>
       </div>
 
-      {/* Main Chart Area */}
-      <div className="relative h-[380px] bg-gray-950">
-        {/* Grid Lines */}
-        <svg className="absolute inset-0 w-full h-full" style={{ zIndex: 1 }}>
-          {/* Horizontal grid lines */}
-          {[...Array(8)].map((_, i) => (
-            <line
-              key={`h-${i}`}
-              x1="0"
-              y1={i * 47.5}
-              x2="100%"
-              y2={i * 47.5}
-              stroke="rgba(75, 85, 99, 0.3)"
-              strokeWidth="0.5"
-            />
-          ))}
-          {/* Vertical grid lines */}
-          {[...Array(12)].map((_, i) => (
-            <line
-              key={`v-${i}`}
-              x1={i * 8.33 + '%'}
-              y1="0"
-              x2={i * 8.33 + '%'}
-              y2="100%"
-              stroke="rgba(75, 85, 99, 0.3)"
-              strokeWidth="0.5"
-            />
-          ))}
-        </svg>
-
-        {/* Candlestick Chart */}
-        <div className="absolute inset-0 flex items-end justify-center space-x-2 p-8 pb-12" style={{ zIndex: 2 }}>
-          {mockCandles.map((candle, index) => (
-            <div key={index} className="flex flex-col items-center justify-end" style={{ height: '100%' }}>
-              {/* Wick top */}
-              <div 
-                className={`w-0.5 ${candle.isPositive ? 'bg-green-500' : 'bg-red-500'}`}
-                style={{ height: `${Math.random() * 20 + 10}px` }}
-              />
-              {/* Body */}
-              <div
-                className={`w-4 ${candle.isPositive ? 'bg-green-500' : 'bg-red-500'} border ${candle.isPositive ? 'border-green-400' : 'border-red-400'}`}
-                style={{ height: `${candle.height * 4}px` }}
-              />
-              {/* Wick bottom */}
-              <div 
-                className={`w-0.5 ${candle.isPositive ? 'bg-green-500' : 'bg-red-500'}`}
-                style={{ height: `${Math.random() * 15 + 5}px` }}
-              />
-            </div>
-          ))}
-        </div>
-
-        {/* Price scale on right */}
-        <div className="absolute right-0 top-0 bottom-0 w-20 flex flex-col justify-between py-4 text-xs text-gray-400 bg-gray-900 border-l border-gray-800" style={{ zIndex: 3 }}>
-          <span className="px-2">67,400.0</span>
-          <span className="px-2">67,200.0</span>
-          <span className="px-2">67,000.0</span>
-          <span className="px-2">66,800.0</span>
-          <span className="px-2">66,600.0</span>
-          <span className="px-2">66,400.0</span>
-          <span className="px-2">66,200.0</span>
-          <span className="px-2">66,000.0</span>
-          <span className="px-2">65,800.0</span>
-          <span className="px-2">65,600.0</span>
-          <span className="px-2">65,400.0</span>
-          <span className="px-2">65,200.0</span>
-          <span className="px-2">65,000.0</span>
-          <span className="px-2">64,800.0</span>
-        </div>
-
-        {/* Cross hair indicator */}
-        <div className="absolute inset-0 pointer-events-none" style={{ zIndex: 4 }}>
-          <div className="absolute top-1/2 left-0 right-20 h-0.5 bg-gray-500 opacity-50"></div>
-          <div className="absolute left-1/2 top-0 bottom-0 w-0.5 bg-gray-500 opacity-50"></div>
-        </div>
-      </div>
-
-      {/* Volume Chart */}
-      <div className="relative h-[120px] bg-gray-950 border-t border-gray-800">
-        <div className="absolute left-4 top-2 text-sm text-gray-400">
-          <span>Volume SMA 9</span>
-          <span className="text-green-400 ml-4">286,225k</span>
-        </div>
-        
-        {/* Volume bars */}
-        <div className="absolute inset-0 flex items-end justify-center space-x-1 p-8 pt-8">
-          {mockCandles.map((_, index) => (
-            <div
-              key={index}
-              className={`w-3 ${index % 3 === 0 ? 'bg-green-500/50' : 'bg-red-500/50'}`}
-              style={{ height: `${Math.random() * 40 + 10}px` }}
-            />
-          ))}
-        </div>
-
-        {/* Time labels */}
-        <div className="absolute bottom-0 left-0 right-16 flex justify-between px-8 py-2 text-xs text-gray-400">
-          <span>18:00:00</span>
-          <span>23</span>
-          <span>12:00:00</span>
-          <span>06:00:00</span>
-          <span>18:00:00</span>
-        </div>
-      </div>
+      {/* TradingView Chart Container */}
+      <div 
+        ref={chartContainerRef}
+        className="h-[500px] w-full"
+        style={{ backgroundColor: '#0f172a' }}
+      />
 
       {/* Chart Footer */}
       <div className="border-t border-gray-800 px-4 py-2 flex items-center justify-between">
