@@ -23,7 +23,7 @@ export default function Exchange() {
       <PriceHeader selectedPair={selectedPair} onPairChange={setSelectedPair} />
 
       {/* Main Trading Layout */}
-      <div className="max-w-7xl mx-auto px-4 py-6">
+      <div className="max-w-7xl mx-auto px-4 py-6 pt-24">
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
           {/* Left Column - Chart and Order Book */}
           <div className="lg:col-span-3 space-y-6">

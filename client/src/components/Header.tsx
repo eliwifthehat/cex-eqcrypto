@@ -77,12 +77,12 @@ export default function Header() {
 
   return (
     <>
-      <header className="relative h-14 bg-gradient-to-r from-slate-300 via-slate-400 to-black border-b border-slate-600">
+      <header className="fixed top-0 left-0 right-0 z-50 h-16 backdrop-blur-xl bg-white/10 border-b border-white/20 shadow-lg">
         <div className="max-w-7xl mx-auto px-4 h-full">
           <div className="flex items-center justify-between h-full gap-6">
             {/* Logo */}
             <Link href="/">
-              <div className="text-2xl font-bold text-white">
+              <div className="text-2xl font-bold text-white drop-shadow-lg">
                 EQCRYPTO
               </div>
             </Link>
@@ -91,8 +91,10 @@ export default function Header() {
             <nav className="hidden md:flex items-center space-x-6">
               {navItems.map((item) => (
                 <Link key={item.href} href={item.href}>
-                  <span className={`text-sm font-medium transition-colors hover:text-white ${
-                    location === item.href ? 'text-white' : 'text-gray-300'
+                  <span className={`text-sm font-medium transition-all duration-300 hover:text-white hover:drop-shadow-lg ${
+                    location === item.href 
+                      ? 'text-white drop-shadow-lg bg-white/10 px-3 py-2 rounded-full backdrop-blur-sm' 
+                      : 'text-white/80 hover:bg-white/5 px-3 py-2 rounded-full'
                   }`}>
                     {item.label}
                   </span>
@@ -102,7 +104,7 @@ export default function Header() {
 
             {/* Token Search Bar */}
             <div className="relative flex-1 max-w-xs">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500 h-4 w-4" />
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-white/60 h-4 w-4" />
               <Input
                 placeholder="BC"
                 value={searchTerm}
@@ -112,21 +114,21 @@ export default function Header() {
                 }}
                 onFocus={() => setShowTokenDropdown(searchTerm.length > 0)}
                 onBlur={() => setTimeout(() => setShowTokenDropdown(false), 200)}
-                className="pl-10 h-8 bg-black/80 border-gray-600 text-white text-sm rounded-full placeholder-gray-400"
+                className="pl-10 h-10 bg-white/10 backdrop-blur-sm border border-white/20 text-white text-sm rounded-full placeholder-white/50 focus:bg-white/15 focus:border-white/30 transition-all duration-300"
               />
               
               {/* Token Dropdown */}
               {showTokenDropdown && (
-                <div className="absolute top-full left-0 right-0 mt-1 bg-gray-900 border border-gray-700 rounded-lg shadow-lg z-50 max-h-80 overflow-y-auto">
+                <div className="absolute top-full left-0 right-0 mt-2 bg-black/80 backdrop-blur-xl border border-white/20 rounded-xl shadow-2xl z-50 max-h-80 overflow-y-auto">
                   {Object.entries(filteredTokens).map(([category, tokens]) => (
-                    <div key={category} className="p-2">
-                      <div className="text-xs text-gray-400 uppercase tracking-wide mb-2 px-2">
+                    <div key={category} className="p-3">
+                      <div className="text-xs text-white/50 uppercase tracking-wide mb-2 px-2 font-medium">
                         {category}
                       </div>
                       {tokens.map((token) => (
                         <button
                           key={token.symbol}
-                          className="w-full flex items-center gap-3 px-3 py-2 hover:bg-gray-800 rounded text-left"
+                          className="w-full flex items-center gap-3 px-3 py-3 hover:bg-white/10 rounded-lg text-left transition-all duration-200 backdrop-blur-sm"
                           onClick={() => {
                             setSearchTerm(token.symbol);
                             setShowTokenDropdown(false);
@@ -135,7 +137,7 @@ export default function Header() {
                           <span className="text-lg">{token.icon}</span>
                           <div>
                             <div className="text-white font-medium">{token.symbol}</div>
-                            <div className="text-gray-400 text-xs">{token.name}</div>
+                            <div className="text-white/60 text-xs">{token.name}</div>
                           </div>
                         </button>
                       ))}
@@ -151,49 +153,37 @@ export default function Header() {
               <Button
                 variant="ghost"
                 size="sm"
-                className="p-2 text-gray-800 hover:text-black hover:bg-white/20"
+                className="p-2 w-12 h-12 rounded-full text-white/80 hover:text-white hover:bg-white/10 backdrop-blur-sm border border-white/10 transition-all duration-300"
                 onClick={() => setShowQRDialog(true)}
               >
-                <Smartphone className="h-4 w-4" />
+                <Smartphone className="h-5 w-5" />
               </Button>
 
               {/* Auth Section */}
               {user ? (
                 <UserDropdown />
               ) : (
-                <div className="flex items-center gap-2">
-                  {/* Web3 Connect Button - Circular with state changes */}
+                <div className="flex items-center gap-3">
+                  {/* Web3 Connect Button - Glassmorphism style */}
                   <Button
                     onClick={handleWalletConnect}
-                    className={`w-10 h-10 rounded-full p-0 border-2 transition-all duration-300 ${
+                    className={`w-12 h-12 rounded-full p-0 border transition-all duration-300 backdrop-blur-sm ${
                       isWalletConnected 
-                        ? 'bg-gradient-to-br from-red-500 to-red-700 border-red-400 hover:from-red-600 hover:to-red-800 shadow-lg shadow-red-500/25' 
-                        : 'bg-gradient-to-br from-gray-300 via-silver to-gray-400 border-gray-300 hover:from-gray-200 hover:to-gray-300 shadow-lg shadow-gray-400/25'
+                        ? 'bg-red-500/20 border-red-400/50 hover:bg-red-500/30 text-red-300 shadow-lg shadow-red-500/25' 
+                        : 'bg-white/10 border-white/20 hover:bg-white/15 text-white/80 shadow-lg'
                     }`}
-                    style={{
-                      background: isWalletConnected 
-                        ? 'linear-gradient(135deg, #ef4444 0%, #dc2626 50%, #b91c1c 100%)'
-                        : 'linear-gradient(135deg, #e5e7eb 0%, #d1d5db 50%, #9ca3af 100%)',
-                      boxShadow: isWalletConnected
-                        ? '0 4px 15px rgba(239, 68, 68, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.2)'
-                        : '0 4px 15px rgba(156, 163, 175, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.3)',
-                    }}
                   >
-                    <span className="text-sm font-bold text-black">
+                    <span className="text-lg font-bold">
                       {isWalletConnected ? '●' : '○'}
                     </span>
                   </Button>
 
-                  {/* Start Button - More circular shape */}
+                  {/* Start Button - Glassmorphism style */}
                   <Link href="/auth">
                     <Button
-                      className="h-10 px-6 text-sm font-medium rounded-full bg-gradient-to-r from-purple-600 via-purple-500 to-purple-700 hover:from-purple-700 hover:via-purple-600 hover:to-purple-800 text-white shadow-lg border border-purple-400/30 relative overflow-hidden transition-all duration-300"
-                      style={{
-                        background: 'linear-gradient(135deg, #9333ea 0%, #a855f7 50%, #7c3aed 100%)',
-                        boxShadow: '0 4px 15px rgba(147, 51, 234, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.2)',
-                      }}
+                      className="h-12 px-8 text-sm font-medium rounded-full bg-purple-500/20 backdrop-blur-sm border border-purple-400/30 text-white hover:bg-purple-500/30 hover:border-purple-400/50 shadow-lg hover:shadow-purple-500/25 transition-all duration-300 relative overflow-hidden"
                     >
-                      <span className="relative z-10">Start</span>
+                      <span className="relative z-10 font-semibold">Start</span>
                       <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent transform -skew-x-12 translate-x-[-100%] group-hover:translate-x-[200%] transition-transform duration-1000"></div>
                     </Button>
                   </Link>
@@ -204,19 +194,19 @@ export default function Header() {
         </div>
       </header>
 
-      {/* QR Code Dialog */}
+      {/* QR Code Dialog - Glassmorphism style */}
       <Dialog open={showQRDialog} onOpenChange={setShowQRDialog}>
-        <DialogContent className="sm:max-w-md bg-gray-900 border-gray-700">
+        <DialogContent className="sm:max-w-md bg-black/40 backdrop-blur-2xl border border-white/20 shadow-2xl">
           <DialogHeader>
-            <DialogTitle className="text-white flex items-center gap-2">
+            <DialogTitle className="text-white flex items-center gap-2 font-semibold">
               <QrCode className="h-5 w-5" />
               Connect Mobile Wallet
             </DialogTitle>
           </DialogHeader>
-          <div className="flex flex-col items-center space-y-4 p-6">
-            <div className="bg-white p-4 rounded-lg">
-              {/* QR Code placeholder - would typically generate actual QR code */}
-              <div className="w-48 h-48 bg-black flex items-center justify-center">
+          <div className="flex flex-col items-center space-y-6 p-6">
+            <div className="bg-white/90 backdrop-blur-sm p-6 rounded-2xl shadow-lg">
+              {/* QR Code placeholder */}
+              <div className="w-48 h-48 bg-black flex items-center justify-center rounded-lg">
                 <div className="grid grid-cols-8 gap-1">
                   {Array.from({ length: 64 }).map((_, i) => (
                     <div
@@ -228,15 +218,15 @@ export default function Header() {
               </div>
             </div>
             <div className="text-center">
-              <p className="text-white font-medium mb-2">Scan with your mobile wallet</p>
-              <p className="text-gray-400 text-sm">
+              <p className="text-white font-semibold mb-2">Scan with your mobile wallet</p>
+              <p className="text-white/70 text-sm">
                 MetaMask, Trust Wallet, or any WalletConnect compatible wallet
               </p>
             </div>
             <Button
               onClick={() => setShowQRDialog(false)}
               variant="outline"
-              className="w-full border-gray-600 text-gray-300 hover:bg-gray-800"
+              className="w-full bg-white/10 backdrop-blur-sm border-white/20 text-white hover:bg-white/15 hover:border-white/30 transition-all duration-300"
             >
               Close
             </Button>
