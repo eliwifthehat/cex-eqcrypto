@@ -29,7 +29,7 @@ export default function PriceHeader({ selectedPair, onPairChange }: PriceHeaderP
   const { change, percent, isPositive } = formatPriceChange(priceData.priceChange, priceData.priceChangePercent);
 
   return (
-    <div className="bg-gray-900 border-b border-gray-800 px-6 py-4 mt-16">
+    <div className="bg-gray-900 border-b border-gray-800 px-5 py-4 mt-16 h-11">
       <div className="flex items-center justify-between">
         {/* Left side - Trading pair and price info */}
         <div className="flex items-center space-x-4">
