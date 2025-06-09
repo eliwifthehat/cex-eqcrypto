@@ -28,7 +28,7 @@ export default function OrderBook() {
   return (
     <div className="bg-gray-900 border border-gray-800 rounded h-full">
       {/* Header */}
-      <div className="border-b border-gray-800 p-2">
+      <div className="border-b border-gray-800 p-3">
         <div className="flex justify-between text-xs text-gray-400">
           <span>Price (USDT)</span>
           <span>Amount (BTC)</span>
@@ -36,23 +36,23 @@ export default function OrderBook() {
       </div>
 
       {/* Order book content */}
-      <div className="p-2 h-[400px] overflow-hidden">
+      <div className="px-3 py-2 h-[400px] overflow-hidden">
         {/* Sell orders (red) */}
-        <div className="space-y-0.5">
+        <div className="space-y-1">
           {sellOrders.slice(0, 8).map((order, index) => (
-            <div key={index} className="flex justify-between items-center text-xs hover:bg-gray-800 px-1 py-0.5 rounded">
-              <span className="text-red-400 font-mono">
+            <div key={index} className="flex justify-between items-center hover:bg-gray-800 px-1 py-1 rounded" style={{lineHeight: '20px'}}>
+              <span className="text-red-400 font-bold text-sm font-mono">
                 {order.price.toFixed(1)}
               </span>
-              <span className="text-white font-mono">
+              <span className="text-white text-xs font-mono">
                 {order.amount.toFixed(6)}
               </span>
             </div>
           ))}
         </div>
 
-        {/* Current price */}
-        <div className="flex items-center justify-center py-2 my-2 border-y border-gray-800">
+        {/* Current price divider */}
+        <div className="flex items-center justify-center py-3 my-3" style={{borderTop: '1px solid #2e2e2e', borderBottom: '1px solid #2e2e2e'}}>
           <div className="text-center">
             <div className="text-white text-sm font-bold">
               66,800.0
@@ -62,13 +62,13 @@ export default function OrderBook() {
         </div>
 
         {/* Buy orders (green) */}
-        <div className="space-y-0.5">
+        <div className="space-y-1">
           {buyOrders.slice(0, 8).map((order, index) => (
-            <div key={index} className="flex justify-between items-center text-xs hover:bg-gray-800 px-1 py-0.5 rounded">
-              <span className="text-green-400 font-mono">
+            <div key={index} className="flex justify-between items-center hover:bg-gray-800 px-1 py-1 rounded" style={{lineHeight: '20px'}}>
+              <span className="text-green-400 font-bold text-sm font-mono">
                 {order.price.toFixed(1)}
               </span>
-              <span className="text-white font-mono">
+              <span className="text-white text-xs font-mono">
                 {order.amount.toFixed(6)}
               </span>
             </div>

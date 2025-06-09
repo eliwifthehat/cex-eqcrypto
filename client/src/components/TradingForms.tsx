@@ -78,25 +78,25 @@ export default function TradingForms() {
       </div>
 
       {/* Trading Form */}
-      <div className="p-3 space-y-3">
+      <div className="p-4 space-y-3">
         {/* Price Input */}
         <div>
-          <label className="block text-gray-400 text-xs mb-1">Price</label>
+          <label className="block text-gray-400 text-xs mb-3">Price</label>
           <input
             type="text"
             value="66,800"
-            className="w-full bg-gray-800 border border-gray-700 rounded px-2 py-1 text-white text-xs"
+            className="w-full bg-gray-800 border border-gray-700 rounded px-3 py-2 text-white text-xs h-8"
             readOnly
           />
         </div>
 
         {/* Amount Input */}
         <div>
-          <label className="block text-gray-400 text-xs mb-1">Amount</label>
+          <label className="block text-gray-400 text-xs mb-3">Amount</label>
           <input
             type="text"
             placeholder="0.00"
-            className="w-full bg-gray-800 border border-gray-700 rounded px-2 py-1 text-white text-xs placeholder-gray-500"
+            className="w-full bg-gray-800 border border-gray-700 rounded px-3 py-2 text-white text-xs placeholder-gray-500 h-8"
           />
         </div>
 
