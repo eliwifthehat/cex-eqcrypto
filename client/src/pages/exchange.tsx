@@ -24,19 +24,19 @@ export default function Exchange() {
 
       {/* Main Trading Layout */}
       <div className="max-w-[100vw] mx-auto px-2 py-1 pt-4">
-        <div className="flex gap-4">
-          {/* Chart - Flexible width, takes remaining space */}
-          <div className="flex-1">
+        <div className="grid grid-cols-12 gap-2">
+          {/* Chart - Takes up 8 columns, moved further left */}
+          <div className="col-span-8">
             <TradingChart selectedPair={selectedPair} />
           </div>
 
-          {/* Order Book - Fixed width as per component constraints */}
-          <div className="flex-shrink-0">
+          {/* Order Book - Takes up 2 columns, more compact */}
+          <div className="col-span-2">
             <OrderBook />
           </div>
 
-          {/* Trading Forms - Fixed width as per component constraints */}
-          <div className="flex-shrink-0">
+          {/* Trading Forms - Takes up 2 columns */}
+          <div className="col-span-2">
             <TradingForms />
           </div>
         </div>

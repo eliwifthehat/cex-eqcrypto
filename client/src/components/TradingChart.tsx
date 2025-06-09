@@ -136,7 +136,7 @@ export default function TradingChart({ selectedPair }: TradingChartProps) {
   return (
     <div className="bg-gray-900 border border-gray-800 rounded">
       {/* Chart Header with Tools */}
-      <div className="border-b border-gray-800 p-3">
+      <div className="border-b border-gray-800 p-4">
         <div className="flex items-center justify-between">
           {/* Left side - Drawing tools */}
           <div className="flex items-center space-x-1">
@@ -173,12 +173,12 @@ export default function TradingChart({ selectedPair }: TradingChartProps) {
           </div>
 
           {/* Right side - Timeframes */}
-          <div className="flex items-center space-x-2">
+          <div className="flex items-center space-x-1">
             {timeframes.map((tf) => (
               <button
                 key={tf.value}
                 onClick={() => setTimeframe(tf.value)}
-                className={`px-2 py-1 text-xs rounded ${
+                className={`px-3 py-1 text-sm rounded ${
                   timeframe === tf.value 
                     ? 'bg-gray-700 text-white' 
                     : 'text-gray-400 hover:text-white hover:bg-gray-800'
@@ -194,11 +194,11 @@ export default function TradingChart({ selectedPair }: TradingChartProps) {
       {/* TradingView Chart Container */}
       <div 
         ref={chartContainerRef}
-        className="w-full py-5"
+        className="w-full"
         style={{ 
           backgroundColor: '#0f172a',
-          height: '380px',
-          minHeight: '380px'
+          height: '480px',
+          minHeight: '480px'
         }}
       />
 

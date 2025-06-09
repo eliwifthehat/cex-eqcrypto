@@ -29,18 +29,18 @@ export default function PriceHeader({ selectedPair, onPairChange }: PriceHeaderP
   const { change, percent, isPositive } = formatPriceChange(priceData.priceChange, priceData.priceChangePercent);
 
   return (
-    <div className="bg-gray-900 border-b border-gray-800 px-5 py-3 mt-12 h-12">
+    <div className="bg-gray-900 border-b border-gray-800 px-6 py-4 mt-16">
       <div className="flex items-center justify-between">
         {/* Left side - Trading pair and price info */}
         <div className="flex items-center space-x-4">
           {/* Bitcoin Icon and Pair */}
           <div className="flex items-center space-x-2">
-            <div className="w-6 h-6 bg-orange-500 rounded-full flex items-center justify-center">
-              <span className="text-white font-bold text-xs">₿</span>
+            <div className="w-8 h-8 bg-orange-500 rounded-full flex items-center justify-center">
+              <span className="text-white font-bold text-sm">₿</span>
             </div>
             <div className="flex items-center space-x-1">
-              <span className="text-white font-semibold text-sm">BTC/USDT</span>
-              <div className="w-3 h-3 border border-gray-600 rounded-full flex items-center justify-center">
+              <span className="text-white font-semibold text-lg">BTC/USDT</span>
+              <div className="w-4 h-4 border border-gray-600 rounded-full flex items-center justify-center">
                 <span className="text-gray-400 text-xs">?</span>
               </div>
             </div>
@@ -48,16 +48,16 @@ export default function PriceHeader({ selectedPair, onPairChange }: PriceHeaderP
 
           {/* Price */}
           <div className="flex flex-col">
-            <div className="text-white text-lg font-semibold max-w-fit">
+            <div className="text-white text-2xl font-bold">
               66,800.0
             </div>
-            <div className="text-red-400 text-xs">
+            <div className="text-red-400 text-sm">
               -0.49% +44.4
             </div>
           </div>
 
           {/* 24h Stats */}
-          <div className="flex space-x-3 text-xs">
+          <div className="flex space-x-8 text-sm">
             <div className="flex flex-col">
               <span className="text-gray-400">24h High</span>
               <span className="text-white font-medium">67,458.8</span>
