@@ -52,7 +52,7 @@ export default function TradingForms() {
   const percentageButtons = ["25%", "50%", "75%", "100%"];
 
   return (
-    <div className="bg-gray-900 border border-gray-800 rounded h-fit">
+    <div className="bg-gray-900 border border-gray-800 rounded h-fit w-1/3 max-w-[300px]">
       {/* Trading Tabs */}
       <div className="border-b border-gray-800">
         <div className="flex">
@@ -78,10 +78,10 @@ export default function TradingForms() {
       </div>
 
       {/* Trading Form */}
-      <div className="p-4 space-y-3">
+      <div className="p-4 space-y-2.5 max-h-96">
         {/* Price Input */}
-        <div>
-          <label className="block text-gray-400 text-xs mb-3">Price</label>
+        <div className="mb-2.5">
+          <label className="block text-gray-400 text-xs mb-2">Price</label>
           <input
             type="text"
             value="66,800"
@@ -91,8 +91,8 @@ export default function TradingForms() {
         </div>
 
         {/* Amount Input */}
-        <div>
-          <label className="block text-gray-400 text-xs mb-3">Amount</label>
+        <div className="mb-2.5">
+          <label className="block text-gray-400 text-xs mb-2">Amount</label>
           <input
             type="text"
             placeholder="0.00"
@@ -101,24 +101,24 @@ export default function TradingForms() {
         </div>
 
         {/* Percentage Buttons */}
-        <div className="grid grid-cols-4 gap-1.5">
-          <button className="px-2 py-1 bg-gray-800 hover:bg-gray-700 text-gray-400 hover:text-white rounded text-xs">
+        <div className="grid grid-cols-4 gap-1.5 mb-2.5">
+          <button className="px-1.5 py-1 bg-gray-800 hover:bg-gray-700 text-gray-400 hover:text-white rounded text-xs">
             25%
           </button>
-          <button className="px-2 py-1 bg-gray-800 hover:bg-gray-700 text-gray-400 hover:text-white rounded text-xs">
+          <button className="px-1.5 py-1 bg-gray-800 hover:bg-gray-700 text-gray-400 hover:text-white rounded text-xs">
             50%
           </button>
-          <button className="px-2 py-1 bg-gray-800 hover:bg-gray-700 text-gray-400 hover:text-white rounded text-xs">
+          <button className="px-1.5 py-1 bg-gray-800 hover:bg-gray-700 text-gray-400 hover:text-white rounded text-xs">
             75%
           </button>
-          <button className="px-2 py-1 bg-gray-800 hover:bg-gray-700 text-gray-400 hover:text-white rounded text-xs">
+          <button className="px-1.5 py-1 bg-gray-800 hover:bg-gray-700 text-gray-400 hover:text-white rounded text-xs">
             MAX
           </button>
         </div>
 
         {/* Total */}
-        <div>
-          <label className="block text-gray-400 text-xs mb-3">Total</label>
+        <div className="mb-2.5">
+          <label className="block text-gray-400 text-xs mb-2">Total</label>
           <input
             type="text"
             placeholder="0.00 USDT"
@@ -127,12 +127,12 @@ export default function TradingForms() {
         </div>
 
         {/* Buy Button */}
-        <button className="w-full bg-orange-500 hover:bg-orange-600 text-white font-bold py-2.5 rounded transition-colors text-sm h-10">
+        <button className="w-full bg-orange-500 hover:bg-orange-600 text-white font-bold rounded transition-colors text-sm h-10">
           Buy BTC
         </button>
 
         {/* Available Balance */}
-        <div className="text-center text-gray-400 text-xs">
+        <div className="text-center text-gray-400 text-xs mt-2">
           Available: 0.00 USDT
         </div>
       </div>

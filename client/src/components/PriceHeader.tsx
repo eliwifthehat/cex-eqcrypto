@@ -29,7 +29,7 @@ export default function PriceHeader({ selectedPair, onPairChange }: PriceHeaderP
   const { change, percent, isPositive } = formatPriceChange(priceData.priceChange, priceData.priceChangePercent);
 
   return (
-    <div className="bg-gray-900 border-b border-gray-800 px-5 pt-4 pb-3 mt-16 h-11">
+    <div className="bg-gray-900 border-b border-gray-800 px-5 py-3 mt-12 h-12">
       <div className="flex items-center justify-between">
         {/* Left side - Trading pair and price info */}
         <div className="flex items-center space-x-4">
@@ -48,7 +48,7 @@ export default function PriceHeader({ selectedPair, onPairChange }: PriceHeaderP
 
           {/* Price */}
           <div className="flex flex-col">
-            <div className="text-white text-lg font-bold">
+            <div className="text-white text-lg font-semibold max-w-fit">
               66,800.0
             </div>
             <div className="text-red-400 text-xs">
