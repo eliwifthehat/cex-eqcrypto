@@ -14,9 +14,8 @@ interface TradingChartProps {
 export default function TradingChart({ selectedPair }: TradingChartProps) {
   const [timeframe, setTimeframe] = useState("1h");
   const chartContainerRef = useRef<HTMLDivElement>(null);
-  const chartRef = useRef<IChartApi | null>(null);
-  const candlestickSeriesRef = useRef<ISeriesApi<"Candlestick"> | null>(null);
-  const volumeSeriesRef = useRef<ISeriesApi<"Histogram"> | null>(null);
+  const chartRef = useRef<any>(null);
+  const candlestickSeriesRef = useRef<any>(null);
 
   const timeframes = [
     { label: "1m", value: "1m" },
@@ -32,10 +31,10 @@ export default function TradingChart({ selectedPair }: TradingChartProps) {
     const data = [];
     const basePrice = 66800;
     let currentPrice = basePrice;
-    const now = new Date();
+    const now = Date.now();
     
     for (let i = 100; i >= 0; i--) {
-      const timeStr = Math.floor((now.getTime() - i * 60 * 60 * 1000) / 1000) as any;
+      const timestamp = Math.floor((now - i * 60 * 60 * 1000) / 1000);
       
       const volatility = Math.random() * 600 + 200;
       const direction = Math.random() > 0.5 ? 1 : -1;
@@ -48,7 +47,7 @@ export default function TradingChart({ selectedPair }: TradingChartProps) {
       const low = Math.min(open, close) - Math.random() * 150;
       
       data.push({
-        time: timeStr,
+        time: timestamp,
         open: parseFloat(open.toFixed(2)),
         high: parseFloat(high.toFixed(2)),
         low: parseFloat(low.toFixed(2)),
@@ -56,24 +55,6 @@ export default function TradingChart({ selectedPair }: TradingChartProps) {
       });
       
       currentPrice = close;
-    }
-    
-    return data.sort((a, b) => a.time - b.time);
-  };
-
-  const generateVolumeData = () => {
-    const data = [];
-    const now = new Date();
-    
-    for (let i = 100; i >= 0; i--) {
-      const timeStr = Math.floor((now.getTime() - i * 60 * 60 * 1000) / 1000) as any;
-      const volume = Math.random() * 1000000 + 100000;
-      
-      data.push({
-        time: timeStr,
-        value: volume,
-        color: Math.random() > 0.5 ? 'rgba(34, 197, 94, 0.6)' : 'rgba(239, 68, 68, 0.6)'
-      });
     }
     
     return data.sort((a, b) => a.time - b.time);
@@ -93,16 +74,6 @@ export default function TradingChart({ selectedPair }: TradingChartProps) {
       },
       crosshair: {
         mode: 1,
-        vertLine: {
-          color: '#9ca3af',
-          width: 1,
-          style: 3,
-        },
-        horzLine: {
-          color: '#9ca3af',
-          width: 1,
-          style: 3,
-        },
       },
       timeScale: {
         timeVisible: true,
@@ -116,41 +87,33 @@ export default function TradingChart({ selectedPair }: TradingChartProps) {
           bottom: 0.3,
         },
       },
+      width: chartContainerRef.current.clientWidth,
+      height: 500,
     });
 
-    const candlestickSeries = chart.addSeries('Candlestick', {
-      upColor: '#22c55e',
-      downColor: '#ef4444',
-      borderDownColor: '#ef4444',
-      borderUpColor: '#22c55e',
-      wickDownColor: '#ef4444',
-      wickUpColor: '#22c55e',
-    });
+    try {
+      const candlestickSeries = (chart as any).addCandlestickSeries({
+        upColor: '#22c55e',
+        downColor: '#ef4444',
+        borderDownColor: '#ef4444',
+        borderUpColor: '#22c55e',
+        wickDownColor: '#ef4444',
+        wickUpColor: '#22c55e',
+      });
 
-    const volumeSeries = chart.addSeries('Histogram', {
-      color: '#9ca3af',
-      priceFormat: {
-        type: 'volume',
-      },
-      priceScaleId: '',
-      scaleMargins: {
-        top: 0.7,
-        bottom: 0,
-      },
-    });
+      candlestickSeries.setData(generateCandlestickData());
 
-    candlestickSeries.setData(generateCandlestickData());
-    volumeSeries.setData(generateVolumeData());
-
-    chartRef.current = chart;
-    candlestickSeriesRef.current = candlestickSeries;
-    volumeSeriesRef.current = volumeSeries;
+      chartRef.current = chart;
+      candlestickSeriesRef.current = candlestickSeries;
+    } catch (error) {
+      console.warn('TradingView chart initialization failed:', error);
+    }
 
     const handleResize = () => {
       if (chartContainerRef.current) {
         chart.applyOptions({
           width: chartContainerRef.current.clientWidth,
-          height: chartContainerRef.current.clientHeight,
+          height: 500,
         });
       }
     };
@@ -164,9 +127,8 @@ export default function TradingChart({ selectedPair }: TradingChartProps) {
   }, []);
 
   useEffect(() => {
-    if (candlestickSeriesRef.current && volumeSeriesRef.current) {
+    if (candlestickSeriesRef.current) {
       candlestickSeriesRef.current.setData(generateCandlestickData());
-      volumeSeriesRef.current.setData(generateVolumeData());
     }
   }, [timeframe]);
 
