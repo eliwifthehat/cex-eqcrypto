@@ -52,124 +52,122 @@ export default function TradingForms() {
   const percentageButtons = ["25%", "50%", "75%", "100%"];
 
   return (
-    <Card className="bg-card border-border">
-      <CardHeader>
-        <div className="flex items-center justify-start">
-          <div className="flex bg-muted rounded-lg p-1">
-            <Button
-              variant={orderType === "Market" ? "default" : "ghost"}
-              size="sm"
-              onClick={() => setOrderType("Market")}
-              className={`px-6 py-2 text-sm font-medium rounded-md transition-all ${
-                orderType === "Market"
-                  ? "bg-primary text-primary-foreground shadow-sm"
-                  : "text-muted-foreground hover:text-foreground hover:bg-background"
-              }`}
-            >
-              Market
-            </Button>
-            <Button
-              variant={orderType === "Limit" ? "default" : "ghost"}
-              size="sm"
-              onClick={() => setOrderType("Limit")}
-              className={`px-6 py-2 text-sm font-medium rounded-md transition-all ${
-                orderType === "Limit"
-                  ? "bg-primary text-primary-foreground shadow-sm"
-                  : "text-muted-foreground hover:text-foreground hover:bg-background"
-              }`}
-            >
-              Limit
-            </Button>
+    <div className="bg-gray-900 border border-gray-800 rounded">
+      {/* Trading Tabs */}
+      <div className="border-b border-gray-800">
+        <div className="flex">
+          <button className="flex-1 px-4 py-3 text-center text-white bg-green-600 hover:bg-green-700 transition-colors">
+            Buy
+          </button>
+          <button className="flex-1 px-4 py-3 text-center text-white bg-red-600 hover:bg-red-700 transition-colors">
+            Sell
+          </button>
+        </div>
+      </div>
+
+      {/* Order Type Tabs */}
+      <div className="border-b border-gray-800 p-4">
+        <div className="flex space-x-1 bg-gray-800 rounded p-1">
+          <button className="flex-1 px-3 py-2 text-white bg-gray-700 rounded text-sm">
+            Limit
+          </button>
+          <button className="flex-1 px-3 py-2 text-gray-400 hover:text-white text-sm">
+            Market
+          </button>
+          <button className="flex-1 px-3 py-2 text-gray-400 hover:text-white text-sm">
+            Advanced limit
+          </button>
+        </div>
+      </div>
+
+      {/* Trading Form */}
+      <div className="p-4 space-y-4">
+        {/* Price Input */}
+        <div>
+          <label className="block text-gray-400 text-sm mb-2">Price</label>
+          <div className="relative">
+            <input
+              type="text"
+              value="732.96 USDT"
+              className="w-full bg-gray-800 border border-gray-700 rounded px-3 py-2 text-white text-sm"
+              readOnly
+            />
+            <button className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-white">
+              <span className="text-xs">USDT ▼</span>
+            </button>
           </div>
         </div>
-      </CardHeader>
-      <CardContent>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {/* Buy Section */}
-          <div className="space-y-4">
-            <h4 className="font-semibold crypto-green">Buy BTC</h4>
-            
-            <div>
-              <Label htmlFor="buy-amount" className="text-sm text-muted-foreground">
-                Amount
-              </Label>
-              <div className="relative mt-1">
-                <Input
-                  id="buy-amount"
-                  type="number"
-                  placeholder="0"
-                  value={buyAmount}
-                  onChange={(e) => setBuyAmount(e.target.value)}
-                  className="bg-background border-border text-foreground placeholder-muted-foreground focus:border-crypto-green pr-12"
-                />
-                <span className="absolute right-3 top-2 text-muted-foreground text-sm">
-                  USDT
-                </span>
-              </div>
-            </div>
-            
-            <Button
-              onClick={user ? handleBuyOrder : () => setLocation('/auth')}
-              className="w-full bg-crypto-blue hover:bg-blue-600 text-white font-semibold py-3"
-            >
-              {user ? 'Buy BTC' : 'Sign In to Buy'}
-            </Button>
-            
-            <div className="text-xs text-muted-foreground">
-              Available: <span className="text-foreground">0.00 USDT</span>
-            </div>
-          </div>
-          
-          {/* Sell Section */}
-          <div className="space-y-4">
-            <h4 className="font-semibold crypto-red">Sell BTC</h4>
-            
-            <div>
-              <Label htmlFor="sell-amount" className="text-sm text-muted-foreground">
-                Amount
-              </Label>
-              <div className="relative mt-1">
-                <Input
-                  id="sell-amount"
-                  type="number"
-                  placeholder="0"
-                  value={sellAmount}
-                  onChange={(e) => setSellAmount(e.target.value)}
-                  className="bg-background border-border text-foreground placeholder-muted-foreground focus:border-crypto-red pr-12"
-                />
-                <span className="absolute right-3 top-2 text-muted-foreground text-sm">
-                  BTC
-                </span>
-              </div>
-            </div>
-            
-            <Button
-              onClick={user ? handleSellOrder : () => setLocation('/auth')}
-              className="w-full bg-crypto-red hover:bg-red-600 text-white font-semibold py-3"
-            >
-              {user ? 'Sell BTC' : 'Sign In to Sell'}
-            </Button>
-            
-            <div className="text-xs text-muted-foreground">
-              Available: <span className="text-foreground">0.00 BTC</span>
-            </div>
+
+        {/* Amount Input */}
+        <div>
+          <label className="block text-gray-400 text-sm mb-2">Amount</label>
+          <div className="relative">
+            <input
+              type="text"
+              placeholder="Amount"
+              className="w-full bg-gray-800 border border-gray-700 rounded px-3 py-2 text-white text-sm placeholder-gray-500"
+            />
+            <button className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-white">
+              <span className="text-xs">BTC ▼</span>
+            </button>
           </div>
         </div>
-        
-        {/* Quick Amount Buttons */}
-        <div className="grid grid-cols-4 gap-2 mt-4">
-          {percentageButtons.map((percentage) => (
-            <Button
-              key={percentage}
-              variant="outline"
-              size="sm"
-              className="py-2 text-xs bg-muted hover:bg-accent text-muted-foreground hover:text-foreground border-border"
-            >
-              {percentage}
-            </Button>
-          ))}
+
+        {/* Percentage Buttons */}
+        <div className="grid grid-cols-4 gap-2">
+          <button className="px-3 py-2 bg-gray-800 hover:bg-gray-700 text-gray-400 hover:text-white rounded text-sm">
+            25%
+          </button>
+          <button className="px-3 py-2 bg-gray-800 hover:bg-gray-700 text-gray-400 hover:text-white rounded text-sm">
+            50%
+          </button>
+          <button className="px-3 py-2 bg-gray-800 hover:bg-gray-700 text-gray-400 hover:text-white rounded text-sm">
+            75%
+          </button>
+          <button className="px-3 py-2 bg-gray-800 hover:bg-gray-700 text-gray-400 hover:text-white rounded text-sm">
+            100%
+          </button>
         </div>
-      </CardContent>
-    </Card>
+
+        {/* Total */}
+        <div>
+          <label className="block text-gray-400 text-sm mb-2">Total</label>
+          <div className="relative">
+            <input
+              type="text"
+              placeholder="Total"
+              className="w-full bg-gray-800 border border-gray-700 rounded px-3 py-2 text-white text-sm placeholder-gray-500"
+            />
+            <button className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-white">
+              <span className="text-xs">▼</span>
+            </button>
+          </div>
+        </div>
+
+        {/* Buy Button */}
+        <button className="w-full bg-orange-500 hover:bg-orange-600 text-white font-medium py-3 rounded transition-colors">
+          Buy BTC
+        </button>
+
+        {/* Fees */}
+        <div className="text-center">
+          <span className="text-gray-400 text-xs">⚡ Fees</span>
+        </div>
+      </div>
+
+      {/* Assets Section */}
+      <div className="border-t border-gray-800 p-4">
+        <h3 className="text-white font-medium mb-3">Assets</h3>
+        <div className="space-y-2">
+          <div className="flex justify-between items-center">
+            <span className="text-gray-400 text-sm">Trading account</span>
+          </div>
+          <div className="flex justify-between items-center">
+            <span className="text-white text-sm">BTC</span>
+            <span className="text-white text-sm">0.0273.0</span>
+          </div>
+        </div>
+      </div>
+    </div>
   );
 }
