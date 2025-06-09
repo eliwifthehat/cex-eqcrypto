@@ -89,7 +89,7 @@ export default function TradingChart({ selectedPair }: TradingChartProps) {
         height: 480,
       });
 
-      const candlestickSeries = chart.addSeries('candlestick', {
+      const candlestickSeries = chart.addCandlestickSeries({
         upColor: '#22c55e',
         downColor: '#ef4444',
         borderDownColor: '#ef4444',
