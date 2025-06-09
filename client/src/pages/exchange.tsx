@@ -25,8 +25,8 @@ export default function Exchange() {
       {/* Main Trading Layout */}
       <div className="max-w-[100vw] mx-auto px-2 py-1 pt-4">
         <div className="flex gap-2">
-          {/* Chart - 45% width */}
-          <div className="w-[45%]">
+          {/* Chart - 50% width */}
+          <div className="w-[50%]">
             <TradingChart selectedPair={selectedPair} />
           </div>
 
