@@ -30,20 +30,33 @@ export default function Exchange() {
             <TradingChart selectedPair={selectedPair} />
           </div>
 
-          {/* Order Book - Takes up 2 columns, more compact */}
-          <div className="col-span-2">
-            <OrderBook />
-          </div>
-
-          {/* Trading Forms - Takes up 2 columns */}
-          <div className="col-span-2">
-            <TradingForms />
+          {/* Order Book & Recent Trades - Combined in one section */}
+          <div className="col-span-4">
+            <div className="space-y-2">
+              {/* Order Book and Recent Trades Tabs */}
+              <div className="bg-gray-900 border border-gray-800 rounded">
+                <div className="border-b border-gray-800">
+                  <div className="flex space-x-1 p-1">
+                    <button className="px-4 py-2 text-white bg-gray-700 rounded text-sm">
+                      Order Book
+                    </button>
+                    <button className="px-4 py-2 text-gray-400 hover:text-white text-sm">
+                      Recent Trades
+                    </button>
+                  </div>
+                </div>
+                <OrderBook />
+              </div>
+              
+              {/* Trading Forms */}
+              <TradingForms />
+            </div>
           </div>
         </div>
 
-        {/* Bottom Section - Order Management Tabs - Aligned with Chart */}
+        {/* Bottom Section - Order Management Tabs - Extended to match order book */}
         <div className="mt-4 grid grid-cols-12 gap-2">
-          <div className="col-span-8">
+          <div className="col-span-12">
             <div className="bg-gray-900 border border-gray-800 rounded">
               {/* Tab Navigation */}
               <div className="border-b border-gray-800">

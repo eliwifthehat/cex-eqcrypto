@@ -35,60 +35,58 @@ export default function PriceHeader({ selectedPair, onPairChange }: PriceHeaderP
         <div className="flex items-center space-x-4">
           {/* Bitcoin Icon and Pair */}
           <div className="flex items-center space-x-2">
-            <div className="w-8 h-8 bg-orange-500 rounded-full flex items-center justify-center">
-              <span className="text-white font-bold text-sm">₿</span>
-            </div>
-            <div className="flex items-center space-x-1">
-              <span className="text-white font-semibold text-lg">BTC/USDT</span>
-              <div className="w-4 h-4 border border-gray-600 rounded-full flex items-center justify-center">
-                <span className="text-gray-400 text-xs">?</span>
-              </div>
-            </div>
+            <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.568 8.16c-.08.64-.48 1.28-1.28 1.52-.24.08-.56.16-.88.16v.88c0 .32-.24.56-.56.56s-.56-.24-.56-.56v-.88h-.88v.88c0 .32-.24.56-.56.56s-.56-.24-.56-.56v-.88H9.52c-.32 0-.56-.24-.56-.56s.24-.56.56-.56h.32v-3.04H9.52c-.32 0-.56-.24-.56-.56s.24-.56.56-.56h2.88v-.88c0-.32.24-.56.56-.56s.56.24.56.56v.88h.88v-.88c0-.32.24-.56.56-.56s.56.24.56.56v.88c.32 0 .64.08.88.16.8.24 1.2.88 1.28 1.52z" fill="#F7931A"/>
+            </svg>
+            <span className="text-white font-medium" style={{ fontSize: '14px' }}>BTC/USDT</span>
           </div>
 
           {/* Price */}
-          <div className="flex flex-col">
-            <div className="text-white text-2xl font-bold">
-              66,800.0
-            </div>
-            <div className="text-red-400 text-sm">
-              -0.49% +44.4
-            </div>
+          <div className="text-white font-bold" style={{ fontSize: '18px' }}>
+            ${priceData.currentPrice.toLocaleString()}
+          </div>
+
+          {/* 24h Change */}
+          <div className={`flex items-center space-x-1 ${isPositive ? 'text-green-400' : 'text-red-400'}`}>
+            <span style={{ fontSize: '12px' }}>{change}</span>
+            <span style={{ fontSize: '12px' }}>({percent})</span>
           </div>
 
           {/* 24h Stats */}
-          <div className="flex space-x-8 text-sm">
-            <div className="flex flex-col">
-              <span className="text-gray-400">24h High</span>
-              <span className="text-white font-medium">67,458.8</span>
+          <div className="flex items-center" style={{ fontSize: '12px' }}>
+            <div className="text-gray-400 px-3">
+              <span className="block">24h High</span>
+              <span className="text-white">${priceData.high24h.toLocaleString()}</span>
             </div>
-            <div className="flex flex-col">
-              <span className="text-gray-400">24h Low</span>
-              <span className="text-white font-medium">65,807.8</span>
+            <div className="text-gray-400 px-3">
+              <span className="block">24h Low</span>
+              <span className="text-white">${priceData.low24h.toLocaleString()}</span>
             </div>
-            <div className="flex flex-col">
-              <span className="text-gray-400">24h Amount (BTC)</span>
-              <span className="text-white font-medium">1.93K</span>
+            <div className="text-gray-400 px-3">
+              <span className="block">24h Volume (BTC)</span>
+              <span className="text-white">1.93K</span>
             </div>
-            <div className="flex flex-col">
-              <span className="text-gray-400">24h Volume (USDT)</span>
-              <span className="text-white font-medium">129.09M</span>
+            <div className="text-gray-400 px-3">
+              <span className="block">24h Volume (USDT)</span>
+              <span className="text-white">129.09M</span>
             </div>
           </div>
         </div>
+      </div>
 
-        {/* Right side - Chart/Order book tabs */}
-        <div className="flex items-center space-x-6">
-          <div className="flex space-x-1 bg-gray-800 rounded p-1">
-            <button className="px-4 py-2 text-white bg-gray-700 rounded text-sm">Chart</button>
-            <button className="px-4 py-2 text-gray-400 hover:text-white text-sm">Depth</button>
-            <button className="px-4 py-2 text-gray-400 hover:text-white text-sm">Overview</button>
-          </div>
-          
-          <div className="flex space-x-1 bg-gray-800 rounded p-1">
-            <button className="px-4 py-2 text-white bg-gray-700 rounded text-sm">Order book</button>
-            <button className="px-4 py-2 text-gray-400 hover:text-white text-sm">Recent Trades</button>
-          </div>
+      {/* Horizontal divider under BTC/USDT pair */}
+      <div className="border-t border-gray-700 mt-4 pt-4">
+        {/* Chart navigation buttons positioned under the pair */}
+        <div className="flex items-center space-x-4">
+          <button className="px-4 py-2 bg-blue-600 text-white rounded text-sm hover:bg-blue-700">
+            Chart
+          </button>
+          <button className="px-4 py-2 bg-gray-700 text-gray-300 rounded text-sm hover:bg-gray-600">
+            Depth
+          </button>
+          <button className="px-4 py-2 bg-gray-700 text-gray-300 rounded text-sm hover:bg-gray-600">
+            Overview
+          </button>
         </div>
       </div>
     </div>
