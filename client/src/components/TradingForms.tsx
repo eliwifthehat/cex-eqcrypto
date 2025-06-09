@@ -2,7 +2,7 @@ import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/components/AuthProvider";
 import { useLocation } from "wouter";
@@ -14,6 +14,15 @@ export default function TradingForms() {
   const { toast } = useToast();
   const { user } = useAuth();
   const [, setLocation] = useLocation();
+  
+  // Log trading forms container width
+  const containerRef = useRef<HTMLDivElement>(null);
+  
+  useEffect(() => {
+    if (containerRef.current) {
+      console.log(`TradingForms container width: ${containerRef.current.clientWidth}px`);
+    }
+  }, []);
 
   const handleBuyOrder = () => {
     if (!buyAmount || parseFloat(buyAmount) <= 0) {
@@ -52,7 +61,7 @@ export default function TradingForms() {
   const percentageButtons = ["25%", "50%", "75%", "100%"];
 
   return (
-    <div className="bg-gray-900 border border-gray-800 rounded h-fit">
+    <div ref={containerRef} className="bg-gray-900 border border-gray-800 rounded h-fit">
       {/* Trading Tabs */}
       <div className="border-b border-gray-800">
         <div className="flex">
