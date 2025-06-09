@@ -73,12 +73,12 @@ export default function TradingForms() {
   return (
     <div ref={containerRef} className="bg-gray-900 border border-gray-800 rounded h-fit">
       {/* Top Navigation Buttons */}
-      <div className="border-b border-gray-800 p-2">
+      <div className="border-b border-gray-800 p-1">
         <div className="flex space-x-1 mb-2">
-          <button className="px-3 py-1 bg-blue-600 text-white text-xs rounded">Trade</button>
-          <button className="px-3 py-1 bg-gray-700 text-gray-300 hover:text-white text-xs rounded">Spot</button>
-          <button className="px-3 py-1 bg-gray-700 text-gray-300 hover:text-white text-xs rounded">Futures</button>
-          <button className="px-3 py-1 bg-gray-700 text-gray-300 hover:text-white text-xs rounded">More</button>
+          <button className="px-4 py-2 bg-blue-600 text-white text-sm rounded">Trade</button>
+          <button className="px-4 py-2 bg-gray-700 text-gray-300 hover:text-white text-sm rounded">Spot</button>
+          <button className="px-4 py-2 bg-gray-700 text-gray-300 hover:text-white text-sm rounded">Futures</button>
+          <button className="px-4 py-2 bg-gray-700 text-gray-300 hover:text-white text-sm rounded">More</button>
         </div>
         
         {/* Buy/Sell Toggle */}
@@ -125,23 +125,29 @@ export default function TradingForms() {
             </button>
             <button 
               onClick={() => setOrderType('market')}
-              className={`px-3 py-1 text-xs rounded transition-colors ${
+              className={`px-3 py-1 text-xs rounded transition-colors relative ${
                 orderType === 'market' 
                   ? 'text-white' 
                   : 'text-gray-400 hover:text-white'
               }`}
             >
               Market
+              {orderType === 'market' && (
+                <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-blue-500 rounded-full"></div>
+              )}
             </button>
             <button 
               onClick={() => setOrderType('advanced')}
-              className={`px-3 py-1 text-xs rounded transition-colors ${
+              className={`px-3 py-1 text-xs rounded transition-colors relative ${
                 orderType === 'advanced' 
                   ? 'text-white' 
                   : 'text-gray-400 hover:text-white'
               }`}
             >
               Advanced Limit
+              {orderType === 'advanced' && (
+                <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-blue-500 rounded-full"></div>
+              )}
             </button>
           </div>
         </div>
@@ -169,7 +175,7 @@ export default function TradingForms() {
           <div className="relative">
             <Input
               type="number"
-              placeholder="Amount"
+              placeholder="0.00"
               value={amount}
               onChange={(e) => setAmount(e.target.value)}
               className="bg-gray-800 border-gray-700 text-white text-xs pl-16 pr-12"
