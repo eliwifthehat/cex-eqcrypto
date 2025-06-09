@@ -89,6 +89,9 @@ export default function TradingChart({ selectedPair }: TradingChartProps) {
         height: 480,
       });
 
+      // Log chart dimensions for width confirmation
+      console.log(`Chart container width: ${chartContainerRef.current.clientWidth}px`);
+
       const candlestickSeries = chart.addCandlestickSeries({
         upColor: '#22c55e',
         downColor: '#ef4444',

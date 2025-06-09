@@ -25,32 +25,31 @@ export default function Exchange() {
       {/* Main Trading Layout */}
       <div className="max-w-[100vw] mx-auto px-2 py-1 pt-4">
         <div className="grid grid-cols-12 gap-2">
-          {/* Chart - Takes up 8 columns, moved further left */}
-          <div className="col-span-8">
+          {/* Chart - Takes up 6 columns for better spacing */}
+          <div className="col-span-6">
             <TradingChart selectedPair={selectedPair} />
           </div>
 
-          {/* Order Book & Recent Trades - Combined in one section */}
-          <div className="col-span-4">
-            <div className="space-y-2">
-              {/* Order Book and Recent Trades Tabs */}
-              <div className="bg-gray-900 border border-gray-800 rounded">
-                <div className="border-b border-gray-800">
-                  <div className="flex space-x-1 p-1">
-                    <button className="px-4 py-2 text-white bg-gray-700 rounded text-sm">
-                      Order Book
-                    </button>
-                    <button className="px-4 py-2 text-gray-400 hover:text-white text-sm">
-                      Recent Trades
-                    </button>
-                  </div>
+          {/* Order Book & Recent Trades - 3 columns */}
+          <div className="col-span-3">
+            <div className="bg-gray-900 border border-gray-800 rounded">
+              <div className="border-b border-gray-800">
+                <div className="flex space-x-1 p-1">
+                  <button className="px-4 py-2 text-white bg-gray-700 rounded text-sm">
+                    Order Book
+                  </button>
+                  <button className="px-4 py-2 text-gray-400 hover:text-white text-sm">
+                    Recent Trades
+                  </button>
                 </div>
-                <OrderBook />
               </div>
-              
-              {/* Trading Forms */}
-              <TradingForms />
+              <OrderBook />
             </div>
+          </div>
+
+          {/* Buy/Sell Trading Forms - 3 columns */}
+          <div className="col-span-3">
+            <TradingForms />
           </div>
         </div>
 

@@ -1,8 +1,18 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Settings, MoreHorizontal } from "lucide-react";
+import { useRef, useEffect } from "react";
 
 export default function OrderBook() {
+  // Log order book container width
+  const containerRef = useRef<HTMLDivElement>(null);
+  
+  useEffect(() => {
+    if (containerRef.current) {
+      console.log(`OrderBook container width: ${containerRef.current.clientWidth}px`);
+    }
+  }, []);
+
   // Real order book data structure matching the reference
   const sellOrders = [
     { price: 66683.1, amount: 0.088268 },
@@ -26,7 +36,7 @@ export default function OrderBook() {
   ];
 
   return (
-    <div className="bg-gray-900 border border-gray-800 rounded h-full">
+    <div ref={containerRef} className="bg-gray-900 border border-gray-800 rounded h-full">
       {/* Header */}
       <div className="border-b border-gray-800 p-2">
         <div className="flex justify-between text-xs text-gray-400">
