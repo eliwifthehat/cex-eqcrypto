@@ -28,23 +28,19 @@ export default function OrderBook() {
   return (
     <div className="bg-gray-900 border border-gray-800 rounded h-full">
       {/* Header */}
-      <div className="border-b border-gray-800 p-3">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center space-x-2">
-            <span className="text-white font-medium text-sm">Price (USDT)</span>
-          </div>
-          <div className="flex items-center space-x-2">
-            <span className="text-white font-medium text-sm">Amount (BTC)</span>
-          </div>
+      <div className="border-b border-gray-800 p-2">
+        <div className="flex justify-between text-xs text-gray-400">
+          <span>Price (USDT)</span>
+          <span>Amount (BTC)</span>
         </div>
       </div>
 
       {/* Order book content */}
-      <div className="p-3 h-[500px] overflow-hidden">
+      <div className="p-2 h-[400px] overflow-hidden">
         {/* Sell orders (red) */}
-        <div className="space-y-1">
-          {sellOrders.map((order, index) => (
-            <div key={index} className="flex justify-between items-center text-sm hover:bg-gray-800 px-2 py-1 rounded">
+        <div className="space-y-0.5">
+          {sellOrders.slice(0, 8).map((order, index) => (
+            <div key={index} className="flex justify-between items-center text-xs hover:bg-gray-800 px-1 py-0.5 rounded">
               <span className="text-red-400 font-mono">
                 {order.price.toFixed(1)}
               </span>
@@ -56,18 +52,19 @@ export default function OrderBook() {
         </div>
 
         {/* Current price */}
-        <div className="flex items-center justify-center py-4 my-4 border-y border-gray-800">
+        <div className="flex items-center justify-center py-2 my-2 border-y border-gray-800">
           <div className="text-center">
-            <div className="text-white text-lg font-bold">
-              66,800.0 <span className="text-red-400 text-sm ml-2">↓ +66,790.07</span>
+            <div className="text-white text-sm font-bold">
+              66,800.0
             </div>
+            <div className="text-red-400 text-xs">↓ 0.12%</div>
           </div>
         </div>
 
         {/* Buy orders (green) */}
-        <div className="space-y-1">
-          {buyOrders.map((order, index) => (
-            <div key={index} className="flex justify-between items-center text-sm hover:bg-gray-800 px-2 py-1 rounded">
+        <div className="space-y-0.5">
+          {buyOrders.slice(0, 8).map((order, index) => (
+            <div key={index} className="flex justify-between items-center text-xs hover:bg-gray-800 px-1 py-0.5 rounded">
               <span className="text-green-400 font-mono">
                 {order.price.toFixed(1)}
               </span>

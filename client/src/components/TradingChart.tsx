@@ -95,36 +95,80 @@ export default function TradingChart({ selectedPair }: TradingChartProps) {
       </div>
 
       {/* Main Chart Area */}
-      <div className="relative h-[400px] bg-gray-950">
-        {/* Chart Canvas Area */}
-        <div className="absolute inset-0 flex items-end justify-center space-x-1 p-8">
+      <div className="relative h-[380px] bg-gray-950">
+        {/* Grid Lines */}
+        <svg className="absolute inset-0 w-full h-full" style={{ zIndex: 1 }}>
+          {/* Horizontal grid lines */}
+          {[...Array(8)].map((_, i) => (
+            <line
+              key={`h-${i}`}
+              x1="0"
+              y1={i * 47.5}
+              x2="100%"
+              y2={i * 47.5}
+              stroke="rgba(75, 85, 99, 0.3)"
+              strokeWidth="0.5"
+            />
+          ))}
+          {/* Vertical grid lines */}
+          {[...Array(12)].map((_, i) => (
+            <line
+              key={`v-${i}`}
+              x1={i * 8.33 + '%'}
+              y1="0"
+              x2={i * 8.33 + '%'}
+              y2="100%"
+              stroke="rgba(75, 85, 99, 0.3)"
+              strokeWidth="0.5"
+            />
+          ))}
+        </svg>
+
+        {/* Candlestick Chart */}
+        <div className="absolute inset-0 flex items-end justify-center space-x-2 p-8 pb-12" style={{ zIndex: 2 }}>
           {mockCandles.map((candle, index) => (
-            <div key={index} className="flex flex-col items-center space-y-1">
-              <div
-                className={`w-3 ${candle.isPositive ? 'bg-green-500' : 'bg-red-500'}`}
-                style={{ height: `${candle.height * 3}px` }}
+            <div key={index} className="flex flex-col items-center justify-end" style={{ height: '100%' }}>
+              {/* Wick top */}
+              <div 
+                className={`w-0.5 ${candle.isPositive ? 'bg-green-500' : 'bg-red-500'}`}
+                style={{ height: `${Math.random() * 20 + 10}px` }}
               />
-              <div className={`w-1 h-2 ${candle.isPositive ? 'bg-green-500' : 'bg-red-500'}`} />
+              {/* Body */}
+              <div
+                className={`w-4 ${candle.isPositive ? 'bg-green-500' : 'bg-red-500'} border ${candle.isPositive ? 'border-green-400' : 'border-red-400'}`}
+                style={{ height: `${candle.height * 4}px` }}
+              />
+              {/* Wick bottom */}
+              <div 
+                className={`w-0.5 ${candle.isPositive ? 'bg-green-500' : 'bg-red-500'}`}
+                style={{ height: `${Math.random() * 15 + 5}px` }}
+              />
             </div>
           ))}
         </div>
-        
+
         {/* Price scale on right */}
-        <div className="absolute right-0 top-0 bottom-0 w-16 flex flex-col justify-between py-4 text-xs text-gray-400">
-          <span>67,400.0</span>
-          <span>67,200.0</span>
-          <span>67,000.0</span>
-          <span>66,800.0</span>
-          <span>66,600.0</span>
-          <span>66,400.0</span>
-          <span>66,200.0</span>
-          <span>66,000.0</span>
-          <span>65,800.0</span>
-          <span>65,600.0</span>
-          <span>65,400.0</span>
-          <span>65,200.0</span>
-          <span>65,000.0</span>
-          <span>64,800.0</span>
+        <div className="absolute right-0 top-0 bottom-0 w-20 flex flex-col justify-between py-4 text-xs text-gray-400 bg-gray-900 border-l border-gray-800" style={{ zIndex: 3 }}>
+          <span className="px-2">67,400.0</span>
+          <span className="px-2">67,200.0</span>
+          <span className="px-2">67,000.0</span>
+          <span className="px-2">66,800.0</span>
+          <span className="px-2">66,600.0</span>
+          <span className="px-2">66,400.0</span>
+          <span className="px-2">66,200.0</span>
+          <span className="px-2">66,000.0</span>
+          <span className="px-2">65,800.0</span>
+          <span className="px-2">65,600.0</span>
+          <span className="px-2">65,400.0</span>
+          <span className="px-2">65,200.0</span>
+          <span className="px-2">65,000.0</span>
+          <span className="px-2">64,800.0</span>
+        </div>
+
+        {/* Cross hair indicator */}
+        <div className="absolute inset-0 pointer-events-none" style={{ zIndex: 4 }}>
+          <div className="absolute top-1/2 left-0 right-20 h-0.5 bg-gray-500 opacity-50"></div>
+          <div className="absolute left-1/2 top-0 bottom-0 w-0.5 bg-gray-500 opacity-50"></div>
         </div>
       </div>
 
