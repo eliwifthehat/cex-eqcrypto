@@ -1,5 +1,3 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
 import { useState, useEffect, useRef } from "react";
 import { createChart, ColorType } from 'lightweight-charts';
 import { 
@@ -33,28 +31,28 @@ export default function TradingChart({ selectedPair }: TradingChartProps) {
     let currentPrice = basePrice;
     const now = Date.now();
     
-    for (let i = 100; i >= 0; i--) {
+    for (let i = 200; i >= 0; i--) {
       const timestamp = Math.floor((now - i * 60 * 60 * 1000) / 1000);
       
-      const volatility = Math.random() * 600 + 200;
-      const direction = Math.random() > 0.5 ? 1 : -1;
+      const volatility = Math.random() * 800 + 300;
+      const direction = Math.random() > 0.48 ? 1 : -1;
       
       const open = currentPrice;
       const change = (Math.random() * volatility) * direction;
       const close = open + change;
       
-      const high = Math.max(open, close) + Math.random() * 150;
-      const low = Math.min(open, close) - Math.random() * 150;
+      const high = Math.max(open, close) + Math.random() * 200;
+      const low = Math.min(open, close) - Math.random() * 200;
       
       data.push({
-        time: timestamp,
+        time: timestamp as any,
         open: parseFloat(open.toFixed(2)),
         high: parseFloat(high.toFixed(2)),
         low: parseFloat(low.toFixed(2)),
         close: parseFloat(close.toFixed(2))
       });
       
-      currentPrice = close;
+      currentPrice = close + (Math.random() - 0.5) * 100;
     }
     
     return data.sort((a, b) => a.time - b.time);
@@ -63,35 +61,34 @@ export default function TradingChart({ selectedPair }: TradingChartProps) {
   useEffect(() => {
     if (!chartContainerRef.current) return;
 
-    const chart = createChart(chartContainerRef.current, {
-      layout: {
-        background: { type: ColorType.Solid, color: '#0f172a' },
-        textColor: '#9ca3af',
-      },
-      grid: {
-        vertLines: { color: 'rgba(75, 85, 99, 0.3)' },
-        horzLines: { color: 'rgba(75, 85, 99, 0.3)' },
-      },
-      crosshair: {
-        mode: 1,
-      },
-      timeScale: {
-        timeVisible: true,
-        secondsVisible: false,
-        borderColor: 'rgba(75, 85, 99, 0.5)',
-      },
-      rightPriceScale: {
-        borderColor: 'rgba(75, 85, 99, 0.5)',
-        scaleMargins: {
-          top: 0.1,
-          bottom: 0.3,
-        },
-      },
-      width: chartContainerRef.current.clientWidth,
-      height: 500,
-    });
+    // Wait for container to be properly mounted
+    const timeoutId = setTimeout(() => {
+      if (!chartContainerRef.current) return;
 
-    try {
+      const chart = createChart(chartContainerRef.current, {
+        layout: {
+          background: { type: ColorType.Solid, color: '#0f172a' },
+          textColor: '#9ca3af',
+        },
+        grid: {
+          vertLines: { color: 'rgba(75, 85, 99, 0.2)' },
+          horzLines: { color: 'rgba(75, 85, 99, 0.2)' },
+        },
+        crosshair: {
+          mode: 1,
+        },
+        timeScale: {
+          timeVisible: true,
+          secondsVisible: false,
+          borderColor: 'rgba(75, 85, 99, 0.5)',
+        },
+        rightPriceScale: {
+          borderColor: 'rgba(75, 85, 99, 0.5)',
+        },
+        width: chartContainerRef.current.clientWidth,
+        height: 480,
+      });
+
       const candlestickSeries = (chart as any).addCandlestickSeries({
         upColor: '#22c55e',
         downColor: '#ef4444',
@@ -101,34 +98,38 @@ export default function TradingChart({ selectedPair }: TradingChartProps) {
         wickUpColor: '#22c55e',
       });
 
-      candlestickSeries.setData(generateCandlestickData());
+      const data = generateCandlestickData();
+      candlestickSeries.setData(data);
 
       chartRef.current = chart;
       candlestickSeriesRef.current = candlestickSeries;
-    } catch (error) {
-      console.warn('TradingView chart initialization failed:', error);
-    }
 
-    const handleResize = () => {
-      if (chartContainerRef.current) {
-        chart.applyOptions({
-          width: chartContainerRef.current.clientWidth,
-          height: 500,
-        });
-      }
-    };
+      const handleResize = () => {
+        if (chartContainerRef.current && chart) {
+          chart.applyOptions({
+            width: chartContainerRef.current.clientWidth,
+            height: 480,
+          });
+        }
+      };
 
-    window.addEventListener('resize', handleResize);
+      window.addEventListener('resize', handleResize);
 
-    return () => {
-      window.removeEventListener('resize', handleResize);
-      chart.remove();
-    };
+      return () => {
+        window.removeEventListener('resize', handleResize);
+        if (chart) {
+          chart.remove();
+        }
+      };
+    }, 100);
+
+    return () => clearTimeout(timeoutId);
   }, []);
 
   useEffect(() => {
     if (candlestickSeriesRef.current) {
-      candlestickSeriesRef.current.setData(generateCandlestickData());
+      const data = generateCandlestickData();
+      candlestickSeriesRef.current.setData(data);
     }
   }, [timeframe]);
 
@@ -193,8 +194,12 @@ export default function TradingChart({ selectedPair }: TradingChartProps) {
       {/* TradingView Chart Container */}
       <div 
         ref={chartContainerRef}
-        className="h-[500px] w-full"
-        style={{ backgroundColor: '#0f172a' }}
+        className="w-full"
+        style={{ 
+          backgroundColor: '#0f172a',
+          height: '480px',
+          minHeight: '480px'
+        }}
       />
 
       {/* Chart Footer */}

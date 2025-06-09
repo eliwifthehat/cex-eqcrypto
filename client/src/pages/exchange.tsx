@@ -23,15 +23,15 @@ export default function Exchange() {
       <PriceHeader selectedPair={selectedPair} onPairChange={setSelectedPair} />
 
       {/* Main Trading Layout */}
-      <div className="max-w-7xl mx-auto px-4 py-2 pt-20">
-        <div className="grid grid-cols-12 gap-3">
-          {/* Chart - Takes up 7 columns */}
-          <div className="col-span-7">
+      <div className="max-w-[100vw] mx-auto px-2 py-1 pt-16">
+        <div className="grid grid-cols-12 gap-2">
+          {/* Chart - Takes up 8 columns, moved further left */}
+          <div className="col-span-8">
             <TradingChart selectedPair={selectedPair} />
           </div>
 
-          {/* Order Book - Takes up 3 columns, smaller */}
-          <div className="col-span-3">
+          {/* Order Book - Takes up 2 columns, more compact */}
+          <div className="col-span-2">
             <OrderBook />
           </div>
 
@@ -42,8 +42,8 @@ export default function Exchange() {
         </div>
 
         {/* Bottom Section - Order Management Tabs - Aligned with Chart */}
-        <div className="mt-4 grid grid-cols-12 gap-3">
-          <div className="col-span-7">
+        <div className="mt-4 grid grid-cols-12 gap-2">
+          <div className="col-span-8">
             <div className="bg-gray-900 border border-gray-800 rounded">
               {/* Tab Navigation */}
               <div className="border-b border-gray-800">
@@ -123,7 +123,7 @@ export default function Exchange() {
           </div>
           
           {/* Right side empty space to maintain layout */}
-          <div className="col-span-5"></div>
+          <div className="col-span-4"></div>
         </div>
       </div>
     </div>

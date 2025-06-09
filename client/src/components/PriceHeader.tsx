@@ -32,13 +32,13 @@ export default function PriceHeader({ selectedPair, onPairChange }: PriceHeaderP
     <div className="bg-gray-900 border-b border-gray-800 px-6 py-4">
       <div className="flex items-center justify-between">
         {/* Left side - Trading pair and price info */}
-        <div className="flex items-center space-x-8">
+        <div className="flex items-center space-x-4">
           {/* Bitcoin Icon and Pair */}
-          <div className="flex items-center space-x-3">
+          <div className="flex items-center space-x-2">
             <div className="w-8 h-8 bg-orange-500 rounded-full flex items-center justify-center">
               <span className="text-white font-bold text-sm">₿</span>
             </div>
-            <div className="flex items-center space-x-2">
+            <div className="flex items-center space-x-1">
               <span className="text-white font-semibold text-lg">BTC/USDT</span>
               <div className="w-4 h-4 border border-gray-600 rounded-full flex items-center justify-center">
                 <span className="text-gray-400 text-xs">?</span>
