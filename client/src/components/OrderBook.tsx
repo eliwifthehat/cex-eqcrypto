@@ -1,7 +1,8 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Settings, MoreHorizontal } from "lucide-react";
+import { Settings, MoreHorizontal, List, Grid3X3, BarChart3, ChevronDown } from "lucide-react";
 import { useRef, useEffect } from "react";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 export default function OrderBook() {
   // Log order book container width
@@ -39,6 +40,21 @@ export default function OrderBook() {
     <div ref={containerRef} className="bg-gray-900 border border-gray-800 rounded h-full">
       {/* Header */}
       <div className="border-b border-gray-800 p-2">
+        <div className="flex justify-between items-center mb-2">
+          <div className="flex items-center space-x-2">
+            {/* View control icons */}
+            <List className="w-3 h-3 text-gray-400 hover:text-white cursor-pointer" />
+            <Grid3X3 className="w-3 h-3 text-blue-400 cursor-pointer" />
+            <BarChart3 className="w-3 h-3 text-gray-400 hover:text-white cursor-pointer" />
+          </div>
+          
+          {/* Size dropdown */}
+          <div className="flex items-center space-x-1">
+            <span className="text-xs text-gray-400">0.1</span>
+            <ChevronDown className="w-3 h-3 text-gray-400" />
+          </div>
+        </div>
+        
         <div className="flex justify-between text-xs text-gray-400">
           <span>Price (USDT)</span>
           <span>Amount (BTC)</span>

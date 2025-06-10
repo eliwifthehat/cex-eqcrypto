@@ -1,5 +1,6 @@
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { usePriceSimulation } from "@/hooks/use-price-simulation";
+import { Settings, Layout, TrendingUp, Wifi } from "lucide-react";
 
 interface PriceHeaderProps {
   selectedPair: string;
@@ -70,6 +71,35 @@ export default function PriceHeader({ selectedPair, onPairChange }: PriceHeaderP
               <span className="block">24h Volume (USDT)</span>
               <span className="text-white">129.09M</span>
             </div>
+          </div>
+
+          {/* Right side control icons */}
+          <div className="flex items-center space-x-4">
+            {/* Connection Strength */}
+            <div className="flex items-center space-x-2">
+              <div className="flex items-center space-x-1">
+                <Wifi className="w-4 h-4 text-green-400" />
+                <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+              </div>
+            </div>
+            
+            {/* Short divider */}
+            <div className="h-4 w-px bg-gray-600"></div>
+            
+            {/* Trading Info */}
+            <div className="flex items-center space-x-2">
+              <TrendingUp className="w-4 h-4 text-gray-400" />
+              <span className="text-xs text-gray-400">Trading Info</span>
+            </div>
+            
+            {/* Short divider */}
+            <div className="h-4 w-px bg-gray-600"></div>
+            
+            {/* Layout icon */}
+            <Layout className="w-4 h-4 text-gray-400 hover:text-white cursor-pointer" />
+            
+            {/* Settings cog */}
+            <Settings className="w-4 h-4 text-gray-400 hover:text-white cursor-pointer" />
           </div>
         </div>
       </div>

@@ -175,12 +175,11 @@ export default function TradingForms() {
           <div className="relative">
             <Input
               type="number"
-              placeholder="0.00"
+              placeholder="0.00000000"
               value={amount}
               onChange={(e) => setAmount(e.target.value)}
-              className="bg-gray-800 border-gray-700 text-white text-xs pl-16 pr-12"
+              className="bg-gray-800 border-gray-700 text-white text-xs pr-12"
             />
-            <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-xs text-gray-400">Amount</span>
             <span className="absolute right-3 top-1/2 transform -translate-y-1/2 text-xs text-gray-400">BTC</span>
           </div>
         </div>
