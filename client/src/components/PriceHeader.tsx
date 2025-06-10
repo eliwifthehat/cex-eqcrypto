@@ -76,8 +76,8 @@ export default function PriceHeader({ selectedPair, onPairChange }: PriceHeaderP
           {/* Empty space to push icons right */}
           <div className="flex-1"></div>
           
-          {/* Right side control icons - positioned to align with order book middle */}
-          <div className="flex items-center space-x-3 pr-4">
+          {/* Right side control icons - positioned at far right edge */}
+          <div className="flex items-center space-x-3">
             {/* Connection Strength */}
             <div className="flex items-center space-x-2">
               <div className="flex items-center space-x-1">
