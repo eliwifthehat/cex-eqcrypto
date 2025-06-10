@@ -73,8 +73,11 @@ export default function PriceHeader({ selectedPair, onPairChange }: PriceHeaderP
             </div>
           </div>
 
-          {/* Right side control icons */}
-          <div className="flex items-center space-x-4">
+          {/* Empty space to push icons right */}
+          <div className="flex-1"></div>
+          
+          {/* Right side control icons - positioned to align with order book middle */}
+          <div className="flex items-center space-x-3 pr-4">
             {/* Connection Strength */}
             <div className="flex items-center space-x-2">
               <div className="flex items-center space-x-1">
@@ -105,16 +108,16 @@ export default function PriceHeader({ selectedPair, onPairChange }: PriceHeaderP
       </div>
 
       {/* Horizontal divider under BTC/USDT pair */}
-      <div className="border-t border-gray-700 mt-4 pt-4">
+      <div className="border-t border-gray-700 mt-2 pt-2">
         {/* Chart navigation buttons positioned under the pair */}
-        <div className="flex items-center space-x-4">
-          <button className="px-4 py-2 bg-blue-600 text-white rounded text-sm hover:bg-blue-700">
+        <div className="flex items-center space-x-2">
+          <button className="px-3 py-1 bg-blue-600 text-white rounded text-xs hover:bg-blue-700">
             Chart
           </button>
-          <button className="px-4 py-2 bg-gray-700 text-gray-300 rounded text-sm hover:bg-gray-600">
+          <button className="px-3 py-1 bg-gray-700 text-gray-300 rounded text-xs hover:bg-gray-600">
             Depth
           </button>
-          <button className="px-4 py-2 bg-gray-700 text-gray-300 rounded text-sm hover:bg-gray-600">
+          <button className="px-3 py-1 bg-gray-700 text-gray-300 rounded text-xs hover:bg-gray-600">
             Overview
           </button>
         </div>
