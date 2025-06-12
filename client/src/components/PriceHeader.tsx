@@ -30,10 +30,10 @@ export default function PriceHeader({ selectedPair, onPairChange }: PriceHeaderP
   const { change, percent, isPositive } = formatPriceChange(priceData.priceChange, priceData.priceChangePercent);
 
   return (
-    <div className="bg-gray-900 border-b border-gray-800 px-6 py-4 mt-16">
+    <div className="bg-gray-900 border-b border-gray-800 py-4 mt-16 relative">
       <div className="flex items-center justify-between">
         {/* Left side - Trading pair and price info */}
-        <div className="flex items-center space-x-4">
+        <div className="flex items-center space-x-4 px-6">
           {/* Bitcoin Icon and Pair */}
           <div className="flex items-center space-x-2">
             <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -72,43 +72,40 @@ export default function PriceHeader({ selectedPair, onPairChange }: PriceHeaderP
               <span className="text-white">129.09M</span>
             </div>
           </div>
-
-          {/* Empty space to push icons right */}
-          <div className="flex-1"></div>
-          
-          {/* Right side control icons - positioned at far right edge */}
-          <div className="flex items-center space-x-3">
-            {/* Connection Strength */}
-            <div className="flex items-center space-x-2">
-              <div className="flex items-center space-x-1">
-                <Wifi className="w-4 h-4 text-green-400" />
-                <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
-              </div>
+        </div>
+      
+        {/* Right side control icons - positioned at right edge with no padding */}
+        <div className="flex items-center space-x-3 pr-0">
+          {/* Connection Strength */}
+          <div className="flex items-center space-x-2">
+            <div className="flex items-center space-x-1">
+              <Wifi className="w-4 h-4 text-green-400" />
+              <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
             </div>
-            
-            {/* Short divider */}
-            <div className="h-4 w-px bg-gray-600"></div>
-            
-            {/* Trading Info */}
-            <div className="flex items-center space-x-2">
-              <TrendingUp className="w-4 h-4 text-gray-400" />
-              <span className="text-xs text-gray-400">Trading Info</span>
-            </div>
-            
-            {/* Short divider */}
-            <div className="h-4 w-px bg-gray-600"></div>
-            
-            {/* Layout icon */}
-            <Layout className="w-4 h-4 text-gray-400 hover:text-white cursor-pointer" />
-            
-            {/* Settings cog */}
-            <Settings className="w-4 h-4 text-gray-400 hover:text-white cursor-pointer" />
           </div>
+          
+          {/* Short divider */}
+          <div className="h-4 w-px bg-gray-600"></div>
+          
+          {/* Trading Info */}
+          <div className="flex items-center space-x-2">
+            <TrendingUp className="w-4 h-4 text-gray-400" />
+            <span className="text-xs text-gray-400">Trading Info</span>
+          </div>
+          
+          {/* Short divider */}
+          <div className="h-4 w-px bg-gray-600"></div>
+          
+          {/* Layout icon */}
+          <Layout className="w-4 h-4 text-gray-400 hover:text-white cursor-pointer" />
+          
+          {/* Settings cog */}
+          <Settings className="w-4 h-4 text-gray-400 hover:text-white cursor-pointer" />
         </div>
       </div>
 
       {/* Horizontal divider under BTC/USDT pair */}
-      <div className="border-t border-gray-700 mt-2 pt-2">
+      <div className="border-t border-gray-700 mt-2 pt-2 px-6">
         {/* Chart navigation buttons positioned under the pair */}
         <div className="flex items-center space-x-2">
           <button className="px-3 py-1 bg-blue-600 text-white rounded text-xs hover:bg-blue-700">
