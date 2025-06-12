@@ -22,120 +22,118 @@ export default function Exchange() {
       {/* Price Header */}
       <PriceHeader selectedPair={selectedPair} onPairChange={setSelectedPair} />
 
-      {/* Main Trading Layout */}
-      <div className="max-w-[100vw] mx-auto px-2 py-1 pt-4">
-        <div className="flex gap-2">
-          {/* Chart - 60% width */}
-          <div className="w-[60%]">
+      {/* Main Trading Layout - Connected Panels */}
+      <div className="max-w-[100vw] mx-auto">
+        <div className="flex h-[500px]">
+          {/* Chart Panel - 60% width */}
+          <div className="w-[60%] bg-gray-900 border-l border-gray-800">
             <TradingChart selectedPair={selectedPair} />
           </div>
 
-          {/* Order Book & Recent Trades - 25% width */}
-          <div className="w-[25%]">
-            <div className="bg-gray-900 border border-gray-800 rounded">
-              <div className="border-b border-gray-800">
-                <div className="flex space-x-1 p-1">
-                  <button className="px-4 py-2 text-white bg-gray-700 rounded text-sm">
-                    Order Book
-                  </button>
-                  <button className="px-4 py-2 text-gray-400 hover:text-white text-sm">
-                    Recent Trades
-                  </button>
-                </div>
+          {/* Vertical Divider */}
+          <div className="w-px bg-gray-800"></div>
+
+          {/* Order Book Panel - 25% width */}
+          <div className="w-[25%] bg-gray-900">
+            <div className="border-b border-gray-800">
+              <div className="flex space-x-1 p-1">
+                <button className="px-4 py-2 text-white bg-gray-700 rounded text-sm">
+                  Order Book
+                </button>
+                <button className="px-4 py-2 text-gray-400 hover:text-white text-sm">
+                  Recent Trades
+                </button>
               </div>
-              <OrderBook />
             </div>
+            <OrderBook />
           </div>
 
-          {/* Buy/Sell Trading Forms - 20% width */}
-          <div className="w-[20%]">
+          {/* Vertical Divider */}
+          <div className="w-px bg-gray-800"></div>
+
+          {/* Trading Forms Panel - 15% width */}
+          <div className="w-[15%] bg-gray-900 border-r border-gray-800">
             <TradingForms />
           </div>
         </div>
 
-        {/* Bottom Section - Order Management Tabs - Extended to match order book */}
-        <div className="mt-4 grid grid-cols-12 gap-2">
-          <div className="col-span-12">
-            <div className="bg-gray-900 border border-gray-800 rounded">
-              {/* Tab Navigation */}
-              <div className="border-b border-gray-800">
-                <div className="flex space-x-1 p-1">
-                  <button className="px-4 py-2 text-white bg-gray-800 rounded text-sm font-medium">
-                    Open Orders (1)
-                  </button>
-                  <button className="px-4 py-2 text-gray-400 hover:text-white text-sm">
-                    Order History
-                  </button>
-                  <button className="px-4 py-2 text-gray-400 hover:text-white text-sm">
-                    Assets
-                  </button>
-                </div>
-              </div>
+        {/* Horizontal Divider */}
+        <div className="h-px bg-gray-800"></div>
 
-              {/* Tab Content */}
-              <div className="p-4">
-                {/* Order Types Tabs */}
-                <div className="flex space-x-1 mb-4">
-                  <button className="px-4 py-2 text-white bg-gray-800 rounded text-sm">
-                    Limit
-                  </button>
-                  <button className="px-4 py-2 text-gray-400 hover:text-white text-sm">
-                    Market
-                  </button>
-                  <button className="px-4 py-2 text-gray-400 hover:text-white text-sm">
-                    Advanced limit
-                  </button>
-                  <button className="px-4 py-2 text-gray-400 hover:text-white text-sm">
-                    TP/SL
-                  </button>
-                  <button className="px-4 py-2 text-gray-400 hover:text-white text-sm">
-                    Trailing stop
-                  </button>
-                </div>
-
-                {/* Orders Table */}
-                <div className="overflow-x-auto">
-                  <table className="w-full text-sm">
-                    <thead>
-                      <tr className="text-gray-400 border-b border-gray-800">
-                        <th className="text-left py-2">Date</th>
-                        <th className="text-left py-2">Pair</th>
-                        <th className="text-left py-2">Type</th>
-                        <th className="text-left py-2">Side</th>
-                        <th className="text-right py-2">Amount</th>
-                        <th className="text-right py-2">Price</th>
-                        <th className="text-right py-2">Filled</th>
-                        <th className="text-right py-2">Total</th>
-                        <th className="text-right py-2">Action</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr className="text-white hover:bg-gray-800">
-                        <td className="py-3">2024-01-15 14:23</td>
-                        <td className="py-3">BTC/USDT</td>
-                        <td className="py-3">Limit</td>
-                        <td className="py-3">
-                          <span className="text-green-400">Buy</span>
-                        </td>
-                        <td className="py-3 text-right">0.001000</td>
-                        <td className="py-3 text-right">66,500.00</td>
-                        <td className="py-3 text-right">0%</td>
-                        <td className="py-3 text-right">66.50</td>
-                        <td className="py-3 text-right">
-                          <button className="text-red-400 hover:text-red-300 text-xs">
-                            Cancel
-                          </button>
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-              </div>
+        {/* Bottom Section - Order Management Panel */}
+        <div className="bg-gray-900 border-l border-r border-b border-gray-800">
+          {/* Tab Navigation */}
+          <div className="border-b border-gray-800">
+            <div className="flex space-x-1 p-1">
+              <button className="px-4 py-2 text-white bg-gray-800 rounded text-sm font-medium">
+                Open Orders (1)
+              </button>
+              <button className="px-4 py-2 text-gray-400 hover:text-white text-sm">
+                Order History
+              </button>
+              <button className="px-4 py-2 text-gray-400 hover:text-white text-sm">
+                Assets
+              </button>
             </div>
           </div>
-          
-          {/* Right side empty space to maintain layout */}
-          <div className="col-span-4"></div>
+
+          {/* Tab Content */}
+          <div className="p-4">
+            {/* Order Types Tabs */}
+            <div className="flex space-x-1 mb-4">
+              <button className="px-4 py-2 text-white bg-gray-800 rounded text-sm">
+                Limit
+              </button>
+              <button className="px-4 py-2 text-gray-400 hover:text-white text-sm">
+                Market
+              </button>
+              <button className="px-4 py-2 text-gray-400 hover:text-white text-sm">
+                Advanced limit
+              </button>
+              <button className="px-4 py-2 text-gray-400 hover:text-white text-sm">
+                TP/SL
+              </button>
+              <button className="px-4 py-2 text-gray-400 hover:text-white text-sm">
+                Trailing stop
+              </button>
+            </div>
+
+            {/* Orders Table */}
+            <div className="overflow-x-auto">
+              <table className="w-full text-sm">
+                <thead>
+                  <tr className="text-gray-400 border-b border-gray-800">
+                    <th className="text-left py-2">Date</th>
+                    <th className="text-left py-2">Pair</th>
+                    <th className="text-left py-2">Type</th>
+                    <th className="text-left py-2">Side</th>
+                    <th className="text-right py-2">Amount</th>
+                    <th className="text-right py-2">Price</th>
+                    <th className="text-right py-2">Filled</th>
+                    <th className="text-right py-2">Total</th>
+                    <th className="text-right py-2">Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr className="text-white hover:bg-gray-800">
+                    <td className="py-3">2024-01-15 14:23</td>
+                    <td className="py-3">BTC/USDT</td>
+                    <td className="py-3">Limit</td>
+                    <td className="py-3 text-green-400">Buy</td>
+                    <td className="py-3 text-right">0.00150000</td>
+                    <td className="py-3 text-right">66,850.00</td>
+                    <td className="py-3 text-right">0.00000000</td>
+                    <td className="py-3 text-right">100.28</td>
+                    <td className="py-3 text-right">
+                      <button className="text-red-400 hover:text-red-300 text-sm">
+                        Cancel
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
         </div>
       </div>
     </div>
