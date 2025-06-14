@@ -89,7 +89,7 @@ export default function OrderBook() {
 
         {/* Buy orders (green) */}
         <div className="space-y-0.5">
-          {buyOrders.slice(0, 8).map((order, index) => (
+          {buyOrders.slice(0, 6).map((order, index) => (
             <div key={index} className="flex justify-between items-center text-xs hover:bg-gray-800 px-1 py-0.5 rounded">
               <span className="text-green-400 font-mono">
                 {order.price.toFixed(1)}
@@ -99,6 +99,45 @@ export default function OrderBook() {
               </span>
             </div>
           ))}
+        </div>
+
+        {/* Buy/Sell Ratio Indicator */}
+        <div className="mt-3 p-2 bg-gray-800 rounded">
+          {/* Price and Volume Display */}
+          <div className="flex justify-between items-center mb-2 text-xs">
+            <span className="text-green-400 font-mono font-medium">66,673.4</span>
+            <div className="flex space-x-3 text-gray-300 font-mono">
+              <span>0.020873</span>
+              <span>1.422468</span>
+            </div>
+          </div>
+          
+          {/* Ratio Bar */}
+          <div className="flex items-center space-x-2">
+            {/* Buy Button */}
+            <div className="w-5 h-5 bg-green-600 rounded flex items-center justify-center">
+              <span className="text-white text-xs font-bold">B</span>
+            </div>
+            
+            {/* Progress Bar */}
+            <div className="flex-1 h-2 bg-gray-700 rounded overflow-hidden">
+              <div className="h-full flex">
+                <div className="bg-green-500 h-full" style={{ width: '71.58%' }}></div>
+                <div className="bg-red-500 h-full" style={{ width: '28.42%' }}></div>
+              </div>
+            </div>
+            
+            {/* Sell Button */}
+            <div className="w-5 h-5 bg-red-600 rounded flex items-center justify-center">
+              <span className="text-white text-xs font-bold">S</span>
+            </div>
+          </div>
+          
+          {/* Percentage Labels */}
+          <div className="flex justify-between mt-1 text-xs">
+            <span className="text-green-400 font-medium">71.58%</span>
+            <span className="text-red-400 font-medium">28.41%</span>
+          </div>
         </div>
       </div>
     </div>
