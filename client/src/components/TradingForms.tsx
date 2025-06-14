@@ -23,14 +23,7 @@ export default function TradingForms() {
     BTC: "0.0273"
   };
   
-  // Mock trading account assets
-  const tradingAssets = [
-    { token: "BTC", balance: "0.0273" },
-    { token: "USDT", balance: "12,450.67" },
-    { token: "ETH", balance: "2.1847" },
-    { token: "BNB", balance: "45.23" },
-    { token: "ADA", balance: "1,250.00" }
-  ];
+
   
   // Log trading forms container width
   const containerRef = useRef<HTMLDivElement>(null);
@@ -226,33 +219,6 @@ export default function TradingForms() {
         {/* Fees */}
         <div className="text-xs text-gray-400 text-center">
           0.1% FEES
-        </div>
-
-        {/* Divider */}
-        <div className="border-t border-gray-700"></div>
-        
-        {/* Space */}
-        <div className="h-2"></div>
-        
-        {/* Another Divider */}
-        <div className="border-t border-gray-700"></div>
-
-        {/* Assets Section */}
-        <div className="space-y-2">
-          <h3 className="text-xs text-gray-400 font-medium">Assets</h3>
-          <div className="border-t border-gray-700"></div>
-          
-          <div className="text-xs text-gray-400 mb-2">Trading Account</div>
-          
-          {/* Asset List */}
-          <div className="space-y-1">
-            {tradingAssets.map((asset) => (
-              <div key={asset.token} className="flex justify-between items-center py-1">
-                <span className="text-xs text-white">{asset.token}</span>
-                <span className="text-xs text-gray-400">{asset.balance}</span>
-              </div>
-            ))}
-          </div>
         </div>
       </div>
     </div>
