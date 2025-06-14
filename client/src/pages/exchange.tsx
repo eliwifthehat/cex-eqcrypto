@@ -90,16 +90,6 @@ export default function Exchange() {
               >
                 Order History
               </button>
-              <button 
-                onClick={() => setActiveBottomTab("assets")}
-                className={`px-4 py-2 rounded text-sm ${
-                  activeBottomTab === "assets" 
-                    ? "text-white bg-gray-800" 
-                    : "text-gray-400 hover:text-white"
-                }`}
-              >
-                Assets
-              </button>
             </div>
           </div>
 
@@ -143,112 +133,6 @@ export default function Exchange() {
             {activeBottomTab === "history" && (
               <div className="text-center text-gray-400 py-8">
                 <p>No order history available</p>
-              </div>
-            )}
-
-            {activeBottomTab === "assets" && (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                {/* Trading Account Section */}
-                <div className="bg-gray-800 rounded p-4">
-                  <h3 className="text-sm font-medium text-white mb-3">Trading Account</h3>
-                  <div className="space-y-3">
-                    <div className="flex justify-between items-center text-sm">
-                      <div className="flex items-center space-x-2">
-                        <div className="w-5 h-5 bg-orange-500 rounded-full flex items-center justify-center">
-                          <span className="text-white text-xs font-bold">₿</span>
-                        </div>
-                        <span className="text-white">BTC</span>
-                      </div>
-                      <div className="text-right">
-                        <div className="text-white">0.00150000</div>
-                        <div className="text-gray-400 text-xs">≈ $100.28</div>
-                      </div>
-                    </div>
-                    
-                    <div className="flex justify-between items-center text-sm">
-                      <div className="flex items-center space-x-2">
-                        <div className="w-5 h-5 bg-green-500 rounded-full flex items-center justify-center">
-                          <span className="text-white text-xs font-bold">$</span>
-                        </div>
-                        <span className="text-white">USDT</span>
-                      </div>
-                      <div className="text-right">
-                        <div className="text-white">1,250.75</div>
-                        <div className="text-gray-400 text-xs">≈ $1,250.75</div>
-                      </div>
-                    </div>
-                    
-                    <div className="flex justify-between items-center text-sm">
-                      <div className="flex items-center space-x-2">
-                        <div className="w-5 h-5 bg-blue-500 rounded-full flex items-center justify-center">
-                          <span className="text-white text-xs font-bold">E</span>
-                        </div>
-                        <span className="text-white">ETH</span>
-                      </div>
-                      <div className="text-right">
-                        <div className="text-white">0.50000000</div>
-                        <div className="text-gray-400 text-xs">≈ $1,850.50</div>
-                      </div>
-                    </div>
-
-                    <div className="flex justify-between items-center text-sm">
-                      <div className="flex items-center space-x-2">
-                        <div className="w-5 h-5 bg-yellow-500 rounded-full flex items-center justify-center">
-                          <span className="text-white text-xs font-bold">B</span>
-                        </div>
-                        <span className="text-white">BNB</span>
-                      </div>
-                      <div className="text-right">
-                        <div className="text-white">4.25000000</div>
-                        <div className="text-gray-400 text-xs">≈ $1,275.00</div>
-                      </div>
-                    </div>
-
-                    <div className="flex justify-between items-center text-sm">
-                      <div className="flex items-center space-x-2">
-                        <div className="w-5 h-5 bg-blue-400 rounded-full flex items-center justify-center">
-                          <span className="text-white text-xs font-bold">A</span>
-                        </div>
-                        <span className="text-white">ADA</span>
-                      </div>
-                      <div className="text-right">
-                        <div className="text-white">1,250.00000000</div>
-                        <div className="text-gray-400 text-xs">≈ $525.00</div>
-                      </div>
-                    </div>
-                    
-                    {/* Total Portfolio Value */}
-                    <div className="pt-3 border-t border-gray-700">
-                      <div className="flex justify-between text-sm">
-                        <span className="text-gray-400">Total Value</span>
-                        <span className="text-white font-medium">≈ $5,001.53</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Additional Assets Information */}
-                <div className="bg-gray-800 rounded p-4">
-                  <h3 className="text-sm font-medium text-white mb-3">Asset Performance</h3>
-                  <div className="space-y-2 text-xs">
-                    <div className="flex justify-between">
-                      <span className="text-gray-400">24h P&L</span>
-                      <span className="text-green-400">+$125.50 (+2.58%)</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span className="text-gray-400">Unrealized P&L</span>
-                      <span className="text-red-400">-$45.20 (-0.90%)</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span className="text-gray-400">Available Balance</span>
-                      <span className="text-white">$4,256.33</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span className="text-gray-400">In Orders</span>
-                      <span className="text-white">$745.20</span>
-                    </div>
-                  </div>
-                </div>
               </div>
             )}
           </div>
