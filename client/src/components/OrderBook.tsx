@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Settings, MoreHorizontal, List, Grid3X3, BarChart3, ChevronDown } from "lucide-react";
 import { useRef, useEffect, useState, useMemo } from "react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import SentimentBar from "./SentimentBar";
 
 export default function OrderBook() {
   // Log order book container width
@@ -129,68 +130,12 @@ export default function OrderBook() {
           ))}
         </div>
 
-        {/* Buy/Sell Ratio Indicator */}
-        <div className="mt-3 p-2 bg-gray-800 rounded relative">
-          {/* Price and Volume Display */}
-          <div className="flex justify-between items-center mb-2 text-xs">
-            <span className="text-green-400 font-mono font-medium">
-              {sentimentData.currentPrice.toLocaleString()}
-            </span>
-            <div className="flex space-x-3 text-gray-300 font-mono">
-              <span>{sentimentData.totalBuyVolume}</span>
-              <span>{sentimentData.totalSellVolume}</span>
-            </div>
-          </div>
-          
-          {/* Ratio Bar */}
-          <div 
-            className="flex items-center space-x-2 relative"
-            onMouseEnter={() => setShowTooltip(true)}
-            onMouseLeave={() => setShowTooltip(false)}
-          >
-            {/* Buy Button */}
-            <div className="w-5 h-5 bg-green-600 rounded flex items-center justify-center">
-              <span className="text-white text-xs font-bold">B</span>
-            </div>
-            
-            {/* Progress Bar with smooth animation */}
-            <div className="flex-1 h-2 bg-gray-700 rounded overflow-hidden">
-              <div className="h-full flex transition-all duration-500 ease-in-out">
-                <div 
-                  className="bg-green-500 h-full transition-all duration-500 ease-in-out" 
-                  style={{ width: `${animatedBuyPercentage || sentimentData.buyPercentage}%` }}
-                ></div>
-                <div 
-                  className="bg-red-500 h-full transition-all duration-500 ease-in-out" 
-                  style={{ width: `${100 - (animatedBuyPercentage || sentimentData.buyPercentage)}%` }}
-                ></div>
-              </div>
-            </div>
-            
-            {/* Sell Button */}
-            <div className="w-5 h-5 bg-red-600 rounded flex items-center justify-center">
-              <span className="text-white text-xs font-bold">S</span>
-            </div>
-
-            {/* Tooltip */}
-            {showTooltip && (
-              <div className="absolute top-full mt-2 left-1/2 transform -translate-x-1/2 bg-black/90 text-white text-xs rounded px-2 py-1 whitespace-nowrap z-10">
-                <div>Buy Volume: {sentimentData.totalBuyVolume} BTC</div>
-                <div>Sell Volume: {sentimentData.totalSellVolume} BTC</div>
-                <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 border-4 border-transparent border-b-black/90"></div>
-              </div>
-            )}
-          </div>
-          
-          {/* Percentage Labels */}
-          <div className="flex justify-between mt-1 text-xs">
-            <span className="text-green-400 font-medium">
-              {sentimentData.buyPercentage}%
-            </span>
-            <span className="text-red-400 font-medium">
-              {sentimentData.sellPercentage}%
-            </span>
-          </div>
+        {/* Sentiment Bar */}
+        <div className="px-2">
+          <SentimentBar 
+            buyPercent={sentimentData.buyPercentage} 
+            sellPercent={sentimentData.sellPercentage} 
+          />
         </div>
       </div>
     </div>
