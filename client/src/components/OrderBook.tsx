@@ -134,9 +134,7 @@ export default function OrderBook() {
         <div className="px-2">
           <SentimentBar 
             buyPercent={sentimentData.buyPercentage} 
-            sellPercent={sentimentData.sellPercentage}
-            buyVolume={sentimentData.totalBuyVolume}
-            sellVolume={sentimentData.totalSellVolume}
+            sellPercent={sentimentData.sellPercentage} 
           />
         </div>
       </div>
