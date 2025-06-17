@@ -9,7 +9,6 @@ import TradingChart from "@/components/TradingChart";
 import OrderBook from "@/components/OrderBook";
 import OrdersManagement from "@/components/OrdersManagement";
 import TradingForms from "@/components/TradingForms";
-import MobileTradingForms from "@/components/MobileTradingForms";
 import Portfolio from "@/components/Portfolio";
 import TradeHistory from "@/components/TradeHistory";
 
@@ -260,34 +259,75 @@ export default function Exchange() {
 
       {/* Mobile Layout */}
       <div className="lg:hidden flex flex-col h-[calc(100vh-120px)] bg-gray-900">
-        {/* Chart Section */}
-        <div className="h-[45%] bg-gray-900 border border-gray-800 mx-4 mt-4 rounded-lg">
-          <TradingChart selectedPair={selectedPair} />
+        {/* Mobile Navigation Tabs */}
+        <div className="flex border-b border-gray-800 bg-gray-900">
+          <button
+            onClick={() => setActiveMobileTab("chart")}
+            className={`flex-1 py-3 px-4 text-sm font-medium ${
+              activeMobileTab === "chart"
+                ? "text-white bg-gray-800 border-b-2 border-blue-500"
+                : "text-gray-400"
+            }`}
+          >
+            Chart
+          </button>
+          <button
+            onClick={() => setActiveMobileTab("orderbook")}
+            className={`flex-1 py-3 px-4 text-sm font-medium ${
+              activeMobileTab === "orderbook"
+                ? "text-white bg-gray-800 border-b-2 border-blue-500"
+                : "text-gray-400"
+            }`}
+          >
+            Order Book
+          </button>
+          <button
+            onClick={() => setActiveMobileTab("trade")}
+            className={`flex-1 py-3 px-4 text-sm font-medium ${
+              activeMobileTab === "trade"
+                ? "text-white bg-gray-800 border-b-2 border-blue-500"
+                : "text-gray-400"
+            }`}
+          >
+            Trade
+          </button>
         </div>
 
-        {/* Combined Order Book + Trade Panel */}
-        <div className="flex-1 mx-4 my-4 bg-gray-900 border border-gray-800 rounded-lg overflow-hidden">
-          <div className="h-full flex">
-            {/* Order Book Section - 50% */}
-            <div className="w-1/2 border-r border-gray-800">
-              <div className="border-b border-gray-800 p-2">
-                <h3 className="text-white text-sm font-medium">Order Book</h3>
-              </div>
-              <div className="h-[calc(100%-40px)] overflow-hidden">
-                <OrderBook />
-              </div>
+        {/* Mobile Content */}
+        <div className="flex-1 overflow-hidden p-4">
+          {activeMobileTab === "chart" && (
+            <div className="h-full bg-gray-900 rounded-lg border border-gray-800">
+              <TradingChart selectedPair={selectedPair} />
             </div>
+          )}
 
-            {/* Trade Panel Section - 50% */}
-            <div className="w-1/2">
-              <div className="border-b border-gray-800 p-2">
-                <h3 className="text-white text-sm font-medium">Trade</h3>
-              </div>
-              <div className="h-[calc(100%-40px)] overflow-auto p-2">
-                <MobileTradingForms />
+          {activeMobileTab === "orderbook" && (
+            <div className="h-full space-y-4">
+              {/* Order Book with Tabs */}
+              <div className="bg-gray-900 border border-gray-800 rounded-lg">
+                <div className="flex border-b border-gray-800 p-2">
+                  <button className="flex-1 py-2 text-sm text-white bg-gray-700 rounded-l">
+                    Order Book
+                  </button>
+                  <button className="flex-1 py-2 text-sm text-gray-400 bg-gray-800 rounded-r">
+                    Order Panel
+                  </button>
+                </div>
+                <div className="p-3">
+                  <OrderBook />
+                </div>
               </div>
             </div>
-          </div>
+          )}
+
+          {activeMobileTab === "trade" && (
+            <div className="h-full space-y-4">
+              {/* Trading Forms */}
+              <div className="bg-gray-900 border border-gray-800 rounded-lg p-4">
+                <TradingForms />
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </div>
