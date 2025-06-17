@@ -15,12 +15,14 @@ import {
 
 // Database connection
 const connectionString = process.env.DATABASE_URL!;
-const client = postgres(connectionString);
+// URL encode the connection string to handle special characters
+const encodedConnectionString = connectionString.replace(/!/g, '%21').replace(/#/g, '%23').replace(/&/g, '%26').replace(/%/g, '%25');
+const client = postgres(encodedConnectionString);
 const db = drizzle(client);
 
 export interface IStorage {
-  getUser(id: number): Promise<User | undefined>;
-  getUserByUsername(username: string): Promise<User | undefined>;
+  getUser(id: string): Promise<User | undefined>;
+  getUserByEmail(email: string): Promise<User | undefined>;
   createUser(user: InsertUser): Promise<User>;
   getTradingPair(symbol: string): Promise<TradingPair | undefined>;
   getOrderBook(symbol: string): Promise<OrderBookEntry[]>;
@@ -29,28 +31,31 @@ export interface IStorage {
 }
 
 export class MemStorage implements IStorage {
-  private users: Map<number, User>;
-  currentId: number;
+  private users: Map<string, User>;
 
   constructor() {
     this.users = new Map();
-    this.currentId = 1;
   }
 
-  async getUser(id: number): Promise<User | undefined> {
+  async getUser(id: string): Promise<User | undefined> {
     return this.users.get(id);
   }
 
-  async getUserByUsername(username: string): Promise<User | undefined> {
+  async getUserByEmail(email: string): Promise<User | undefined> {
     return Array.from(this.users.values()).find(
-      (user) => user.username === username,
+      (user) => user.email === email,
     );
   }
 
   async createUser(insertUser: InsertUser): Promise<User> {
-    const id = this.currentId++;
-    const user: User = { ...insertUser, id };
-    this.users.set(id, user);
+    const user: User = { 
+      id: insertUser.id,
+      email: insertUser.email,
+      phone: insertUser.phone ?? null,
+      createdAt: new Date(),
+      updatedAt: new Date()
+    };
+    this.users.set(user.id, user);
     return user;
   }
 
@@ -114,7 +119,7 @@ export class MemStorage implements IStorage {
 export class DatabaseStorage implements IStorage {
   private db = drizzle(client);
 
-  async getUser(id: number): Promise<User | undefined> {
+  async getUser(id: string): Promise<User | undefined> {
     try {
       const result = await this.db.select().from(users).where(eq(users.id, id));
       return result[0];
@@ -124,12 +129,12 @@ export class DatabaseStorage implements IStorage {
     }
   }
 
-  async getUserByUsername(username: string): Promise<User | undefined> {
+  async getUserByEmail(email: string): Promise<User | undefined> {
     try {
-      const result = await this.db.select().from(users).where(eq(users.username, username));
+      const result = await this.db.select().from(users).where(eq(users.email, email));
       return result[0];
     } catch (error) {
-      console.error('Error fetching user by username:', error);
+      console.error('Error fetching user by email:', error);
       return undefined;
     }
   }
