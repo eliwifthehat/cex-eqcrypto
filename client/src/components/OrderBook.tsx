@@ -84,8 +84,8 @@ export default function OrderBook() {
         </div>
         
         <div className="flex justify-between text-xs text-gray-400">
-          <span>Price (USDT)</span>
-          <span>Amount (BTC)</span>
+          <span>Price</span>
+          <span>Amount</span>
         </div>
       </div>
 

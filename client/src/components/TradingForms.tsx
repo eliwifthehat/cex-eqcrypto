@@ -68,10 +68,9 @@ export default function TradingForms() {
       {/* Top Navigation Buttons */}
       <div className="border-b border-gray-800 p-1">
         <div className="flex space-x-1 mb-2">
-          <button className="px-4 py-2 bg-blue-600 text-white text-sm rounded">Trade</button>
-          <button className="px-4 py-2 bg-gray-700 text-gray-300 hover:text-white text-sm rounded">Spot</button>
-          <button className="px-4 py-2 bg-gray-700 text-gray-300 hover:text-white text-sm rounded">Futures</button>
-          <button className="px-4 py-2 bg-gray-700 text-gray-300 hover:text-white text-sm rounded">More</button>
+          <button className="px-2 py-1 bg-blue-600 text-white text-xs rounded">Trade</button>
+          <button className="px-2 py-1 bg-gray-700 text-gray-300 hover:text-white text-xs rounded">Spot</button>
+          <button className="px-2 py-1 bg-gray-700 text-gray-300 hover:text-white text-xs rounded">Futures</button>
         </div>
         
         {/* Buy/Sell Toggle */}
@@ -177,13 +176,13 @@ export default function TradingForms() {
           </div>
         </div>
 
-        {/* Percentage Buttons - Centered */}
-        <div className="flex justify-center space-x-2">
+        {/* Percentage Buttons - Compact */}
+        <div className="grid grid-cols-4 gap-1">
           {["25%", "50%", "75%", "100%"].map((percentage) => (
             <button
               key={percentage}
               onClick={() => handlePercentageClick(percentage)}
-              className="px-3 py-1 bg-gray-800 text-gray-400 hover:text-white text-xs rounded border border-gray-700 hover:border-gray-600"
+              className="px-1 py-1 bg-gray-800 text-gray-400 hover:text-white text-xs rounded border border-gray-700 hover:border-gray-600"
             >
               {percentage}
             </button>

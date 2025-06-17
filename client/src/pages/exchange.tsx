@@ -24,24 +24,24 @@ export default function Exchange() {
       <PriceHeader selectedPair={selectedPair} onPairChange={setSelectedPair} />
 
       {/* Main Trading Layout - Connected Panels */}
-      <div className="max-w-[100vw] mx-auto h-[calc(100vh-120px)]">
-        <div className="flex h-full">
-          {/* Chart Panel - 60% width */}
-          <div className="w-[60%] bg-gray-900 border-l border-gray-800 flex flex-col">
+      <div className="w-full mx-auto h-[calc(100vh-120px)] overflow-hidden">
+        <div className="flex h-full w-full">
+          {/* Chart Panel - 62% width */}
+          <div className="w-[62%] bg-gray-900 border-l border-gray-800 flex flex-col">
             <TradingChart selectedPair={selectedPair} />
           </div>
 
           {/* Vertical Divider */}
-          <div className="w-px bg-gray-800"></div>
+          <div className="w-px bg-gray-800 flex-shrink-0"></div>
 
-          {/* Order Book Panel - 25% width */}
-          <div className="w-[25%] bg-gray-900 flex flex-col">
+          {/* Order Book Panel - 20% width */}
+          <div className="w-[20%] bg-gray-900 flex flex-col">
             <div className="border-b border-gray-800">
               <div className="flex space-x-1 p-1">
-                <button className="px-4 py-2 text-white bg-gray-700 rounded text-sm">
+                <button className="px-3 py-2 text-white bg-gray-700 rounded text-xs">
                   Order Book
                 </button>
-                <button className="px-4 py-2 text-gray-400 hover:text-white text-sm">
+                <button className="px-3 py-2 text-gray-400 hover:text-white text-xs">
                   Recent Trades
                 </button>
               </div>
@@ -52,11 +52,11 @@ export default function Exchange() {
           </div>
 
           {/* Vertical Divider */}
-          <div className="w-px bg-gray-800"></div>
+          <div className="w-px bg-gray-800 flex-shrink-0"></div>
 
-          {/* Trading Forms Panel - 15% width */}
-          <div className="w-[15%] bg-gray-900 border-r border-gray-800 flex flex-col">
-            <div className="flex-1 px-4 py-3">
+          {/* Trading Forms Panel - 18% width */}
+          <div className="w-[18%] bg-gray-900 border-r border-gray-800 flex flex-col">
+            <div className="flex-1 px-3 py-3">
               <TradingForms />
             </div>
           </div>
