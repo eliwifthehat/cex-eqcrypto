@@ -24,8 +24,9 @@ export default function Exchange() {
       <PriceHeader selectedPair={selectedPair} onPairChange={setSelectedPair} />
 
       {/* Main Trading Layout - Connected Panels */}
-      <div className="w-full mx-auto h-[calc(100vh-120px)] overflow-hidden">
-        <div className="flex h-full w-full">
+      <div className="w-full mx-auto h-[calc(100vh-120px)] overflow-hidden flex flex-col">
+        {/* Top Trading Panels */}
+        <div className="flex h-[calc(100%-200px)] w-full">
           {/* Chart Panel - 62% width */}
           <div className="w-[62%] bg-gray-900 border-l border-gray-800 flex flex-col">
             <TradingChart selectedPair={selectedPair} />
@@ -66,7 +67,7 @@ export default function Exchange() {
         <div className="h-px bg-gray-800"></div>
 
         {/* Bottom Section - Order Management Panel */}
-        <div className="bg-gray-900 border-l border-r border-b border-gray-800 h-[200px] flex flex-col">
+        <div className="bg-gray-900 border-l border-r border-b border-gray-800 h-[200px] flex flex-col flex-shrink-0">
           {/* Tab Navigation */}
           <div className="border-b border-gray-800">
             <div className="flex space-x-1 p-1">
