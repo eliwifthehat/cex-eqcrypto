@@ -1,5 +1,5 @@
 import { Link, useLocation } from 'wouter';
-import { Search, Smartphone, QrCode, X } from 'lucide-react';
+import { Search, Smartphone, QrCode, X, Menu } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
@@ -14,6 +14,7 @@ export default function Header() {
   const [showTokenDropdown, setShowTokenDropdown] = useState(false);
   const [showQRDialog, setShowQRDialog] = useState(false);
   const [isWalletConnected, setIsWalletConnected] = useState(false);
+  const [showMobileMenu, setShowMobileMenu] = useState(false);
 
   const navItems = [
     { label: 'Home', href: '/' },
@@ -82,13 +83,23 @@ export default function Header() {
           <div className="flex items-center justify-between h-full gap-6">
             {/* Logo */}
             <Link href="/">
-              <div className="text-2xl font-bold text-white drop-shadow-lg">
-                EQCRYPTO
+              <div className="text-xl md:text-2xl font-bold text-white drop-shadow-lg">
+                LOGO
               </div>
             </Link>
 
-            {/* Navigation */}
-            <nav className="hidden md:flex items-center space-x-6">
+            {/* Mobile Hamburger Menu */}
+            <Button
+              variant="ghost"
+              size="sm"
+              className="lg:hidden p-2 w-10 h-10 rounded-full text-white/80 hover:text-white hover:bg-white/10"
+              onClick={() => setShowMobileMenu(!showMobileMenu)}
+            >
+              <Menu className="h-5 w-5" />
+            </Button>
+
+            {/* Desktop Navigation */}
+            <nav className="hidden lg:flex items-center space-x-6">
               {navItems.map((item) => (
                 <Link key={item.href} href={item.href}>
                   <span className={`text-sm font-medium transition-all duration-300 hover:text-white hover:drop-shadow-lg ${
@@ -102,8 +113,8 @@ export default function Header() {
               ))}
             </nav>
 
-            {/* Token Search Bar */}
-            <div className="relative flex-1 max-w-xs">
+            {/* Desktop Token Search Bar */}
+            <div className="relative flex-1 max-w-xs hidden lg:block">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-white/60 h-4 w-4" />
               <Input
                 placeholder="BC"
@@ -147,8 +158,8 @@ export default function Header() {
               )}
             </div>
 
-            {/* Right Side Actions */}
-            <div className="flex items-center gap-3">
+            {/* Desktop Right Side Actions */}
+            <div className="hidden lg:flex items-center gap-3">
               {/* Mobile/QR Icon */}
               <Button
                 variant="ghost"
@@ -190,8 +201,57 @@ export default function Header() {
                 </div>
               )}
             </div>
+
+            {/* Mobile User Actions */}
+            <div className="lg:hidden">
+              {user ? (
+                <UserDropdown />
+              ) : (
+                <Link href="/auth">
+                  <Button
+                    className="h-10 px-4 text-sm font-medium rounded-full bg-purple-500/20 backdrop-blur-sm border border-purple-400/30 text-white hover:bg-purple-500/30"
+                  >
+                    Start
+                  </Button>
+                </Link>
+              )}
+            </div>
           </div>
         </div>
+
+        {/* Mobile Menu Overlay */}
+        {showMobileMenu && (
+          <div className="lg:hidden absolute top-16 left-0 right-0 bg-black/90 backdrop-blur-xl border-b border-white/20 shadow-xl">
+            <div className="p-4 space-y-4">
+              {/* Mobile Search */}
+              <div className="relative">
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-white/60 h-4 w-4" />
+                <Input
+                  placeholder="Search tokens"
+                  className="pl-10 h-10 bg-white/10 backdrop-blur-sm border border-white/20 text-white text-sm rounded-full placeholder-white/50"
+                />
+              </div>
+
+              {/* Mobile Navigation */}
+              <nav className="space-y-2">
+                {navItems.map((item) => (
+                  <Link key={item.href} href={item.href}>
+                    <span 
+                      className={`block px-4 py-3 text-sm font-medium rounded-lg transition-all duration-300 ${
+                        location === item.href 
+                          ? 'text-white bg-white/10 backdrop-blur-sm' 
+                          : 'text-white/80 hover:bg-white/5'
+                      }`}
+                      onClick={() => setShowMobileMenu(false)}
+                    >
+                      {item.label}
+                    </span>
+                  </Link>
+                ))}
+              </nav>
+            </div>
+          </div>
+        )}
       </header>
 
       {/* QR Code Dialog - Glassmorphism style */}
