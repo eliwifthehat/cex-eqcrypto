@@ -30,26 +30,52 @@ export default function PriceHeader({ selectedPair, onPairChange }: PriceHeaderP
   const { change, percent, isPositive } = formatPriceChange(priceData.priceChange, priceData.priceChangePercent);
 
   return (
-    <div className="bg-gray-900 border-b border-gray-800 py-3 lg:py-4 mt-16 relative">
-      <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between px-4 lg:px-6">
-        {/* Mobile: Trading pair selector */}
-        <div className="lg:hidden mb-3">
+    <div className="bg-gray-900 border-b border-gray-800 py-4 mt-16 relative">
+      {/* Mobile Layout */}
+      <div className="lg:hidden">
+        {/* Centered BTC/USDT Selector */}
+        <div className="flex justify-center mb-4">
           <Select value={selectedPair} onValueChange={onPairChange}>
-            <SelectTrigger className="w-full h-12 bg-gray-800 border-gray-700 text-white rounded-lg">
+            <SelectTrigger className="w-48 h-14 bg-transparent border-none text-white text-2xl font-bold justify-center hover:bg-gray-800/50 transition-colors">
               <SelectValue />
             </SelectTrigger>
             <SelectContent className="bg-gray-800 border-gray-700">
-              <SelectItem value="BTC/USDT">BTC/USDT</SelectItem>
-              <SelectItem value="ETH/USDT">ETH/USDT</SelectItem>
-              <SelectItem value="SOL/USDT">SOL/USDT</SelectItem>
+              <SelectItem value="BTC/USDT" className="text-lg">
+                <div className="flex items-center space-x-2">
+                  <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.568 8.16c-.08.64-.48 1.28-1.28 1.52-.24.08-.56.16-.88.16v.88c0 .32-.24.56-.56.56s-.56-.24-.56-.56v-.88h-.88v.88c0 .32-.24.56-.56.56s-.56-.24-.56-.56v-.88H9.52c-.32 0-.56-.24-.56-.56s.24-.56.56-.56h.32v-3.04H9.52c-.32 0-.56-.24-.56-.56s.24-.56.56-.56h2.88v-.88c0-.32.24-.56.56-.56s.56.24.56.56v.88h.88v-.88c0-.32.24-.56.56-.56s.56.24.56.56v.88c.32 0 .64.08.88.16.8.24 1.2.88 1.28 1.52z" fill="#F7931A"/>
+                  </svg>
+                  <span>BTC/USDT</span>
+                </div>
+              </SelectItem>
+              <SelectItem value="ETH/USDT" className="text-lg">
+                <div className="flex items-center space-x-2">
+                  <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M11.944 17.97L4.58 13.62 11.943 24l7.37-10.38-7.372 4.35h.003zM12.056 0L4.69 12.223l7.365 4.354 7.365-4.35L12.056 0z" fill="#627EEA"/>
+                  </svg>
+                  <span>ETH/USDT</span>
+                </div>
+              </SelectItem>
+              <SelectItem value="SOL/USDT" className="text-lg">
+                <div className="flex items-center space-x-2">
+                  <div className="w-5 h-5 bg-gradient-to-r from-purple-400 to-pink-400 rounded-full"></div>
+                  <span>SOL/USDT</span>
+                </div>
+              </SelectItem>
             </SelectContent>
           </Select>
         </div>
+        
+        {/* Divider */}
+        <div className="h-px bg-gray-800 mx-4"></div>
+      </div>
 
+      {/* Desktop Layout */}
+      <div className="hidden lg:flex items-center justify-between px-6">
         {/* Left side - Trading pair and price info */}
-        <div className="flex items-center space-x-3 lg:space-x-4">
-          {/* Bitcoin Icon and Pair - Desktop only */}
-          <div className="hidden lg:flex items-center space-x-2">
+        <div className="flex items-center space-x-4">
+          {/* Bitcoin Icon and Pair */}
+          <div className="flex items-center space-x-2">
             <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.568 8.16c-.08.64-.48 1.28-1.28 1.52-.24.08-.56.16-.88.16v.88c0 .32-.24.56-.56.56s-.56-.24-.56-.56v-.88h-.88v.88c0 .32-.24.56-.56.56s-.56-.24-.56-.56v-.88H9.52c-.32 0-.56-.24-.56-.56s.24-.56.56-.56h.32v-3.04H9.52c-.32 0-.56-.24-.56-.56s.24-.56.56-.56h2.88v-.88c0-.32.24-.56.56-.56s.56.24.56.56v.88h.88v-.88c0-.32.24-.56.56-.56s.56.24.56.56v.88c.32 0 .64.08.88.16.8.24 1.2.88 1.28 1.52z" fill="#F7931A"/>
             </svg>
@@ -57,7 +83,7 @@ export default function PriceHeader({ selectedPair, onPairChange }: PriceHeaderP
           </div>
 
           {/* Price */}
-          <div className="text-white font-bold text-lg lg:text-xl">
+          <div className="text-white font-bold text-xl">
             ${priceData.currentPrice.toLocaleString()}
           </div>
 

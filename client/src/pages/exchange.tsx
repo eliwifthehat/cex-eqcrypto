@@ -15,7 +15,7 @@ import TradeHistory from "@/components/TradeHistory";
 export default function Exchange() {
   const [selectedPair, setSelectedPair] = useState("BTC/USDT");
   const [activeBottomTab, setActiveBottomTab] = useState("orders");
-  const [activeMobileTab, setActiveMobileTab] = useState("chart");
+  const [activeMobileTab, setActiveMobileTab] = useState("orderbook");
 
   return (
     <div className="min-h-screen bg-background">
@@ -258,76 +258,69 @@ export default function Exchange() {
       </div>
 
       {/* Mobile Layout */}
-      <div className="lg:hidden flex flex-col h-[calc(100vh-120px)] bg-gray-900">
-        {/* Mobile Navigation Tabs */}
-        <div className="flex border-b border-gray-800 bg-gray-900">
-          <button
-            onClick={() => setActiveMobileTab("chart")}
-            className={`flex-1 py-3 px-4 text-sm font-medium ${
-              activeMobileTab === "chart"
-                ? "text-white bg-gray-800 border-b-2 border-blue-500"
-                : "text-gray-400"
-            }`}
-          >
-            Chart
-          </button>
-          <button
-            onClick={() => setActiveMobileTab("orderbook")}
-            className={`flex-1 py-3 px-4 text-sm font-medium ${
-              activeMobileTab === "orderbook"
-                ? "text-white bg-gray-800 border-b-2 border-blue-500"
-                : "text-gray-400"
-            }`}
-          >
-            Order Book
-          </button>
-          <button
-            onClick={() => setActiveMobileTab("trade")}
-            className={`flex-1 py-3 px-4 text-sm font-medium ${
-              activeMobileTab === "trade"
-                ? "text-white bg-gray-800 border-b-2 border-blue-500"
-                : "text-gray-400"
-            }`}
-          >
-            Trade
-          </button>
+      <div className="lg:hidden flex flex-col h-[calc(100vh-140px)] bg-gray-900">
+        {/* Chart Section */}
+        <div className="h-1/2 bg-gray-900 border border-gray-800 m-2 rounded-lg">
+          <TradingChart selectedPair={selectedPair} />
         </div>
 
-        {/* Mobile Content */}
-        <div className="flex-1 overflow-hidden p-4">
-          {activeMobileTab === "chart" && (
-            <div className="h-full bg-gray-900 rounded-lg border border-gray-800">
-              <TradingChart selectedPair={selectedPair} />
-            </div>
-          )}
+        {/* Divider */}
+        <div className="h-px bg-gray-800 mx-4"></div>
 
-          {activeMobileTab === "orderbook" && (
-            <div className="h-full space-y-4">
-              {/* Order Book with Tabs */}
-              <div className="bg-gray-900 border border-gray-800 rounded-lg">
-                <div className="flex border-b border-gray-800 p-2">
-                  <button className="flex-1 py-2 text-sm text-white bg-gray-700 rounded-l">
-                    Order Book
-                  </button>
-                  <button className="flex-1 py-2 text-sm text-gray-400 bg-gray-800 rounded-r">
-                    Order Panel
-                  </button>
-                </div>
-                <div className="p-3">
+        {/* Order Book / Order Panel Section */}
+        <div className="flex-1 flex flex-col m-2">
+          {/* Tabs for Order Book and Order Panel */}
+          <div className="flex border-b border-gray-800 bg-gray-900 rounded-t-lg">
+            <button
+              onClick={() => setActiveMobileTab("orderbook")}
+              className={`flex-1 py-3 px-4 text-sm font-medium rounded-tl-lg ${
+                activeMobileTab === "orderbook"
+                  ? "text-white bg-gray-700 border-b-2 border-blue-500"
+                  : "text-gray-400 bg-gray-800"
+              }`}
+            >
+              Order Book
+            </button>
+            <button
+              onClick={() => setActiveMobileTab("orderpanel")}
+              className={`flex-1 py-3 px-4 text-sm font-medium rounded-tr-lg ${
+                activeMobileTab === "orderpanel"
+                  ? "text-white bg-gray-700 border-b-2 border-blue-500"
+                  : "text-gray-400 bg-gray-800"
+              }`}
+            >
+              Order Panel
+            </button>
+          </div>
+
+          {/* Tab Content */}
+          <div className="flex-1 bg-gray-900 border border-gray-800 border-t-0 rounded-b-lg overflow-hidden">
+            {activeMobileTab === "orderbook" && (
+              <div className="h-full flex flex-col">
+                <div className="flex-1 p-3 overflow-auto">
                   <OrderBook />
                 </div>
               </div>
-            </div>
-          )}
+            )}
 
-          {activeMobileTab === "trade" && (
-            <div className="h-full space-y-4">
-              {/* Trading Forms */}
-              <div className="bg-gray-900 border border-gray-800 rounded-lg p-4">
-                <TradingForms />
+            {activeMobileTab === "orderpanel" && (
+              <div className="h-full flex flex-col">
+                <div className="flex-1 p-3 overflow-auto">
+                  <TradingForms />
+                </div>
               </div>
-            </div>
-          )}
+            )}
+          </div>
+
+          {/* Buy/Sell Buttons */}
+          <div className="flex gap-2 p-3 bg-gray-900 border border-gray-800 border-t-0 rounded-b-lg">
+            <button className="flex-1 py-3 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-lg transition-colors">
+              BUY BTC
+            </button>
+            <button className="flex-1 py-3 bg-red-600 hover:bg-red-700 text-white font-semibold rounded-lg transition-colors">
+              SELL BTC
+            </button>
+          </div>
         </div>
       </div>
     </div>

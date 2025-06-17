@@ -81,22 +81,38 @@ export default function Header() {
       <header className="fixed top-0 left-0 right-0 z-50 h-16 backdrop-blur-xl bg-white/10 border-b border-white/20 shadow-lg">
         <div className="max-w-7xl mx-auto px-4 h-full">
           <div className="flex items-center justify-between h-full gap-6">
-            {/* Logo */}
+            {/* Logo - Far Left */}
             <Link href="/">
               <div className="text-xl md:text-2xl font-bold text-white drop-shadow-lg">
-                LOGO
+                EQCRYPTO
               </div>
             </Link>
 
-            {/* Mobile Hamburger Menu */}
-            <Button
-              variant="ghost"
-              size="sm"
-              className="lg:hidden p-2 w-10 h-10 rounded-full text-white/80 hover:text-white hover:bg-white/10"
-              onClick={() => setShowMobileMenu(!showMobileMenu)}
-            >
-              <Menu className="h-5 w-5" />
-            </Button>
+            {/* Mobile Right Side - Account + Hamburger */}
+            <div className="lg:hidden flex items-center gap-3">
+              {/* User Account/Avatar */}
+              {user ? (
+                <UserDropdown />
+              ) : (
+                <Link href="/auth">
+                  <Button
+                    className="h-10 px-4 text-sm font-medium rounded-full bg-purple-500/20 backdrop-blur-sm border border-purple-400/30 text-white hover:bg-purple-500/30"
+                  >
+                    Start
+                  </Button>
+                </Link>
+              )}
+              
+              {/* Mobile Hamburger Menu */}
+              <Button
+                variant="ghost"
+                size="sm"
+                className="p-2 w-10 h-10 rounded-full text-white/80 hover:text-white hover:bg-white/10"
+                onClick={() => setShowMobileMenu(!showMobileMenu)}
+              >
+                <Menu className="h-5 w-5" />
+              </Button>
+            </div>
 
             {/* Desktop Navigation */}
             <nav className="hidden lg:flex items-center space-x-6">
@@ -202,20 +218,7 @@ export default function Header() {
               )}
             </div>
 
-            {/* Mobile User Actions */}
-            <div className="lg:hidden">
-              {user ? (
-                <UserDropdown />
-              ) : (
-                <Link href="/auth">
-                  <Button
-                    className="h-10 px-4 text-sm font-medium rounded-full bg-purple-500/20 backdrop-blur-sm border border-purple-400/30 text-white hover:bg-purple-500/30"
-                  >
-                    Start
-                  </Button>
-                </Link>
-              )}
-            </div>
+
           </div>
         </div>
 
