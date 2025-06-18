@@ -259,8 +259,8 @@ export default function Exchange() {
 
       {/* Mobile Layout */}
       <div className="lg:hidden flex flex-col h-[calc(100vh-140px)] bg-gray-900">
-        {/* Chart Section */}
-        <div className="h-1/2 bg-gray-900 border border-gray-800 m-2 rounded-lg">
+        {/* Chart Section - Fixed height for optimal mobile display */}
+        <div className="h-[280px] w-full bg-gray-900 border border-gray-800 m-2 rounded-lg overflow-hidden">
           <TradingChart selectedPair={selectedPair} />
         </div>
 
@@ -299,6 +299,10 @@ export default function Exchange() {
               <div className="h-full flex flex-col">
                 <div className="flex-1 p-3 overflow-auto">
                   <OrderBook />
+                  {/* Sentiment Bar */}
+                  <div className="mt-4">
+                    <SentimentBar />
+                  </div>
                 </div>
               </div>
             )}
