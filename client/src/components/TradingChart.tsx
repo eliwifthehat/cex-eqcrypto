@@ -65,9 +65,9 @@ export default function TradingChart({ selectedPair }: TradingChartProps) {
     const timeoutId = setTimeout(() => {
       if (!chartContainerRef.current) return;
 
-      // Responsive height: 280px for mobile, 480px for desktop
+      // Responsive height: 240px for mobile, 480px for desktop
       const isMobile = window.innerWidth < 768;
-      const chartHeight = isMobile ? 280 : 480;
+      const chartHeight = isMobile ? 240 : 480;
 
       const chart = createChart(chartContainerRef.current, {
         layout: {
@@ -114,7 +114,7 @@ export default function TradingChart({ selectedPair }: TradingChartProps) {
       const handleResize = () => {
         if (chartContainerRef.current && chart) {
           const isMobile = window.innerWidth < 768;
-          const chartHeight = isMobile ? 280 : 480;
+          const chartHeight = isMobile ? 240 : 480;
           chart.applyOptions({
             width: chartContainerRef.current.clientWidth,
             height: chartHeight,
@@ -144,11 +144,11 @@ export default function TradingChart({ selectedPair }: TradingChartProps) {
 
   return (
     <div className="h-full w-full bg-gray-900 rounded-lg flex flex-col">
-      {/* Chart Header with Tools - Mobile optimized */}
-      <div className="border-b border-gray-800 p-2 lg:p-4 flex-shrink-0">
+      {/* Chart Header - Desktop only for tools, Mobile has minimal UI */}
+      <div className="hidden lg:block border-b border-gray-800 p-4 flex-shrink-0">
         <div className="flex items-center justify-between">
-          {/* Left side - Drawing tools (hidden on mobile for space) */}
-          <div className="hidden lg:flex items-center space-x-1">
+          {/* Left side - Drawing tools */}
+          <div className="flex items-center space-x-1">
             <button className="p-2 text-gray-400 hover:text-white hover:bg-gray-800 rounded">
               <Minus className="w-4 h-4" />
             </button>
@@ -181,20 +181,13 @@ export default function TradingChart({ selectedPair }: TradingChartProps) {
             </button>
           </div>
 
-          {/* Mobile: Just settings icon */}
-          <div className="lg:hidden">
-            <button className="p-2 text-gray-400 hover:text-white hover:bg-gray-800 rounded">
-              <Settings className="w-4 h-4" />
-            </button>
-          </div>
-
           {/* Right side - Timeframes */}
           <div className="flex items-center space-x-1">
             {timeframes.map((tf) => (
               <button
                 key={tf.value}
                 onClick={() => setTimeframe(tf.value)}
-                className={`px-2 lg:px-3 py-1 text-xs lg:text-sm rounded ${
+                className={`px-3 py-1 text-sm rounded ${
                   timeframe === tf.value 
                     ? 'bg-gray-700 text-white' 
                     : 'text-gray-400 hover:text-white hover:bg-gray-800'
