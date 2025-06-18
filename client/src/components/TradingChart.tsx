@@ -207,14 +207,13 @@ export default function TradingChart({ selectedPair }: TradingChartProps) {
         </div>
       </div>
 
-      {/* TradingView Chart Container */}
+      {/* Chart Container - Mobile responsive */}
       <div 
         ref={chartContainerRef}
-        className="w-full"
+        className="w-full flex-1 min-h-0"
         style={{ 
           backgroundColor: '#0f172a',
-          height: '480px',
-          minHeight: '480px'
+          width: '100%'
         }}
       />
 

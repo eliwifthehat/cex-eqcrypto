@@ -11,6 +11,7 @@ import OrdersManagement from "@/components/OrdersManagement";
 import TradingForms from "@/components/TradingForms";
 import Portfolio from "@/components/Portfolio";
 import TradeHistory from "@/components/TradeHistory";
+import SentimentBar from "@/components/SentimentBar";
 
 export default function Exchange() {
   const [selectedPair, setSelectedPair] = useState("BTC/USDT");
