@@ -1,9 +1,9 @@
-import { pgTable, text, serial, integer, boolean, decimal, timestamp } from "drizzle-orm/pg-core";
+import { pgTable, text, serial, integer, boolean, decimal, timestamp, date, uuid } from "drizzle-orm/pg-core";
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
 
 export const users = pgTable("users", {
-  id: text("id").primaryKey(), // Supabase UUID
+  id: text("id").primaryKey(), // Supabase uses TEXT for user IDs
   email: text("email").unique().notNull(),
   phone: text("phone"),
   createdAt: timestamp("created_at").defaultNow(),
@@ -26,6 +26,7 @@ export const userProfiles = pgTable("user_profiles", {
   apiKeyEnabled: boolean("api_key_enabled").default(false),
   createdAt: timestamp("created_at").defaultNow(),
   updatedAt: timestamp("updated_at").defaultNow(),
+  slippageTolerance: decimal("slippage_tolerance", { precision: 5, scale: 2 }).default("0.50"), // Default 0.5%
 });
 
 export const userPortfolios = pgTable("user_portfolios", {

@@ -1,0 +1,13 @@
+{
+  "name": "cex-netlify-functions",
+  "version": "1.0.0",
+  "description": "Netlify functions for CEX API",
+  "main": "api.js",
+  "dependencies": {
+    "express": "^4.21.2",
+    "serverless-http": "^3.2.0",
+    "cors": "^2.8.5",
+    "helmet": "^8.0.0",
+    "express-rate-limit": "^7.1.5"
+  }
+} 

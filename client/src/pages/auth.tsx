@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useLocation } from 'wouter'
 import { useAuth } from '@/components/AuthProvider'
+import { supabase } from '@/lib/supabase'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
@@ -123,13 +124,6 @@ export default function Auth() {
     const email = formData.get('email') as string
     const password = formData.get('password') as string
 
-    // Check CAPTCHA verification
-    if (!captchaVerified) {
-      setError('Please complete the security verification.')
-      setIsLoading(false)
-      return
-    }
-
     // Check rate limiting for signups
     if (checkRateLimit(email)) {
       setError(`Too many signup attempts. Please try again in ${remainingTime} minutes.`)
@@ -208,6 +202,33 @@ export default function Auth() {
                       required
                       className="bg-gray-700 border-gray-600 text-white placeholder:text-gray-400"
                     />
+                    <div className="text-right">
+                      <button
+                        type="button"
+                        onClick={async () => {
+                          const email = (document.getElementById('signin-email') as HTMLInputElement)?.value;
+                          if (!email) {
+                            alert('Please enter your email first');
+                            return;
+                          }
+                          try {
+                            const { error } = await supabase.auth.resetPasswordForEmail(email, {
+                              redirectTo: `${window.location.origin}/auth?reset=true`,
+                            });
+                            if (error) {
+                              alert('Error: ' + error.message);
+                            } else {
+                              alert('Password reset email sent! Check your inbox.');
+                            }
+                          } catch (err) {
+                            alert('Error sending reset email');
+                          }
+                        }}
+                        className="text-sm text-blue-400 hover:text-blue-300 underline"
+                      >
+                        Forgot Password?
+                      </button>
+                    </div>
                   </div>
 
                   <div className="flex items-center space-x-2">
@@ -303,10 +324,11 @@ export default function Auth() {
                     />
                   </div>
 
-                  <SimpleCaptcha 
+                  {/* Temporarily disabled CAPTCHA for development */}
+                  {/* <SimpleCaptcha 
                     onVerify={setCaptchaVerified}
                     reset={resetCaptcha}
-                  />
+                  /> */}
                   
                   {error && (
                     <Alert className="bg-red-900/20 border-red-800">
@@ -319,7 +341,7 @@ export default function Auth() {
                   <Button 
                     type="submit" 
                     className="w-full bg-green-600 hover:bg-green-700"
-                    disabled={isLoading || loading || !captchaVerified || rateLimited}
+                    disabled={isLoading || loading || rateLimited}
                   >
                     {isLoading ? 'Creating Account...' : 'Create Account'}
                   </Button>

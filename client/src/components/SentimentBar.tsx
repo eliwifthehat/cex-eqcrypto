@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 
 interface SentimentBarProps {
   buyPercent?: number;
@@ -6,24 +6,44 @@ interface SentimentBarProps {
 }
 
 export default function SentimentBar({ buyPercent = 71.58, sellPercent = 28.41 }: SentimentBarProps) {
-  return (
-    <div className="w-full mt-4 bg-gray-800 rounded-full h-6 flex items-center relative overflow-hidden shadow-inner">
-      {/* Buy Side */}
-      <div className="bg-green-500 h-full transition-all duration-300" style={{ width: `${buyPercent}%` }}></div>
-      {/* Sell Side (positioned absolutely to right) */}
-      <div
-        className="bg-red-500 h-full absolute right-0 top-0 transition-all duration-300"
-        style={{ width: `${sellPercent}%` }}
-      ></div>
+  const [animatedBuyPercentage, setAnimatedBuyPercentage] = useState(0);
 
-      {/* Labels */}
-      <div className="absolute left-2 text-sm text-green-200 flex items-center gap-1">
-        <div className="bg-green-700 px-1 py-0.5 rounded text-xs font-bold">B</div>
-        {buyPercent.toFixed(2)}%
+  // Animate buy percentage on mount
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setAnimatedBuyPercentage(buyPercent);
+    }, 100);
+    return () => clearTimeout(timer);
+  }, [buyPercent]);
+
+  return (
+    <div className="w-full bg-gray-800 rounded-lg p-3 flex items-center justify-between">
+      {/* Buy indicator */}
+      <div className="flex items-center space-x-3">
+        <div className="w-8 h-8 bg-green-600 rounded-md flex items-center justify-center">
+          <span className="text-white font-bold text-sm">B</span>
+        </div>
+        <span className="text-green-400 font-semibold text-sm">
+          {buyPercent.toFixed(2)}%
+        </span>
       </div>
-      <div className="absolute right-2 text-sm text-red-200 flex items-center gap-1">
-        {sellPercent.toFixed(2)}%
-        <div className="bg-red-700 px-1 py-0.5 rounded text-xs font-bold">S</div>
+
+      {/* Center progress bar */}
+      <div className="flex-1 mx-4 h-2 bg-gray-700 rounded-full overflow-hidden">
+        <div
+          className="h-full bg-green-500 transition-all duration-700 ease-out rounded-full"
+          style={{ width: `${animatedBuyPercentage}%` }}
+        />
+      </div>
+
+      {/* Sell indicator */}
+      <div className="flex items-center space-x-3">
+        <span className="text-red-400 font-semibold text-sm">
+          {sellPercent.toFixed(2)}%
+        </span>
+        <div className="w-8 h-8 bg-red-600 rounded-md flex items-center justify-center">
+          <span className="text-white font-bold text-sm">S</span>
+        </div>
       </div>
     </div>
   );

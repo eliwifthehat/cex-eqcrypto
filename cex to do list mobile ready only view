@@ -1,0 +1,53 @@
+To-Do List for Improvements
+
+🎨 1. UI/UX Enhancements
+[x]Hover or Tap Tooltip on "Advanced Limit"
+→ Explain what it does for beginners.
+
+[x] Use Icons on Tabs (Trade, Spot, Futures)
+→ Add small icons for visual aid (like chart, lightning bolt, contract).
+
+[] - [x] Remove the small "Buy"/"Sell" tab buttons inside the Order Panel
+- [x] Remove the small "BUY BTC" button under the total input
+- [x] Fix ui the Mobile web layout on sentiment bar, orderbook, graphs, symbol bar.
+- [x] Dynamically update the bottom CTA button text and color based on Buy/Sell mode
+- [x] Ensure correct form is shown based on mode (Buy shows USDT balance, Sell shows BTC balance)
+
+
+[x] Add Estimated Fill Time for Orders (Optional)
+→ Based on slippage + volume.
+
+🧩 3. Functional Enhancements
+[x] Add Live Price Feed to Price Input Field
+→ Autofill price with current BTC/USDT value (editable).
+
+ [x]Auto-calculate "Total" Field
+→ When user inputs price + amount or selects %, calculate total.
+
+ [x]Toggle Buy/Sell Buttons
+→ Change green button to red if user taps "Sell" — dynamic rendering.
+
+ [x]Add "Available BTC" for Sell Mode
+→ Show BTC balance when sell is selected, instead of USDT.
+
+ [x]Input Validation & Warnings
+→ Show red warning if the user enters more than balance or invalid decimal.
+
+
+🧪 4. QA / Edge Case Improvements
+ [x]Disable "Buy BTC" button unless inputs are valid
+
+ Mobile Keyboard Behavior Optimization
+→ [x]Ensure number pad appears and doesn't cover inputs on mobile.
+
+ [x]Add Loading Spinner / Toasts for Order Submit
+→ [x] Feedback like "Order placed" or "Balance too low."
+
+📦 4. Backend Hookups (If Not Done Yet)
+ [x]Connect to real-time WebSocket for BTC/USDT price.
+
+ [x]Hook inputs to backend trade execution logic.
+
+ [x] Handle pending, filled, and failed order responses.
+
+ [x] Set slippage limit or allow slippage tolerance to be set.

@@ -259,22 +259,17 @@ export default function Exchange() {
       </div>
 
       {/* Mobile Layout */}
-      <div className="lg:hidden flex flex-col h-[calc(100vh-140px)] bg-gray-900 overflow-hidden">
+      <div className="lg:hidden flex flex-col h-[calc(100vh-140px)] bg-gray-900">
         {/* Chart Section - Fixed height for optimal mobile display */}
-        <div className="h-[240px] w-full bg-gray-900 border border-gray-800 mx-2 mt-2 rounded-lg overflow-hidden flex-shrink-0">
+        <div className="h-[280px] w-full bg-gray-900 border border-gray-800 m-2 rounded-lg overflow-hidden">
           <TradingChart selectedPair={selectedPair} />
         </div>
 
-        {/* Sentiment Bar - Single instance */}
-        <div className="mx-2 mt-2 flex-shrink-0">
-          <SentimentBar />
-        </div>
-
         {/* Divider */}
-        <div className="h-px bg-gray-800 mx-4 my-2 flex-shrink-0"></div>
+        <div className="h-px bg-gray-800 mx-4"></div>
 
         {/* Order Book / Order Panel Section */}
-        <div className="flex-1 flex flex-col mx-2 min-h-0">
+        <div className="flex-1 flex flex-col m-2">
           {/* Tabs for Order Book and Order Panel */}
           <div className="flex border-b border-gray-800 bg-gray-900 rounded-t-lg">
             <button
@@ -305,6 +300,10 @@ export default function Exchange() {
               <div className="h-full flex flex-col">
                 <div className="flex-1 p-3 overflow-auto">
                   <OrderBook />
+                  {/* Sentiment Bar */}
+                  <div className="mt-4">
+                    <SentimentBar />
+                  </div>
                 </div>
               </div>
             )}
@@ -318,8 +317,8 @@ export default function Exchange() {
             )}
           </div>
 
-          {/* Buy/Sell Buttons - Always visible at bottom */}
-          <div className="flex gap-2 p-3 bg-gray-900 border border-gray-800 border-t-0 rounded-b-lg flex-shrink-0">
+          {/* Buy/Sell Buttons */}
+          <div className="flex gap-2 p-3 bg-gray-900 border border-gray-800 border-t-0 rounded-b-lg">
             <button className="flex-1 py-3 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-lg transition-colors">
               BUY BTC
             </button>

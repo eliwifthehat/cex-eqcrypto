@@ -65,9 +65,9 @@ export default function TradingChart({ selectedPair }: TradingChartProps) {
     const timeoutId = setTimeout(() => {
       if (!chartContainerRef.current) return;
 
-      // Responsive height: 240px for mobile, 480px for desktop
+      // Responsive height: 220px for mobile, 480px for desktop
       const isMobile = window.innerWidth < 768;
-      const chartHeight = isMobile ? 240 : 480;
+      const chartHeight = isMobile ? 220 : 480;
 
       const chart = createChart(chartContainerRef.current, {
         layout: {
@@ -114,7 +114,7 @@ export default function TradingChart({ selectedPair }: TradingChartProps) {
       const handleResize = () => {
         if (chartContainerRef.current && chart) {
           const isMobile = window.innerWidth < 768;
-          const chartHeight = isMobile ? 240 : 480;
+          const chartHeight = isMobile ? 220 : 480;
           chart.applyOptions({
             width: chartContainerRef.current.clientWidth,
             height: chartHeight,
@@ -143,7 +143,7 @@ export default function TradingChart({ selectedPair }: TradingChartProps) {
   }, [timeframe]);
 
   return (
-    <div className="h-full w-full bg-gray-900 rounded-lg flex flex-col">
+    <div className="h-full w-full bg-gray-900 rounded-lg flex flex-col min-h-[220px]">
       {/* Chart Header - Desktop only for tools, Mobile has minimal UI */}
       <div className="hidden lg:block border-b border-gray-800 p-4 flex-shrink-0">
         <div className="flex items-center justify-between">

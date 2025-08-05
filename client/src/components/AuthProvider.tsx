@@ -20,8 +20,19 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    // Get initial session
-    supabase.auth.getSession().then(({ data: { session } }) => {
+    // Test Supabase connection
+    console.log('Testing Supabase connection...')
+    console.log('Supabase URL:', import.meta.env.VITE_SUPABASE_URL)
+    console.log('Supabase Key exists:', !!import.meta.env.VITE_SUPABASE_ANON_KEY)
+    
+    // Test basic connection
+    supabase.auth.getSession().then(({ data: { session }, error }) => {
+      if (error) {
+        console.error('Supabase connection error:', error)
+      } else {
+        console.log('✅ Supabase connected successfully!')
+        console.log('Session:', session ? 'Active' : 'No active session')
+      }
       setSession(session)
       setUser(session?.user ?? null)
       setLoading(false)

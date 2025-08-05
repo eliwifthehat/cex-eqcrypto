@@ -5,6 +5,11 @@ import { createServer as createViteServer, createLogger } from "vite";
 import { type Server } from "http";
 import viteConfig from "../vite.config";
 import { nanoid } from "nanoid";
+import { fileURLToPath } from 'url';
+import { cdnManager, staticAssetMiddleware, AssetType } from "./cdn-config";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const viteLogger = createLogger();
 
@@ -22,7 +27,7 @@ export function log(message: string, source = "express") {
 export async function setupVite(app: Express, server: Server) {
   const serverOptions = {
     middlewareMode: true,
-    hmr: { server },
+    hmr: false, // Disable HMR to avoid WebSocket issues
     allowedHosts: true,
   };
 
@@ -46,7 +51,7 @@ export async function setupVite(app: Express, server: Server) {
 
     try {
       const clientTemplate = path.resolve(
-        import.meta.dirname,
+        __dirname,
         "..",
         "client",
         "index.html",
@@ -68,7 +73,7 @@ export async function setupVite(app: Express, server: Server) {
 }
 
 export function serveStatic(app: Express) {
-  const distPath = path.resolve(import.meta.dirname, "public");
+  const distPath = path.resolve(__dirname, "public");
 
   if (!fs.existsSync(distPath)) {
     throw new Error(
@@ -76,10 +81,57 @@ export function serveStatic(app: Express) {
     );
   }
 
-  app.use(express.static(distPath));
+  // Apply CDN static asset middleware
+  app.use(staticAssetMiddleware(cdnManager));
+
+  // Serve static files with CDN optimization
+  app.use(express.static(distPath, {
+    setHeaders: (res, path) => {
+      const assetType = getAssetTypeFromPath(path);
+      const cacheControl = cdnManager.getCacheControl(assetType);
+      res.setHeader('Cache-Control', cacheControl);
+      
+      // Set security headers for CDN
+      if (cdnManager['config'].enableCSP) {
+        res.setHeader('X-Content-Type-Options', 'nosniff');
+        res.setHeader('X-Frame-Options', 'DENY');
+      }
+    }
+  }));
 
   // fall through to index.html if the file doesn't exist
   app.use("*", (_req, res) => {
     res.sendFile(path.resolve(distPath, "index.html"));
   });
+}
+
+// Helper function to determine asset type from path
+function getAssetTypeFromPath(filePath: string): AssetType {
+  const extension = filePath.split('.').pop()?.toLowerCase();
+  
+  switch (extension) {
+    case 'html':
+      return AssetType.HTML;
+    case 'css':
+      return AssetType.CSS;
+    case 'js':
+    case 'mjs':
+      return AssetType.JS;
+    case 'jpg':
+    case 'jpeg':
+    case 'png':
+    case 'gif':
+    case 'webp':
+    case 'avif':
+    case 'svg':
+      return AssetType.IMAGE;
+    case 'woff':
+    case 'woff2':
+    case 'ttf':
+    case 'otf':
+    case 'eot':
+      return AssetType.FONT;
+    default:
+      return AssetType.OTHER;
+  }
 }
