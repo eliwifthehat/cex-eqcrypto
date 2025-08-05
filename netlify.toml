@@ -1,7 +1,7 @@
 [build]
   base = "."
   publish = "dist/public"
-  command = "npm ci --include=dev && npm run build"
+  command = "NODE_ENV=development npm ci && NODE_ENV=production npm run build"
 
 [build.environment]
   NODE_ENV = "production"
