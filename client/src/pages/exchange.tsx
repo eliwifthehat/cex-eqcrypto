@@ -62,6 +62,17 @@ export default function Exchange() {
             <div className="flex-1 px-3 py-3">
               <TradingForms />
             </div>
+            {/* Desktop Buy/Sell Buttons */}
+            <div className="p-3 border-t border-gray-800">
+              <div className="flex gap-2">
+                <button className="flex-1 py-2 bg-green-600 hover:bg-green-700 text-white font-semibold text-sm rounded transition-colors">
+                  BUY BTC
+                </button>
+                <button className="flex-1 py-2 bg-red-600 hover:bg-red-700 text-white font-semibold text-sm rounded transition-colors">
+                  SELL BTC
+                </button>
+              </div>
+            </div>
           </div>
         </div>
 

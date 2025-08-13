@@ -1071,5 +1071,133 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   );
 
+  // ===== CEX ADMIN ENDPOINTS FOR UNIFIED ADMIN =====
+
+  // CEX User Management
+  app.get("/api/admin/cex/users", 
+    validateSession,
+    async (req: RequestWithSession, res) => {
+      try {
+        // TODO: Add admin role check
+        const users = await userStorage.getAllUsers();
+        res.json(users);
+      } catch (error) {
+        console.error("Error fetching CEX users:", error);
+        res.status(500).json({ message: "Internal server error" });
+      }
+    }
+  );
+
+  // CEX Order Overview
+  app.get("/api/admin/cex/orders", 
+    validateSession,
+    async (req: RequestWithSession, res) => {
+      try {
+        // TODO: Add admin role check
+        const orders = await userStorage.getAllOrders();
+        res.json(orders);
+      } catch (error) {
+        console.error("Error fetching CEX orders:", error);
+        res.status(500).json({ message: "Internal server error" });
+      }
+    }
+  );
+
+  // CEX Market Management
+  app.get("/api/admin/cex/markets", 
+    validateSession,
+    async (req: RequestWithSession, res) => {
+      try {
+        // TODO: Add admin role check
+        const markets = await userStorage.getTradingPairs();
+        res.json(markets);
+      } catch (error) {
+        console.error("Error fetching CEX markets:", error);
+        res.status(500).json({ message: "Internal server error" });
+      }
+    }
+  );
+
+  // Update CEX Trading Pair
+  app.post("/api/admin/cex/markets/:symbol", 
+    validateSession,
+    async (req: RequestWithSession, res) => {
+      try {
+        // TODO: Add admin role check
+        const { symbol } = req.params;
+        const updateData = req.body;
+        
+        // Update trading pair logic here
+        const updated = await userStorage.updateTradingPair(symbol, updateData);
+        res.json({ message: `Trading pair ${symbol} updated successfully`, data: updated });
+      } catch (error) {
+        console.error("Error updating CEX trading pair:", error);
+        res.status(500).json({ message: "Internal server error" });
+      }
+    }
+  );
+
+  // Disable CEX Trading Pair
+  app.delete("/api/admin/cex/markets/:symbol", 
+    validateSession,
+    async (req: RequestWithSession, res) => {
+      try {
+        // TODO: Add admin role check
+        const { symbol } = req.params;
+        
+        // Disable trading pair logic here
+        const disabled = await userStorage.disableTradingPair(symbol);
+        res.json({ message: `Trading pair ${symbol} disabled successfully`, data: disabled });
+      } catch (error) {
+        console.error("Error disabling CEX trading pair:", error);
+        res.status(500).json({ message: "Internal server error" });
+      }
+    }
+  );
+
+  // CEX Analytics
+  app.get("/api/admin/cex/analytics", 
+    validateSession,
+    async (req: RequestWithSession, res) => {
+      try {
+        // TODO: Add admin role check
+        const analytics = {
+          totalUsers: await userStorage.getTotalUsers(),
+          totalOrders: await userStorage.getTotalOrders(),
+          totalTrades: await userStorage.getTotalTrades(),
+          totalVolume: await userStorage.getTotalVolume(),
+          activeMarkets: await userStorage.getActiveMarkets(),
+          systemHealth: await userStorage.getSystemHealth()
+        };
+        res.json(analytics);
+      } catch (error) {
+        console.error("Error fetching CEX analytics:", error);
+        res.status(500).json({ message: "Internal server error" });
+      }
+    }
+  );
+
+  // CEX System Health
+  app.get("/api/admin/cex/system", 
+    validateSession,
+    async (req: RequestWithSession, res) => {
+      try {
+        // TODO: Add admin role check
+        const systemHealth = {
+          database: await userStorage.checkDatabaseHealth(),
+          cache: await cacheManager.getStats(CacheType.ORDER_BOOK),
+          sessions: await sessionUtils.getSessionStats(req.sessionStore),
+          uptime: process.uptime(),
+          memory: process.memoryUsage(),
+          timestamp: new Date().toISOString()
+        };
+        res.json(systemHealth);
+      } catch (error) {
+        console.error("Error fetching CEX system health:", error);
+        res.status(500).json({ message: "Internal server error" });
+      }
+    }
+  );
+
   return server;
 }

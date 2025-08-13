@@ -100,6 +100,19 @@ export interface IUserStorage {
   getTradingPairs(): Promise<TradingPair[]>;
   getOrderBook(symbol: string): Promise<any>;
   getPrice(symbol: string): Promise<any>;
+  
+  // Admin methods for unified admin
+  getAllUsers(): Promise<User[]>;
+  getAllOrders(): Promise<UserOrder[]>;
+  getTotalUsers(): Promise<number>;
+  getTotalOrders(): Promise<number>;
+  getTotalTrades(): Promise<number>;
+  getTotalVolume(): Promise<number>;
+  getActiveMarkets(): Promise<number>;
+  getSystemHealth(): Promise<any>;
+  updateTradingPair(symbol: string, updateData: any): Promise<TradingPair>;
+  disableTradingPair(symbol: string): Promise<TradingPair>;
+  checkDatabaseHealth(): Promise<any>;
 }
 
 export class UserStorage implements IUserStorage {
@@ -484,6 +497,100 @@ export class UserStorage implements IUserStorage {
       ))
       .orderBy(desc(userTrades.createdAt))
       .limit(100);
+  }
+
+  // ===== ADMIN METHODS FOR UNIFIED ADMIN =====
+
+  async getAllUsers(): Promise<User[]> {
+    return await db.select()
+      .from(users)
+      .orderBy(desc(users.createdAt))
+      .limit(1000); // Limit for performance
+  }
+
+  async getAllOrders(): Promise<UserOrder[]> {
+    return await db.select()
+      .from(userOrders)
+      .orderBy(desc(userOrders.createdAt))
+      .limit(1000); // Limit for performance
+  }
+
+  async getTotalUsers(): Promise<number> {
+    const result = await db.select().from(users);
+    return result.length;
+  }
+
+  async getTotalOrders(): Promise<number> {
+    const result = await db.select().from(userOrders);
+    return result.length;
+  }
+
+  async getTotalTrades(): Promise<number> {
+    const result = await db.select().from(userTrades);
+    return result.length;
+  }
+
+  async getTotalVolume(): Promise<number> {
+    const result = await db.select({ 
+      totalVolume: sum(userTrades.quantity) 
+    }).from(userTrades);
+    return Number(result[0]?.totalVolume || 0);
+  }
+
+  async getActiveMarkets(): Promise<number> {
+    const result = await db.select().from(tradingPairs);
+    return result.length;
+  }
+
+  async getSystemHealth(): Promise<any> {
+    return {
+      database: await this.checkDatabaseHealth(),
+      uptime: process.uptime(),
+      memory: process.memoryUsage(),
+      timestamp: new Date().toISOString()
+    };
+  }
+
+  async updateTradingPair(symbol: string, updateData: any): Promise<TradingPair> {
+    // This would update trading pair data
+    // For now, return the existing pair
+    const pairs = await this.getTradingPairs();
+    const pair = pairs.find(p => p.symbol === symbol);
+    if (!pair) {
+      throw new Error(`Trading pair ${symbol} not found`);
+    }
+    return pair;
+  }
+
+  async disableTradingPair(symbol: string): Promise<TradingPair> {
+    // This would disable a trading pair
+    // For now, return the existing pair
+    const pairs = await this.getTradingPairs();
+    const pair = pairs.find(p => p.symbol === symbol);
+    if (!pair) {
+      throw new Error(`Trading pair ${symbol} not found`);
+    }
+    return pair;
+  }
+
+  async checkDatabaseHealth(): Promise<any> {
+    try {
+      // Simple health check - try to query users table
+      const result = await db.select().from(users);
+      return {
+        status: 'healthy',
+        connected: true,
+        userCount: result.length,
+        timestamp: new Date().toISOString()
+      };
+    } catch (error) {
+      return {
+        status: 'unhealthy',
+        connected: false,
+        error: error instanceof Error ? error.message : 'Unknown error',
+        timestamp: new Date().toISOString()
+      };
+    }
   }
 }
 

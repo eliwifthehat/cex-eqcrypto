@@ -122,6 +122,68 @@ export default function TradingForms({
     }
   }, [volume, currentPrice, orderType]);
 
+  const handleSubmitOrder = async (side: 'buy' | 'sell') => {
+    // Set the trade mode based on the button clicked
+    setCurrentTradeMode(side);
+    
+    if (!user) {
+      toast({
+        title: "Authentication Required",
+        description: "Please log in to place orders.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    // Validate inputs based on order type
+    if (orderType === 'limit') {
+      if (!limitPrice || !amount || !total) {
+        toast({
+          title: "Invalid Input",
+          description: "Please fill in all required fields for limit order.",
+          variant: "destructive",
+        });
+        return;
+      }
+    } else if (orderType === 'market') {
+      if (!volume || !total) {
+        toast({
+          title: "Invalid Input",
+          description: "Please fill in the volume for market order.",
+          variant: "destructive",
+        });
+        return;
+      }
+    }
+
+    setIsSubmitting(true);
+
+    try {
+      // Simulate order submission
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      
+      toast({
+        title: "Order Submitted",
+        description: `${side.toUpperCase()} ${orderType} order placed successfully!`,
+      });
+      
+      // Reset form
+      setLimitPrice("");
+      setAmount("");
+      setVolume("");
+      setTotal("");
+      
+    } catch (error) {
+      toast({
+        title: "Order Failed",
+        description: "Failed to place order. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   const handleOrder = async () => {
     if (!user) {
       toast({
@@ -396,6 +458,46 @@ export default function TradingForms({
         {/* Fees */}
         <div className="text-xs text-gray-400 text-center">
           0.1% FEES
+        </div>
+
+        {/* Buy/Sell Buttons */}
+        <div className="flex gap-2 pt-2">
+          <button
+            onClick={() => handleSubmitOrder('buy')}
+            disabled={isSubmitting}
+            className={`flex-1 py-3 text-white font-semibold rounded-lg transition-colors ${
+              isSubmitting 
+                ? 'bg-gray-600 cursor-not-allowed' 
+                : 'bg-green-600 hover:bg-green-700'
+            }`}
+          >
+            {isSubmitting ? (
+              <div className="flex items-center justify-center">
+                <Loader2 className="w-4 h-4 animate-spin mr-2" />
+                Processing...
+              </div>
+            ) : (
+              `BUY ${baseToken}`
+            )}
+          </button>
+          <button
+            onClick={() => handleSubmitOrder('sell')}
+            disabled={isSubmitting}
+            className={`flex-1 py-3 text-white font-semibold rounded-lg transition-colors ${
+              isSubmitting 
+                ? 'bg-gray-600 cursor-not-allowed' 
+                : 'bg-red-600 hover:bg-red-700'
+            }`}
+          >
+            {isSubmitting ? (
+              <div className="flex items-center justify-center">
+                <Loader2 className="w-4 h-4 animate-spin mr-2" />
+                Processing...
+              </div>
+            ) : (
+              `SELL ${baseToken}`
+            )}
+          </button>
         </div>
       </div>
     </div>

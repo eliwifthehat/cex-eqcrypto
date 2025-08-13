@@ -1,0 +1,22 @@
+{"details":{"environment":"development","port":5002,"timestamp":"2025-08-13T00:48:17.994Z"},"level":"info","message":"System Event Server started on port 5002","timestamp":"2025-08-12 17:48:17:4817"}
+{"level":"info","message":"🚀 Server running on port 5002","timestamp":"2025-08-12 17:48:17:4817"}
+{"details":{"parameter":"in_hot_standby"},"level":"info","message":"Database Operation","operation":"database_parameter","timestamp":"2025-08-12 18:18:00:180"}
+{"details":{"parameter":"integer_datetimes"},"level":"info","message":"Database Operation","operation":"database_parameter","timestamp":"2025-08-12 18:18:00:180"}
+{"details":{"parameter":"TimeZone"},"level":"info","message":"Database Operation","operation":"database_parameter","timestamp":"2025-08-12 18:18:00:180"}
+{"details":{"parameter":"IntervalStyle"},"level":"info","message":"Database Operation","operation":"database_parameter","timestamp":"2025-08-12 18:18:00:180"}
+{"details":{"parameter":"is_superuser"},"level":"info","message":"Database Operation","operation":"database_parameter","timestamp":"2025-08-12 18:18:00:180"}
+{"details":{"parameter":"application_name"},"level":"info","message":"Database Operation","operation":"database_parameter","timestamp":"2025-08-12 18:18:00:180"}
+{"details":{"parameter":"default_transaction_read_only"},"level":"info","message":"Database Operation","operation":"database_parameter","timestamp":"2025-08-12 18:18:00:180"}
+{"details":{"parameter":"scram_iterations"},"level":"info","message":"Database Operation","operation":"database_parameter","timestamp":"2025-08-12 18:18:00:180"}
+{"details":{"parameter":"DateStyle"},"level":"info","message":"Database Operation","operation":"database_parameter","timestamp":"2025-08-12 18:18:00:180"}
+{"details":{"parameter":"standard_conforming_strings"},"level":"info","message":"Database Operation","operation":"database_parameter","timestamp":"2025-08-12 18:18:00:180"}
+{"details":{"parameter":"session_authorization"},"level":"info","message":"Database Operation","operation":"database_parameter","timestamp":"2025-08-12 18:18:00:180"}
+{"details":{"parameter":"client_encoding"},"level":"info","message":"Database Operation","operation":"database_parameter","timestamp":"2025-08-12 18:18:00:180"}
+{"details":{"parameter":"server_version"},"level":"info","message":"Database Operation","operation":"database_parameter","timestamp":"2025-08-12 18:18:00:180"}
+{"details":{"parameter":"server_encoding"},"level":"info","message":"Database Operation","operation":"database_parameter","timestamp":"2025-08-12 18:18:00:180"}
+{"details":{"ip":"127.0.0.1","path":"/api/admin/cex/users","sessionId":"HHPBEjb2rH4CKY2SxGOzhrUcr9A1fMtQ","userAgent":"curl/8.7.1"},"event":"session_created","level":"warn","message":"Security Event","timestamp":"2025-08-12 18:18:00:180"}
+{"duration":"1209ms","ip":"127.0.0.1","level":"http","message":"HTTP Request","method":"GET","statusCode":200,"timestamp":"2025-08-12 18:18:00:180","url":"/api/admin/cex/users","userAgent":"curl/8.7.1","userId":"anonymous"}
+{"level":"debug","message":"API Response","path":"/api/admin/cex/users","response":[{"createdAt":"2025-08-07T02:20:15.520Z","email":"user1@example.com","id":"test-user-1","phone":"+1234567890","updatedAt":"2025-08-07T02:20:15.520Z"},{"createdAt":"2025-08-07T02:20:15.520Z","email":"user2@example.com","id":"test-user-2","phone":"+0987654321","updatedAt":"2025-08-07T02:20:15.520Z"}],"timestamp":"2025-08-12 18:18:00:180"}
+{"details":{"ip":"127.0.0.1","path":"/api/admin/cex/analytics","sessionId":"csscSPvNp6ZX3iFgyHDasNZqil27ctRu","userAgent":"curl/8.7.1"},"event":"session_created","level":"warn","message":"Security Event","timestamp":"2025-08-12 18:19:49:1949"}
+{"duration":"2660ms","ip":"127.0.0.1","level":"http","message":"HTTP Request","method":"GET","statusCode":200,"timestamp":"2025-08-12 18:19:49:1949","url":"/api/admin/cex/analytics","userAgent":"curl/8.7.1","userId":"anonymous"}
+{"level":"debug","message":"API Response","path":"/api/admin/cex/analytics","response":{"activeMarkets":5,"systemHealth":{"database":{"connected":true,"status":"healthy","timestamp":"2025-08-13T01:19:49.479Z","userCount":2},"memory":{"arrayBuffers":2464559,"external":10572022,"heapTotal":76693504,"heapUsed":72011928,"rss":128516096},"timestamp":"2025-08-13T01:19:49.481Z","uptime":1894.217590744},"totalOrders":2,"totalTrades":0,"totalUsers":2,"totalVolume":0},"timestamp":"2025-08-12 18:19:49:1949"}

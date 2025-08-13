@@ -17,6 +17,14 @@ const SettingsPage = lazy(() => import("@/pages/settings"));
 const Auth = lazy(() => import("@/pages/auth"));
 const NotFound = lazy(() => import("@/pages/not-found"));
 
+// Admin pages
+const AdminDashboard = lazy(() => import("@/pages/admin/dashboard"));
+const AdminUsers = lazy(() => import("@/pages/admin/users"));
+const AdminOrders = lazy(() => import("@/pages/admin/orders"));
+const AdminMarkets = lazy(() => import("@/pages/admin/markets"));
+const AdminAnalytics = lazy(() => import("@/pages/admin/analytics"));
+const AdminSystem = lazy(() => import("@/pages/admin/system"));
+
 // Loading component for Suspense fallback
 const PageLoader = () => (
   <div className="flex items-center justify-center min-h-screen">
@@ -51,6 +59,39 @@ function Router() {
           </ProtectedRoute>
         </Route>
         <Route path="/auth" component={Auth} />
+        
+        {/* Admin Routes */}
+        <Route path="/admin">
+          <ProtectedRoute>
+            <AdminDashboard />
+          </ProtectedRoute>
+        </Route>
+        <Route path="/admin/users">
+          <ProtectedRoute>
+            <AdminUsers />
+          </ProtectedRoute>
+        </Route>
+        <Route path="/admin/orders">
+          <ProtectedRoute>
+            <AdminOrders />
+          </ProtectedRoute>
+        </Route>
+        <Route path="/admin/markets">
+          <ProtectedRoute>
+            <AdminMarkets />
+          </ProtectedRoute>
+        </Route>
+        <Route path="/admin/analytics">
+          <ProtectedRoute>
+            <AdminAnalytics />
+          </ProtectedRoute>
+        </Route>
+        <Route path="/admin/system">
+          <ProtectedRoute>
+            <AdminSystem />
+          </ProtectedRoute>
+        </Route>
+        
         <Route component={NotFound} />
       </Switch>
     </Suspense>

@@ -117,7 +117,7 @@ export function createServer() {
 
   // Add session security headers
   app.use((req, res, next) => {
-    Object.entries(sessionSecurityHeaders()).forEach(([key, value]) => {
+    Object.entries(sessionSecurityHeaders).forEach(([key, value]) => {
       res.setHeader(key, value);
     });
     next();
